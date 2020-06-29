@@ -1,4 +1,4 @@
-# Inverse the Laplace Transfom using L1 regression methdod
+# Inverse the Laplace Transfom using L1 regression method
 
 ## The point
 
@@ -20,29 +20,21 @@ where <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\mathbf{
 <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\mathbf{Y}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\mathbf{Y}" title="\mathbf{Y}" /></a> – given transient vector lenght <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;N_f" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;N_f" title="N_f" /></a>;
 <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\vec\epsilon" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\vec\epsilon" title="\vec\epsilon" /></a> – normal noise.
 
-$$\begin{equation*}
-\mathbf{X} = \left(
-\begin{array}{cccc}
-x_{11} & x_{12} & \ldots & x_{1(N_f-1)}\\
-x_{21} & x_{22} & \ldots & x_{2(N_f-1)}\\
-\vdots & \vdots & \ddots & \vdots\\
-x_{(N_F-1)1} & x_{(N_F-1)2} & \ldots & x_{(N_F-1)(N_f-1)}
-\end{array}
-\right)
-\end{equation*}$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\begin{equation*}&space;\mathbf{X}&space;=&space;\left(&space;\begin{array}{cccc}&space;x_{11}&space;&&space;x_{12}&space;&&space;\ldots&space;&&space;x_{1(N_f-1)}\\&space;x_{21}&space;&&space;x_{22}&space;&&space;\ldots&space;&&space;x_{2(N_f-1)}\\&space;\vdots&space;&&space;\vdots&space;&&space;\ddots&space;&&space;\vdots\\&space;x_{(N_F-1)1}&space;&&space;x_{(N_F-1)2}&space;&&space;\ldots&space;&&space;x_{(N_F-1)(N_f-1)}&space;\end{array}&space;\right)&space;\end{equation*}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\begin{equation*}&space;\mathbf{X}&space;=&space;\left(&space;\begin{array}{cccc}&space;x_{11}&space;&&space;x_{12}&space;&&space;\ldots&space;&&space;x_{1(N_f-1)}\\&space;x_{21}&space;&&space;x_{22}&space;&&space;\ldots&space;&&space;x_{2(N_f-1)}\\&space;\vdots&space;&&space;\vdots&space;&&space;\ddots&space;&&space;\vdots\\&space;x_{(N_F-1)1}&space;&&space;x_{(N_F-1)2}&space;&&space;\ldots&space;&&space;x_{(N_F-1)(N_f-1)}&space;\end{array}&space;\right)&space;\end{equation*}" title="\begin{equation*} \mathbf{X} = \left( \begin{array}{cccc} x_{11} & x_{12} & \ldots & x_{1(N_f-1)}\\ x_{21} & x_{22} & \ldots & x_{2(N_f-1)}\\ \vdots & \vdots & \ddots & \vdots\\ x_{(N_F-1)1} & x_{(N_F-1)2} & \ldots & x_{(N_F-1)(N_f-1)} \end{array} \right) \end{equation*}" /></a>
 
-$$x_{ij} = \int_{s_j}^{s_{j+1}}\exp{\left(-s\cdot t_i\right)}ds$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;x_{ij}&space;=&space;\int_{s_j}^{s_{j&plus;1}}\exp{\left(-s\cdot&space;t_i\right)}ds" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;x_{ij}&space;=&space;\int_{s_j}^{s_{j&plus;1}}\exp{\left(-s\cdot&space;t_i\right)}ds" title="x_{ij} = \int_{s_j}^{s_{j+1}}\exp{\left(-s\cdot t_i\right)}ds" /></a>
 
 ## The problem
 
-Considering that noise is normal distributed we can maximize the posterior probability and hence minimize the residual sum of squares  
+Considering that noise is normal distributed we can maximise the posterior probability and hence minimise the residual sum of squares.  
 
-$$\mathbf{Y} = \mathbf{X}\vec{\beta}+\vec\epsilon$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\mathbf{Y}&space;=&space;\mathbf{X}\vec{\beta}&plus;\vec\epsilon" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\mathbf{Y}&space;=&space;\mathbf{X}\vec{\beta}&plus;\vec\epsilon" title="\mathbf{Y} = \mathbf{X}\vec{\beta}+\vec\epsilon" /></a>
 
-Since we will fitting the exponential decay with shifted delta function ( $\mathcal{L}\left\{\delta(t-\tau)\right\} = e^{-\tau s}$, for $\text{Re}(s)>0$ ), and in this model weights $\beta_i$ may take zero values. $L_1$ regression can gives us a sparse solution.
+Since we will fitting the exponential decay with shifted delta function (<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\mathcal{L}\left\{\delta(t-\tau)\right\}&space;=&space;e^{-\tau&space;s}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\mathcal{L}\left\{\delta(t-\tau)\right\}&space;=&space;e^{-\tau&space;s}" title="\mathcal{L}\left\{\delta(t-\tau)\right\} = e^{-\tau s}" /></a>, for <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\text{Re}(s)>0" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\text{Re}(s)>0" title="\text{Re}(s)>0" /></a>), and in this model weights <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\beta_i" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\beta_i" title="\beta_i" /></a> may take zero values. <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;L_1" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;L_1" title="L_1" /></a> regression can gives us a sparse solution.
 
-$$Q = \left(\mathbf{Y} - \mathbf{X}\vec{\beta}\right)^{T}\cdot\left(\mathbf{Y} - \mathbf{X}\vec{\beta}\right) + \lambda \vec\beta$$
-$$\frac{\partial Q}{\partial \beta_i} = -2\mathbf{X}^T\mathbf{Y}+2\mathbf{X}^T\mathbf{X}\vec\beta +\lambda \text{sign}(\beta)$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;Q&space;=&space;\left(\mathbf{Y}&space;-&space;\mathbf{X}\vec{\beta}\right)^{T}\cdot\left(\mathbf{Y}&space;-&space;\mathbf{X}\vec{\beta}\right)&space;&plus;&space;\lambda&space;\vec\beta" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;Q&space;=&space;\left(\mathbf{Y}&space;-&space;\mathbf{X}\vec{\beta}\right)^{T}\cdot\left(\mathbf{Y}&space;-&space;\mathbf{X}\vec{\beta}\right)&space;&plus;&space;\lambda&space;\vec\beta" title="Q = \left(\mathbf{Y} - \mathbf{X}\vec{\beta}\right)^{T}\cdot\left(\mathbf{Y} - \mathbf{X}\vec{\beta}\right) + \lambda \vec\beta" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\frac{\partial&space;Q}{\partial&space;\beta_i}&space;=&space;-2\mathbf{X}^T\mathbf{Y}&plus;2\mathbf{X}^T\mathbf{X}\vec\beta&space;&plus;\lambda&space;\text{sign}(\beta)" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\frac{\partial&space;Q}{\partial&space;\beta_i}&space;=&space;-2\mathbf{X}^T\mathbf{Y}&plus;2\mathbf{X}^T\mathbf{X}\vec\beta&space;&plus;\lambda&space;\text{sign}(\beta)" title="\frac{\partial Q}{\partial \beta_i} = -2\mathbf{X}^T\mathbf{Y}+2\mathbf{X}^T\mathbf{X}\vec\beta +\lambda \text{sign}(\beta)" /></a>
 
 ### Papers
 
