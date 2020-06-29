@@ -1,4 +1,4 @@
-# Inverse the Laplace Transfom using L1 regression method
+# Inverse the Laplace Transfom using L1 and L2 regression methods
 
 ## The point
 
