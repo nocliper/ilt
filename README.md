@@ -8,6 +8,7 @@ The point is to determine the decay rate <a href="https://www.codecogs.com/eqned
 <div style="text-align:center">   
 <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;f(t)&space;=&space;\mathcal{L}^{-1}\left\{F(s)\right&space;\}&space;=&space;\sum_{i=0}^{n}&space;\delta(t&space;-&space;\tau_i)" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;f(t)&space;=&space;\mathcal{L}^{-1}\left\{F(s)\right&space;\}&space;=&space;\sum_{i=0}^{n}&space;\delta(t&space;-&space;\tau_i)" title="f(t) = \mathcal{L}^{-1}\left\{F(s)\right \} = \sum_{i=0}^{n} \delta(t - \tau_i)" /></a>
 </div>
+
 ## Numerical Laplace Transform
 
 For this, we replace (1) with finite-difference approximation (2) <a href="https://sci-hub.st/https://doi.org/10.1137/0730038">[1]</a>:
