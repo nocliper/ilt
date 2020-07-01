@@ -13,7 +13,9 @@ The point is to determine the decay rate <a href="https://www.codecogs.com/eqned
 
 For this, we replace (1) with finite-difference approximation (2) <a href="https://sci-hub.st/https://doi.org/10.1137/0730038">[1]</a>:
 
+<p align="center">
 <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;F(s)&space;=&space;\int_0^{\infty}&space;\exp{(-st)}f(t)dt\;(1);" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;F(s)&space;=&space;\int_0^{\infty}&space;\exp{(-st)}f(t)dt\;(1);" title="F(s) = \int_0^{\infty} \exp{(-st)}f(t)dt\;(1);" /></a>
+</p>
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\mathbf{Y}&space;=&space;\mathbf{X}\vec{\beta}&plus;\vec\epsilon\;\;\;\;\;(2)," target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\mathbf{Y}&space;=&space;\mathbf{X}\vec{\beta}&plus;\vec\epsilon\;\;\;\;\;(2)," title="\mathbf{Y} = \mathbf{X}\vec{\beta}+\vec\epsilon\;\;\;\;\;(2)," /></a>
 
