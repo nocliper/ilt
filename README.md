@@ -52,7 +52,7 @@ Since we will fitting the exponential decay with shifted delta function (<a href
 
 ### Result
 
-<p align="center"> ![](sc.png) </p>
+![](sc.png)
 
 ### Papers
 
