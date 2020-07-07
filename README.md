@@ -50,6 +50,10 @@ Since we will fitting the exponential decay with shifted delta function (<a href
 <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;\frac{\partial&space;Q}{\partial&space;\beta_i}&space;=&space;-2\mathbf{X}^T\mathbf{Y}&plus;2\mathbf{X}^T\mathbf{X}\vec\beta&space;&plus;\lambda&space;\text{sign}(\beta)" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\inline&space;\frac{\partial&space;Q}{\partial&space;\beta_i}&space;=&space;-2\mathbf{X}^T\mathbf{Y}&plus;2\mathbf{X}^T\mathbf{X}\vec\beta&space;&plus;\lambda&space;\text{sign}(\beta)" title="\frac{\partial Q}{\partial \beta_i} = -2\mathbf{X}^T\mathbf{Y}+2\mathbf{X}^T\mathbf{X}\vec\beta +\lambda \text{sign}(\beta)" /></a>
 </p>
 
+### Result
+
+<p align="center"> ![](sc.png) </p>
+
 ### Papers
 
 1 <a href="https://sci-hub.st/https://doi.org/10.1137/0730038"> A REGULARIZATION METHOD FOR THE NUMERICAL INVERSION OF THE LAPLACE TRANSFORM. CHEN WEI DONG</a>
