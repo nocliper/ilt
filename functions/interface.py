@@ -1,6 +1,6 @@
 def interface():
 
-    '''asda'''
+    '''Initiates widgets'''
 
     from ipywidgets import interact, interactive, fixed, interact_manual, HBox, VBox, Label
     import ipywidgets as widgets

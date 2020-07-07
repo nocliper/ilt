@@ -1,6 +1,17 @@
 def laplace(s, F, Nz, Reg_L1, Reg_L2, Bounds, Methods):
 
-    ''' awd '''
+    ''' Initiates routines for choosed method
+
+    s - s-domain points, equally spased at log scale
+    F - given transient function
+    Nz        – int value which is lenght of calculated vector
+    Reg_L1, Reg_L2 - reg. parameter for L1 and L2 regularisation
+    Bounds – list of left and right bounds of s-domain points
+    Methods   – list with methods to process data
+
+    returns processed data
+
+    '''
     import numpy as np
     from L1 import L1
     from L2 import L2

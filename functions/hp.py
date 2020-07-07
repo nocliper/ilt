@@ -1,5 +1,15 @@
 def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
-    """Returns heatmap and returns files for Cryo PC"""
+    """Returns heatmap
+
+    s – s-domain points
+    C - transient F(s) = C
+    T - Tempetarures
+    Methods – name of methods to process dataset
+    Index – index to plot specific slise of heatplot
+    Reg_L1, Reg_L2 – reg. parameters for L1 and L2 routines
+    Bounds – list of left and right bounds of s-domain points
+    Nz – int value which is lenght of calculated vector
+    """
 
     import matplotlib.pyplot as plt
     import numpy as np

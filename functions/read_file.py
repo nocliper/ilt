@@ -1,5 +1,14 @@
 def read_file(Path):
-    """"""
+    """Rerurns data from file
+
+    Path – path to file
+
+    returns:
+    time – time points (s-domain)
+    C – all transients
+    T – Tempetarures
+
+    """
     import numpy as np
 
     Path = str(Path)

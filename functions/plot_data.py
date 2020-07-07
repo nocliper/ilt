@@ -1,5 +1,13 @@
 def plot_data(s, F, data, T, Index):
-    """plots stuff"""
+    """Plots data:
+
+    s - s-domain points, equally spased at log scale
+    F - given transient function of data with
+    data – processed data
+    T – Tempetarures
+    Index – int value contains an index of transient in dataset
+    
+    """
 
     import matplotlib.pyplot as plt
     import numpy as np

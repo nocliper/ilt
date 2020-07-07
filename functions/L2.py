@@ -1,7 +1,21 @@
 def L2(s, Y, bound, Nz, alpha, iterations = 50000):
-    """Returns Inverse Laplase Transform of F(s) as Nz lenght vector
-     using L1 regularization method  dQ/db = """
+    """Returns solution vector, t-domain points and reconstructed transient
+    using L1 regression and gradient descent.
 
+    s - s-domain points, equally spased at log scale
+    Y - given transient function
+    bound – list of left and right bounds of s-domain points
+    Nz – int value which is lenght of calculated vector
+    alpha - reg. parameter for L2 regularisation
+    iterations - number of iterations for gradient descent
+
+    X  – Laplace transform Matrix
+
+    returns:
+    t – t-domain points
+    beta - solution
+    F – Reconstructed transient
+    """
     import numpy as np
 
     tmin = bound[0]
