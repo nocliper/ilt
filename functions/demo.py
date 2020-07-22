@@ -20,7 +20,7 @@ def demo(Index, Nz, Reg_L1, Reg_L2, Bounds, Methods, Plot, Residuals, Heatplot):
 
     Bounds = 10.0**np.asarray(Bounds)
 
-    s, C, T = read_file('/Users/antonvasilev/GitHub/ilt/data/beta/EUNB29b_1-16-2_15_2.DLTS')
+    s, C, T = read_file('data/EUNB29b_1-16-2/EUNB29b_1-16-2_150_8.DLTS')
     cut = len(T)
     cus = len(C[0])
 
