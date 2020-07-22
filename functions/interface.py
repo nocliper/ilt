@@ -20,7 +20,7 @@ def interface():
 
     Methods = widgets.SelectMultiple(
         options = ['L1', 'L2', 'L1+L2', 'SVD'],
-        value   = ['L1'],
+        value   = ['SVD'],
         #rows    = 10,
         description = 'Methods:',
         disabled = False)

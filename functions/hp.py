@@ -1,7 +1,7 @@
 def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
     """Returns heatmap
 
-    s – s-domain points
+    s – s-domain points(time)
     C - transient F(s) = C
     T - Tempetarures
     Methods – name of methods to process dataset
@@ -21,7 +21,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
 
 
     cut = len(T)
-    cus = len(C[0])
+    cus = Nz
 
     if len(Methods) > 1:
         print('Choose only one Method')
@@ -35,25 +35,25 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
     for M in Methods:
         if M == 'L1':
             for i in range(0, cut):
-                YZ.append(np.ones(cus-1)*T[i])
+                YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L1(s, C[i] - C[i][-1], Bounds, Nz, Reg_L1)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
         elif M == 'L2':
             for i in range(0, cut):
-                YZ.append(np.ones(cus-1)*T[i])
+                YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L2(s, C[i] - C[i][-1], Bounds, Nz, Reg_L2)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
         elif M == 'L1+L2':
             for i in range(0, cut):
-                YZ.append(np.ones(cus-1)*T[i])
+                YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L1L2(s, C[i] - C[i][-1], Bounds, Nz, Reg_L1, Reg_L2)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
         elif M == 'SVD':
             for i in range(0, cut):
-                YZ.append(np.ones(cus-1)*T[i])
+                YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = SVD(s, C[i], Bounds, Nz, Reg_L1)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
@@ -84,9 +84,11 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
                aspect = 'auto', extent = extent)
     plt.colorbar(pos)
 
-
-    plt.xticks(np.arange(np.log10(XZ.min()),np.log10(XZ.max()),0.9999))
-    plt.yticks(np.arange((T.min()),T.max(),20.0))
+    from matplotlib.ticker import FormatStrFormatter
+    a2d.yaxis.set_major_formatter(FormatStrFormatter('%.0f'))
+    plt.xticks(np.arange(np.log10(TEMPE[0]),np.log10(TEMPE[-1]), 0.9999))
+    plt.yticks(np.arange(T[0], T[-1], 20.0))
+    #plt.yticks(np.arange(T[0], T[-1], 20.0))
 
     ad = fig.add_subplot(122)
     ad.plot(T, ZZ[:,Index], c = 'k')
@@ -94,3 +96,22 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
 
     plt.show()
     plt.tight_layout()
+
+    ##save file
+    Table = []
+    Table.append([0] + TEMPE.tolist())
+    for i in range(cut):
+        Table.append([T[i]] + ZZ[i,:].tolist())
+
+    #print(Table)
+    #Table = np.asarray(Table)
+
+    #print(Table)
+    print("shape XZ:",   XZ.shape, '; XZ[0][0] - XZ[-1][-1]: %.2f – %.2f'%(XZ[0][0], XZ[-1][-1]))
+    print("shape YZ:",   YZ.shape, '; YZ[0][0] - YZ[-1][-1]: %.2f – %.2f'%(YZ[0][0], YZ[-1][-1]))
+    print("shape ZZ:",   ZZ.shape, '; ZZ[0][0] - ZZ[-1][-1]: %.2f – %.2f'%(ZZ[0][0], ZZ[-1][-1]))
+    print("shape e:", TEMPE.shape, '; e[0] - e[-1]: %.2f – %.2f'%(TEMPE[0], TEMPE[-1]))
+    print("shape T:",     T.shape, '; T[0] – T[-1]: %.2f – %.2f'%(T[0], T[-1]))
+
+
+    np.savetxt('DDMMYY.csv', Table, delimiter=',', fmt = '%4E')
