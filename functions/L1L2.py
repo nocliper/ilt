@@ -25,7 +25,7 @@ def L1L2(s, Y, bound, Nz, alpha1, alpha2, iterations = 50000):
     NF   = len(s)
     Nf   = Nz #
     t    = tmin*10**(np.linspace(0, 40*np.log10(tlim/tmin), Nf)*0.025) #t domain with exp density points
-    dt   = np.diff(t)
+    dt   = np.gradient(t)
 
     X    = np.zeros([NF, Nf], dtype = float)
     for i in range(NF-1):
