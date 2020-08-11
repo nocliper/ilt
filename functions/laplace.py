@@ -1,4 +1,4 @@
-def laplace(s, F, Nz, Reg_L1, Reg_L2, Bounds, Methods):
+def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_SVD, Bounds, Methods):
 
     ''' Initiates routines for choosed method
 
@@ -34,7 +34,7 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Bounds, Methods):
             data.append([t, f, F_hat, 'L1+L2'])
 
         elif i == 'SVD':
-            t, f, F_hat = SVD(s, F, Bounds, Nz, Reg_L1)
+            t, f, F_hat = SVD(s, F, Bounds, Nz, Reg_SVD)
             data.append([t, f, F_hat, 'SVD'])
 
     data = np.asarray(data)

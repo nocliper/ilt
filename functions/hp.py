@@ -1,4 +1,4 @@
-def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
+def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     """Returns heatmap
 
     s – s-domain points(time)
@@ -54,7 +54,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
         elif M == 'SVD':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
-                TEMPE, TEMPX, a = SVD(s, C[i], Bounds, Nz, Reg_L1)
+                TEMPE, TEMPX, a = SVD(s, C[i], Bounds, Nz, Reg_SVD)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
 
@@ -72,8 +72,9 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
 
     extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]
     a2d.set_xlabel(r'Emission $\log_{10}{(e)}$')
-    a2d.set_title(Methods)
+    a2d.set_title(Methods[0])
     a2d.set_ylabel('Temperature T, K')
+    Index = len(TEMPE)//2
     a2d.axvline(x = np.log10(XZ[0][Index]), c = 'k')
     #a2d.grid(True)
 
@@ -91,7 +92,11 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
     #plt.yticks(np.arange(T[0], T[-1], 20.0))
 
     ad = fig.add_subplot(122)
-    ad.plot(T, ZZ[:,Index], c = 'k')
+    ad.set_xlabel('Temperature, K')
+    ad.set_ylabel('LDLTS signal, arb. units')
+    print(Index)
+    ad.plot(T, ZZ[:, Index], c = 'k')
+
     #ad.legend()
 
     plt.show()
@@ -106,12 +111,5 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Bounds, Nz):
     #print(Table)
     #Table = np.asarray(Table)
 
-    #print(Table)
-    print("shape XZ:",   XZ.shape, '; XZ[0][0] - XZ[-1][-1]: %.2f – %.2f'%(XZ[0][0], XZ[-1][-1]))
-    print("shape YZ:",   YZ.shape, '; YZ[0][0] - YZ[-1][-1]: %.2f – %.2f'%(YZ[0][0], YZ[-1][-1]))
-    print("shape ZZ:",   ZZ.shape, '; ZZ[0][0] - ZZ[-1][-1]: %.2f – %.2f'%(ZZ[0][0], ZZ[-1][-1]))
-    print("shape e:", TEMPE.shape, '; e[0] - e[-1]: %.2f – %.2f'%(TEMPE[0], TEMPE[-1]))
-    print("shape T:",     T.shape, '; T[0] – T[-1]: %.2f – %.2f'%(T[0], T[-1]))
 
-
-    np.savetxt('DDMMYY.csv', Table, delimiter=',', fmt = '%4E')
+    np.savetxt('LAPLACE.LDLTS', Table, delimiter=',', fmt = '%4E')
