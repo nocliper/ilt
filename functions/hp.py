@@ -14,6 +14,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     import matplotlib.pyplot as plt
     import numpy as np
     from matplotlib import cm
+    from matplotlib import gridspec
     from L1 import L1
     from L2 import L2
     from L1L2 import L1L2
@@ -63,7 +64,8 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     YZ = np.asarray(YZ)
     ZZ = np.asarray(ZZ)
 
-    fig = plt.figure(figsize = (10,4.5))
+    fig = plt.figure(figsize = (12,4.5))
+    gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
     a2d = fig.add_subplot(121)
 
     cmap = cm.bwr
@@ -74,8 +76,6 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     a2d.set_xlabel(r'Emission $\log_{10}{(e)}$')
     a2d.set_title(Methods[0])
     a2d.set_ylabel('Temperature T, K')
-    Index = len(TEMPE)//2
-    a2d.axvline(x = np.log10(XZ[0][Index]), c = 'k')
     #a2d.grid(True)
 
 
@@ -94,10 +94,10 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     ad = fig.add_subplot(122)
     ad.set_xlabel('Temperature, K')
     ad.set_ylabel('LDLTS signal, arb. units')
-    print(Index)
-    ad.plot(T, ZZ[:, Index], c = 'k')
-
-    #ad.legend()
+    for i in range(int(len(TEMPE)*0.1), int(len(TEMPE)*0.8), 20):
+        ad.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$e = %.3f s$'%(TEMPE[i]))
+    ad.grid()
+    ad.legend()
 
     plt.show()
     plt.tight_layout()
