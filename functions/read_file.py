@@ -20,7 +20,7 @@ def read_file(Path):
     C    = []
     time = []
     for i in range(0,cut):
-        C.append(txt[i][2:-3])
+        C.append(txt[i][3:-3])
 
     for i in range(0, len(C[0])):
         time.append(0.15*(i+1))
