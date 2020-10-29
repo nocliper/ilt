@@ -33,10 +33,18 @@ def L2(s, Y, bound, Nz, alpha, iterations = 50000):
                 X[i,j] = (np.exp(x1) + np.exp(x2))*dt[j]
     np.shape(X)
 
+    beta   = np.random.randn(Nf)/np.sqrt(Nf) ## initiating weights
+    learning_rate = 0.09
     l2     = alpha
-    I      = np.identity(Nz)
-    beta   = np.linalg.solve(l2*np.dot(I.T,I) + np.dot(X.T,X), np.dot(X.T,Y))
-
+    #costs = []
+    for k in range(iterations):
+        Yhat  = X@beta
+        delta = Yhat - Y
+        beta  = beta - learning_rate*(X.T@delta + l2*2*beta)
+        mse   = delta.dot(delta)/NF
+        #costs.append(mse)
     F = X@beta
+    #res_norm = np.linalg.norm(Y - X@beta)
+    #sol_norm = np.linalg.norm(beta)
 
     return t, beta, F#, res_norm, sol_norm
