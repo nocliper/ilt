@@ -1,4 +1,4 @@
-def read_file(Path):
+def read_file(Path, dt=150):
     """Rerurns data from file
 
     Path – path to file
@@ -23,10 +23,10 @@ def read_file(Path):
         C.append(txt[i][3:-3])
 
     for i in range(0, len(C[0])):
-        time.append(0.15*(i+1))
+        time.append(dt/1000*(i+1))
+
     C    = np.asarray(C)
     time = np.asarray(time)
-
     #print(T)
 
     return time, C, T

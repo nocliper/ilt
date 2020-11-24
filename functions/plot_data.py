@@ -34,9 +34,6 @@ def plot_data(s, F, data, T, Index):
 
     ## plotting residuals
     ay = fig.add_subplot(223)
-    ay.set_xlabel(r'Residual norm, $\lg{\|A x_{\alpha}-b\|}$')
-    ay.set_ylabel(r'Solution norm, $\lg{\|L x_{\alpha}\|}$')
-
     ## plotting transients
     az = fig.add_subplot(224)
     az.set_ylabel(r'Transient , arb. units')
@@ -76,3 +73,4 @@ def plot_data(s, F, data, T, Index):
 
 
     plt.tight_layout()
+    return ay

@@ -96,6 +96,8 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     ad.set_ylabel('LDLTS signal, arb. units')
     for i in range(int(len(TEMPE)*0.1), int(len(TEMPE)*0.8), 20):
         ad.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$e = %.3f s$'%(TEMPE[i]))
+    ad.set_yscale('log')
+    ad.set_ylim(1E-4, 10)
     ad.grid()
     ad.legend()
 
@@ -103,13 +105,19 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     plt.tight_layout()
 
     ##save file
+    #Table = []
+    #Table.append([0] + (1/TEMPE).tolist())
+    #for i in range(cut):
+    #    Table.append([T[i]] + (ZZ[i,:]).tolist())
+
     Table = []
-    Table.append([0] + TEMPE.tolist())
+    e = 1/TEMPE
+    Table.append([0] + e.tolist())
     for i in range(cut):
-        Table.append([T[i]] + ZZ[i,:].tolist())
+        Table.append([T[i]] + (ZZ[i,:]).tolist())
+
 
     #print(Table)
     #Table = np.asarray(Table)
 
-
-    np.savetxt('LAPLACE.LDLTS', Table, delimiter=',', fmt = '%4E')
+    np.savetxt('Proton&neutron(200um)diode_%.0f'%((s[1]-s[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
