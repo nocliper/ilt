@@ -38,7 +38,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
 
                 res.append(np.linalg.norm(np.abs(C - C[-1]) - np.abs(C_restored), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
-                alpha = alpha_L2
+            alpha = alpha_L2
             break
 
         elif i == 'L1+L2':
@@ -51,7 +51,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
 
                 res.append(np.linalg.norm(np.abs(C - C[-1]) - np.abs(C_restored), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
-                alpha = alpha_SVD
+            alpha = alpha_SVD
             break
 
 
