@@ -6,19 +6,21 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     import numpy as np
 
     def curvature(x, y):
-        x1st = np.gradient(x)
-        f1st = np.gradient(y)/x1st
-        f2nd = np.gradient(y)/x1st
+        dx = np.gradient(x)
+        df = np.gradient(y)/dx
+        d2f = np.gradient(df)/dx
 
-        k = np.abs(f2nd)/(np.sqrt(1+f1st**2))**3
+        k = d2f/(1+df**2)**1.5
         return k
 
     res = []
     sol = []
 
-    alpha_L1  = 10**np.linspace(np.log10(Reg_L1)  - 2, np.log10(Reg_L1)  + 2, 150)
-    alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 2, np.log10(Reg_L2)  + 2, 150)
-    alpha_SVD = 10**np.linspace(np.log10(Reg_SVD) - 2, np.log10(Reg_SVD) + 2, 150)
+    alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 200)
+    alpha_SVD = 10**np.linspace(np.log10(Reg_SVD) - 3, np.log10(Reg_SVD) + 3, 200)
+    alpha = alpha_SVD
+
+    data = []
 
     for i in Methods:
 
@@ -27,13 +29,20 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
             break
 
         if i == 'L1':
-            print('!!!Not ready!!!')
+            break
 
         elif i == 'L2':
-            print('!!!not ready!!!')
+            for j, v in enumerate(alpha_L2):
+                data = laplace(s, C - C[-1], Nz, Reg_L1, v, Reg_SVD, Bounds, Methods)
+                e, f, C_restored = data[0][0], data[0][1], data[0][2]
+
+                res.append(np.linalg.norm(np.abs(C - C[-1]) - np.abs(C_restored), ord = 2)**2)
+                sol.append(np.linalg.norm(f, ord = 2)**2)
+                alpha = alpha_L2
+            break
 
         elif i == 'L1+L2':
-            print('!!!not ready!!!')
+            break
 
         elif i == 'SVD':
             for j, v in enumerate(alpha_SVD):
@@ -42,29 +51,38 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
 
                 res.append(np.linalg.norm(np.abs(C - C[-1]) - np.abs(C_restored), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
+                alpha = alpha_SVD
             break
 
 
-    k = curvature(np.log10(res), np.log10(sol))
 
-    ay.plot(np.log10(res), np.log10(sol), 'k*-', )
-    ay.set_ylabel(r'Solution norm $lg|f_{\alpha}|_2$', c='k')
-    ay.set_xlabel(r'Residual norm $lg|C_0 - C_{\alpha}|_2$', c='k')
+    if len(data) == 0:
+        ay.annotate(text = 'Choose L2 or SVD option', xy = (0.5,0.5), ha="center", size = 16)
 
+    else:
+        k = curvature(np.log10(res), np.log10(sol))
+        k_max = np.amax(k)
+        i = np.where(k == np.amax(k))
+        i = np.squeeze(i)
 
+        ay.plot(np.log10(res),    np.log10(sol),    'k*-', )
+        ay.plot(np.log10(res[i]), np.log10(sol[i]), 'r*') #highlight optimal lambda
+        ay.set_ylabel(r'Solution norm $lg|f_{\alpha}|_2$', c='k')
+        ay.set_xlabel(r'Residual norm $lg|C_0 - C_{\alpha}|_2$', c='k')
 
-    ay_k = ay.twinx()
-    ay_k_t = ay_k.twiny()
-    ay_k_t.set_xscale('log')
-    ay_k_t.plot(alpha_SVD, k, 'r-')
-    ay_k_t.set_ylabel(r'Curvature', c='r')
-    ay_k_t.set_xlabel(r'Reg. parameter $\lambda_{%.s}$'%(Methods[0]), c='r')
+        ay_k = ay.twinx()
+        ay_k_t = ay_k.twiny()
+        ay_k_t.set_xscale('log')
+        ay_k_t.plot(alpha,    k,    'r-')
+        ay_k_t.plot(alpha[i], k[i], 'r*')
+        ay_k.set_ylabel(r'Curvature, arb. units', c='r')
+        ay_k_t.set_xlabel(r'Reg. parameter $\lambda_{%.s}$'%(Methods[0]), c='r')
 
-    ay_k_t.spines['top'].set_color('red')
-    ay_k_t.spines['right'].set_color('red')
-    ay_k_t.xaxis.label.set_color('red')
-    ay_k_t.tick_params(axis='x', colors='red')
-    ay_k.yaxis.label.set_color('red')
-    ay_k.tick_params(axis='y', colors='red')
+        ay_k_t.spines['top'].set_color('red')
+        ay_k_t.spines['right'].set_color('red')
+        ay_k_t.xaxis.label.set_color('red')
+        ay_k_t.tick_params(axis='x', colors='red')
+        ay_k.yaxis.label.set_color('red')
+        ay_k.tick_params(axis='y', colors='red')
 
     plt.tight_layout()
