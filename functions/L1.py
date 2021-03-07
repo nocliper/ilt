@@ -35,12 +35,14 @@ def L1(s, Y, bound, Nz, alpha, iterations = 50000):
                 X[i,j] = (np.exp(x1) + np.exp(x2))*dt[j]
     np.shape(X)
 
+    beta = np.array(0, dtype = np.float64)
     beta   = np.random.randn(Nf)/np.sqrt(Nf) ## initiating weights
     learning_rate = 0.09
     l1     = alpha
     #costs = []
+    Yhat  = np.array(0, dtype = np.float64)
     for k in range(iterations):
-        Yhat  = X@beta
+        Yhat  = np.dot(X,beta)
         delta = Yhat - Y
         beta  = beta - learning_rate*(X.T@delta + l1*np.sign(beta))
         #mse   = delta.dot(delta)/NF
