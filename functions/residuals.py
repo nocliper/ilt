@@ -4,8 +4,11 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     #from matplotlib.cm import jet
     import matplotlib.pyplot as plt
     import numpy as np
+    from scipy.signal import savgol_filter
 
     def curvature(x, y):
+        x = savgol_filter(x, 11, 1)
+        y = savgol_filter(y, 11, 1)
         dx = np.gradient(x)
         df = np.gradient(y)/dx
         d2f = np.gradient(df)/dx
@@ -76,6 +79,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
         ay_k_t.plot(alpha,    k,    'r-')
         ay_k_t.plot(alpha[i], k[i], 'r*')
         ay_k.set_ylabel(r'Curvature, arb. units', c='r')
+        ay_k.set_ylim(-0.1, k_max*1.1)
         ay_k_t.set_xlabel(r'Reg. parameter $\lambda_{%.s}$'%(Methods[0]), c='r')
 
         ay_k_t.spines['top'].set_color('red')

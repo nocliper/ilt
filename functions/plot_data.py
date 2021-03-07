@@ -23,11 +23,11 @@ def plot_data(s, F, data, T, Index):
     #print(data[:,2])
     for i, e in enumerate(data[:,-1]):
         if e == 'L1':
-            ax.plot(data[i][0], data[i][1], 'r-', label = e)
+            ax.plot(data[i][0], -data[i][1], 'r-', label = e)
         elif e == 'L2':
-            ax.plot(data[i][0], data[i][1], 'b-', label = e)
+            ax.plot(data[i][0], -data[i][1], 'b-', label = e)
         elif e == 'L1+L2':
-            ax.plot(data[i][0], data[i][1], 'm-', label = e)
+            ax.plot(data[i][0], -data[i][1], 'm-', label = e)
         elif e == 'SVD':
             ax.plot(data[i][0], data[i][1], 'c-', label = e)
     ax.legend()

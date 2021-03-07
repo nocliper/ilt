@@ -120,4 +120,4 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     #print(Table)
     #Table = np.asarray(Table)
 
-    np.savetxt('Proton&neutron(200um)diode_%.0f'%((s[1]-s[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
+    np.savetxt('SAMPLE_NAME'%((s[1]-s[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
