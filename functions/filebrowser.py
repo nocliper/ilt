@@ -1,6 +1,8 @@
 import os
 import ipywidgets as widgets
 
+l = widgets.Layout(width='50%')
+
 class FileBrowser(object):
     def __init__(self):
         self.path = os.getcwd()
@@ -34,15 +36,15 @@ class FileBrowser(object):
 
         buttons = []
         if self.files:
-            button = widgets.Button(description='..', background_color='#d0d0ff')
+            button = widgets.Button(layout = l, description='..', background_color='#d0d0ff')
             button.on_click(on_click)
             buttons.append(button)
         for f in self.dirs:
-            button = widgets.Button(description=f, background_color='#d0d0ff')
+            button = widgets.Button(layout = l, description=f, background_color='#d0d0ff')
             button.on_click(on_click)
             buttons.append(button)
         for f in self.files:
-            button = widgets.Button(description=f)
+            button = widgets.Button(layout = l, description=f)
             button.on_click(on_click)
             buttons.append(button)
         box.children = tuple([widgets.HTML("<h2>%s</h2>" % (self.path,))] + buttons)
