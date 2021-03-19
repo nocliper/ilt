@@ -36,15 +36,18 @@ class FileBrowser(object):
 
         buttons = []
         if self.files:
-            button = widgets.Button(layout = l, description='..', background_color='#d0d0ff')
+            button = widgets.Button(layout = l, description='..', button_style='primary')
             button.on_click(on_click)
             buttons.append(button)
         for f in self.dirs:
-            button = widgets.Button(layout = l, description=f, background_color='#d0d0ff')
-            button.on_click(on_click)
-            buttons.append(button)
+            if f[0] != '.' and f[:2] != '__':
+                button = widgets.Button(layout = l, description=f, button_style='info')
+                button.on_click(on_click)
+                buttons.append(button)
         for f in self.files:
-            button = widgets.Button(layout = l, description=f)
-            button.on_click(on_click)
-            buttons.append(button)
+            if f[0] != '.' and f[-5:] == '.DLTS':
+                button = widgets.Button(layout = l, description=f, button_style='success')
+                button.on_click(on_click)
+                buttons.append(button)
+
         box.children = tuple([widgets.HTML("<h2>%s</h2>" % (self.path,))] + buttons)
