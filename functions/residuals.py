@@ -70,8 +70,8 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
 
         ay.plot(np.log10(res),    np.log10(sol),    'k*-', )
         ay.plot(np.log10(res[i]), np.log10(sol[i]), 'r*') #highlight optimal lambda
-        ay.set_ylabel(r'Solution norm $lg|f_{\alpha}|_2$', c='k')
-        ay.set_xlabel(r'Residual norm $lg|C_0 - C_{\alpha}|_2$', c='k')
+        ay.set_ylabel(r'Solution norm $lg||x||^2_2$', c='k')
+        ay.set_xlabel(r'Residual norm $lg||\eta-Cx||^2_2$', c='k')
 
         ay_k = ay.twinx()
         ay_k_t = ay_k.twiny()
