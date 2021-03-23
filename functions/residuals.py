@@ -26,8 +26,8 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     res = []
     sol = []
 
-    alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 200)
-    alpha_SVD = 10**np.linspace(np.log10(Reg_SVD) - 3, np.log10(Reg_SVD) + 3, 200)
+    alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 75)
+    alpha_SVD = 10**np.linspace(np.log10(Reg_SVD) - 3, np.log10(Reg_SVD) + 3, 75)
     alpha = alpha_SVD
 
     data = []
