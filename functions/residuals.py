@@ -6,21 +6,28 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     import numpy as np
     from scipy.signal import savgol_filter
 
-    def curvature(x, y):
-        x = savgol_filter(x, 11, 1)
-        y = savgol_filter(y, 11, 1)
-        dx = np.gradient(x)
-        df = np.gradient(y)/dx
-        d2f = np.gradient(df)/dx
+    def curvature(x, y, a):
+        '''Returns curvature of line
 
-        k = d2f/(1+df**2)**1.5
+        k = (x'*y''-x''*y')/((x')^2+(y')^2)^(3/2)
+
+        '''
+        x = savgol_filter(x, 7, 1)
+        y = savgol_filter(y, 7, 1)
+        da = np.gradient(a)
+        f_x  = np.gradient(x)/da
+        f_y  = np.gradient(y)/da
+        f_xx = np.gradient(f_x)/da
+        f_yy = np.gradient(f_y)/da
+
+        k = (f_x*f_yy - f_xx*f_y)/(f_x**2 + f_y**2)**(3/2)
         return k
 
     res = []
     sol = []
 
-    alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 200)
-    alpha_SVD = 10**np.linspace(np.log10(Reg_SVD) - 3, np.log10(Reg_SVD) + 3, 200)
+    alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 100)
+    alpha_SVD = 10**np.linspace(np.log10(Reg_SVD) - 3, np.log10(Reg_SVD) + 3, 100)
     alpha = alpha_SVD
 
     data = []
@@ -63,12 +70,12 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
         ay.annotate(text = 'Choose L2 or SVD option', xy = (0.5,0.5), ha="center", size = 16)
 
     else:
-        k = curvature(np.log10(res), np.log10(sol))
+        k = curvature(np.log10(res), np.log10(sol), alpha)
         k_max = np.amax(k)
         i = np.where(k == np.amax(k))
         i = np.squeeze(i)
 
-        ay.plot(np.log10(res),    np.log10(sol),    'k*-', )
+        ay.plot(np.log10(res),    np.log10(sol),    'k-', )
         ay.plot(np.log10(res[i]), np.log10(sol[i]), 'r*') #highlight optimal lambda
         ay.set_ylabel(r'Solution norm $lg||x||^2_2$', c='k')
         ay.set_xlabel(r'Residual norm $lg||\eta-Cx||^2_2$', c='k')
