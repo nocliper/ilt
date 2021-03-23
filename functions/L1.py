@@ -3,7 +3,7 @@ def L1(s, Y, bound, Nz, alpha, iterations = 50000):
     """Returns solution vector, t-domain points and reconstructed transient
     using L1 regression and gradient descent.
 
-    s - s-domain points, equally spased at log scale
+    s - s-domain points (time points)
     Y - given transient function
     bound – list of left and right bounds of s-domain points
     Nz – int value which is lenght of calculated vector
@@ -13,18 +13,19 @@ def L1(s, Y, bound, Nz, alpha, iterations = 50000):
     X  – Laplace transform Matrix
 
     returns:
-    t – t-domain points
+    t – t-domain points (emission rates)
     beta - solution
     F – Reconstructed transient
     """
 
     import numpy as np
 
-    tmin = bound[0]
-    tlim = bound[1]
+    tmin = np.log10(bound[0])
+    tlim = np.log10(bound[1])
     NF   = len(s)
     Nf   = Nz #
-    t    = tmin*10**(np.linspace(0, 40*np.log10(tlim/tmin), Nf)*0.025) #t domain with exp density points
+    t    = np.logspace(tmin, tlim, Nf) ##  evenly spaced on log grid
+    #t    = tmin*10**(np.linspace(0, 40*np.log10(tlim/tmin), Nf)*0.025) #t domain with exp density points
     dt   = np.gradient(t)
 
     X    = np.zeros([NF, Nf], dtype = float)

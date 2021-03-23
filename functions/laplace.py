@@ -2,12 +2,12 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_SVD, Bounds, Methods):
 
     ''' Initiates routines for choosed method
 
-    s - s-domain points, equally spased at log scale
+    s - s-domain points (time of transient)
     F - given transient function
-    Nz        – int value which is lenght of calculated vector
+    Nz – int value which is lenght of calculated vector
     Reg_L1, Reg_L2 - reg. parameter for L1 and L2 regularisation
     Bounds – list of left and right bounds of s-domain points
-    Methods   – list with methods to process data
+    Methods – list with methods to process data
 
     returns processed data
 
