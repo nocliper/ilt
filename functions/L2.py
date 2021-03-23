@@ -17,6 +17,7 @@ def L2(s, Y, bound, Nz, alpha, iterations = 50000):
     F – Reconstructed transient
     """
     import numpy as np
+    from scipy.sparse import diags
 
     tmin = bound[0]
     tlim = bound[1]
@@ -34,7 +35,13 @@ def L2(s, Y, bound, Nz, alpha, iterations = 50000):
     np.shape(X)
 
     l2     = alpha
-    I      = np.identity(Nz)
+
+    data = [-2*np.ones(Nz), 1*np.ones(Nz), 1*np.ones(Nz)]
+    positions = [-1, -2, 0]
+
+    I = diags(data, positions, (Nz+2, Nz)).toarray()
+    #I      = np.identity(Nz)
+
     beta   = np.linalg.solve(l2*np.dot(I.T,I) + np.dot(X.T,X), np.dot(X.T,Y))
 
     F = X@beta
