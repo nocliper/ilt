@@ -28,7 +28,7 @@ def plot_data(s, F, data, T, Index):
             ax.plot(data[i][0], -data[i][1], 'b-', label = e)
         elif e == 'L1+L2':
             ax.plot(data[i][0], -data[i][1], 'm-', label = e)
-        elif e == 'SVD':
+        elif e == 'Contin':
             ax.plot(data[i][0], data[i][1], 'c-', label = e)
     ax.legend()
 
@@ -63,7 +63,7 @@ def plot_data(s, F, data, T, Index):
             d = d - min(d)
             d = d/max(d)
             az.plot(s, d, 'm*-', label = e)
-        elif e == 'SVD':
+        elif e == 'Contin':
             d = data[i][2]
             d = np.abs(d)
             d = d - min(d)

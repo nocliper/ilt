@@ -9,7 +9,7 @@ import numpy as np
 import ldp
 
 
-def SVD(t, F, bound, Nz, alpha):
+def Contin(t, F, bound, Nz, alpha):
     """
     DISCRIPTION:
     -----------

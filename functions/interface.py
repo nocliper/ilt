@@ -19,8 +19,8 @@ def interface():
         description='')
 
     Methods = widgets.SelectMultiple(
-        options = ['L1', 'L2', 'L1+L2', 'SVD'],
-        value   = ['SVD'],
+        options = ['L1', 'L2', 'L1+L2', 'Contin'],
+        value   = ['Contin'],
         #rows    = 10,
         description = 'Methods:',
         disabled = False)

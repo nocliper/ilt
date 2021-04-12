@@ -1,4 +1,4 @@
-def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
+def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz):
 
     from laplace import laplace
     #from matplotlib.cm import jet
@@ -27,8 +27,8 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
     sol = []
 
     alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 75)
-    alpha_SVD = 10**np.linspace(np.log10(Reg_SVD) - 3, np.log10(Reg_SVD) + 3, 75)
-    alpha = alpha_SVD
+    alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 75)
+    alpha = alpha_C
 
     data = []
 
@@ -43,7 +43,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
 
         elif i == 'L2':
             for j, v in enumerate(alpha_L2):
-                data = laplace(s, C - C[-1], Nz, Reg_L1, v, Reg_SVD, Bounds, Methods)
+                data = laplace(s, C - C[-1], Nz, Reg_L1, v, Reg_C, Bounds, Methods)
                 e, f, C_restored = data[0][0], data[0][1], data[0][2]
 
                 res.append(np.linalg.norm(np.abs(C - C[-1]) - np.abs(C_restored), ord = 2)**2)
@@ -54,20 +54,20 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_SVD, Bounds, Nz):
         elif i == 'L1+L2':
             break
 
-        elif i == 'SVD':
-            for j, v in enumerate(alpha_SVD):
+        elif i == 'Contin':
+            for j, v in enumerate(alpha_C):
                 data = laplace(s, C - C[-1], Nz, Reg_L1, Reg_L2, v, Bounds, Methods)
                 e, f, C_restored = data[0][0], data[0][1], data[0][2]
 
                 res.append(np.linalg.norm(np.abs(C - C[-1]) - np.abs(C_restored), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
-            alpha = alpha_SVD
+            alpha = alpha_C
             break
 
 
 
     if len(data) == 0:
-        ay.annotate(text = 'Choose L2 or SVD option', xy = (0.5,0.5), ha="center", size = 16)
+        ay.annotate(text = 'Choose L2 or Contin option', xy = (0.5,0.5), ha="center", size = 16)
 
     else:
         k = curvature(np.log10(res), np.log10(sol), alpha)
