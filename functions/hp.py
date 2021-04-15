@@ -1,4 +1,4 @@
-def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz):
+def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = False):
     """Returns heatmap
 
     s – s-domain points(time)
@@ -19,6 +19,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz):
     from L2 import L2
     from L1L2 import L1L2
     from ilt import Contin
+    from residuals import residuals
 
 
     cut = len(T)
@@ -55,7 +56,11 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz):
         elif M == 'Contin':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
+                if LCurve:
+                    ay = 0
+                    Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = Contin(s, C[i], Bounds, Nz, Reg_C)
+                print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
 
