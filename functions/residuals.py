@@ -90,8 +90,8 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fal
 
         ay.plot(np.log10(res),    np.log10(sol),    'k-', )
         ay.plot(np.log10(res[i]), np.log10(sol[i]), 'r*') #highlight optimal lambda
-        ay.set_ylabel(r'Solution norm $lg||x||^2_2$', c='k')
-        ay.set_xlabel(r'Residual norm $lg||\eta-Cx||^2_2$', c='k')
+        ay.set_ylabel(r'Solution norm $\lg||x||^2_2$', c='k')
+        ay.set_xlabel(r'Residual norm $\lg||\eta-Cx||^2_2$', c='k')
 
         ay_k = ay.twinx()
         ay_k_t = ay_k.twiny()
@@ -99,13 +99,13 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fal
         ay_k_t.plot(alpha,    k/k[i],    'r-')
         ay_k_t.plot(alpha[i], k[i]/k[i], 'r*')
         ay_k.set_ylabel(r'Curvature, arb. units', c='r')
-        ay_k.set_ylim(-0.1, 1.1)
+        ay_k.set_ylim(-0.0, 1.1)
         ay_k_t.set_xlabel(r'Reg. parameter $\lambda_{%.s}$'%(Methods[0]), c='r')
 
         ay_k_t.spines['top'].set_color('red')
         ay_k_t.spines['right'].set_color('red')
         ay_k_t.xaxis.label.set_color('red')
-        ay_k_t.tick_params(axis='x', colors='red')
+        ay_k_t.tick_params(axis='x', colors='red', which='both')
         ay_k.yaxis.label.set_color('red')
-        ay_k.tick_params(axis='y', colors='red')
+        ay_k.tick_params(axis='y', colors='red', which='both')
         plt.tight_layout()
