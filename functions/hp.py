@@ -60,7 +60,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
                     ay = 0
                     Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = Contin(s, C[i], Bounds, Nz, Reg_C)
-                print(YZ[-1][0], 'K; a = ', Reg_C)
+                #print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
 
