@@ -14,13 +14,13 @@ def read_file(Path, dt=150):
     Path = str(Path)
 
     txt  = np.genfromtxt(Path, delimiter='\t')
-    T    = txt[0:,0]
+    T    = txt[:,0]
     cut  = len(T)
 
     C    = []
     time = []
     for i in range(0,cut):
-        C.append(txt[i][3:-3])
+        C.append(txt[i][3:-2])
 
     for i in range(0, len(C[0])):
         time.append(dt/1000*(i+1))
