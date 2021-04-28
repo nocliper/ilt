@@ -29,7 +29,7 @@ def plot_data(s, F, data, T, Index):
         elif e == 'L1+L2':
             ax.plot(data[i][0], -data[i][1], 'm-', label = e)
         elif e == 'Contin':
-            ax.plot(data[i][0], data[i][1], 'c-', label = e)
+            ax.plot(data[i][0],  data[i][1], 'c-', label = e)
     ax.legend()
 
     ## plotting residuals
