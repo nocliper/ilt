@@ -12,6 +12,11 @@ def plot_data(s, F, data, T, Index):
     import matplotlib.pyplot as plt
     import numpy as np
 
+    F = F/np.average(F[-3:-1])
+    F = F - np.average(F[-2:-1])
+    F = np.abs(F)
+    F = F + np.average(F)*2
+
     ## plotting main plot
     fig = plt.figure(figsize = (9.5, 6))
     ax  = fig.add_subplot(211)
@@ -29,7 +34,7 @@ def plot_data(s, F, data, T, Index):
         elif e == 'L1+L2':
             ax.plot(data[i][0], -data[i][1], 'm-', label = e)
         elif e == 'Contin':
-            ax.plot(data[i][0],  data[i][1], 'c-', label = e)
+            ax.plot(data[i][0],  data[i][1]*data[i][0], 'c-', label = e)
     ax.legend()
 
     ## plotting residuals
@@ -39,9 +44,6 @@ def plot_data(s, F, data, T, Index):
     az.set_ylabel(r'Transient , arb. units')
     az.set_xlabel(r'Time $t$, $s$')
     az.grid(True, which = "both", ls = "-")
-    F = np.abs(F)
-    F = F - min(F)
-    F = F/max(F)
     az.plot(s, F, 'ks-', label = 'Original')
     az.set_xscale('log')
     for i, e in enumerate(data[:,-1]):
@@ -65,9 +67,9 @@ def plot_data(s, F, data, T, Index):
             az.plot(s, d, 'm*-', label = e)
         elif e == 'Contin':
             d = data[i][2]
-            d = np.abs(d)
-            d = d - min(d)
-            d = d/max(d)
+            #d = np.abs(d)
+            #d = d - min(d)
+            #d = d/max(d)
             az.plot(s, d, 'cx-', label = e)
     az.legend()
 

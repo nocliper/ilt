@@ -35,9 +35,11 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fal
 
     data = []
 
-    C = C - np.average(C[-2:-1])
-    C = np.abs(C)
-    C = C/max(C)
+
+    Cx = C/np.average(C[-3:-1])
+    Cx = Cx - np.average(Cx[-2:-1])
+    Cx = np.abs(Cx)
+    Cx = Cx + np.average(Cx)*2
 
     for i in Methods:
 
@@ -50,10 +52,10 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fal
 
         elif i == 'L2':
             for j, v in enumerate(alpha_L2):
-                data = laplace(s, C - C[-1], Nz, Reg_L1, v, Reg_C, Bounds, Methods)
+                data = laplace(s, C, Nz, Reg_L1, v, Reg_C, Bounds, Methods)
                 e, f, C_restored = data[0][0], data[0][1], data[0][2]
 
-                res.append(np.linalg.norm(np.abs(C) - np.abs(C_restored), ord = 2)**2)
+                res.append(np.linalg.norm(np.abs(Cx) - np.abs(C_restored), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
             alpha = alpha_L2
             break
@@ -63,10 +65,10 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fal
 
         elif i == 'Contin':
             for j, v in enumerate(alpha_C):
-                data = laplace(s, C - C[-1], Nz, Reg_L1, Reg_L2, v, Bounds, Methods)
+                data = laplace(s, C, Nz, Reg_L1, Reg_L2, v, Bounds, Methods)
                 e, f, C_restored = data[0][0], data[0][1], data[0][2]
 
-                res.append(np.linalg.norm(np.abs(C) - np.abs(C_restored), ord = 2)**2)
+                res.append(np.linalg.norm(np.abs(Cx) - np.abs(C_restored), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
             alpha = alpha_C
             break

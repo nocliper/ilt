@@ -23,7 +23,7 @@ def read_file(Path, dt=150):
         C.append(txt[i][3:-2])
 
     for i in range(0, len(C[0])):
-        time.append(dt/1000*(i+1))
+        time.append(dt/1000*(i+2))
 
     C    = np.asarray(C)
     time = np.asarray(time)

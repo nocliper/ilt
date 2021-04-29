@@ -38,19 +38,19 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
         if M == 'L1':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
-                TEMPE, TEMPX, a = L1(s, C[i] - C[i][-1], Bounds, Nz, Reg_L1)
+                TEMPE, TEMPX, a = L1(s, C[i], Bounds, Nz, Reg_L1)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
         elif M == 'L2':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
-                TEMPE, TEMPX, a = L2(s, C[i] - C[i][-1], Bounds, Nz, Reg_L2)
+                TEMPE, TEMPX, a = L2(s, C[i], Bounds, Nz, Reg_L2)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
         elif M == 'L1+L2':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
-                TEMPE, TEMPX, a = L1L2(s, C[i] - C[i][-1], Bounds, Nz, Reg_L1, Reg_L2)
+                TEMPE, TEMPX, a = L1L2(s, C[i], Bounds, Nz, Reg_L1, Reg_L2)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
         elif M == 'Contin':
@@ -62,7 +62,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
                 TEMPE, TEMPX, a = Contin(s, C[i], Bounds, Nz, Reg_C)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)
-                ZZ.append(TEMPX)
+                ZZ.append(TEMPX*TEMPE)
 
 
     XZ = np.asarray(XZ)
