@@ -36,8 +36,8 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fal
     data = []
 
 
-    Cx = C/np.average(C[-3:-1])
-    Cx = Cx - np.average(Cx[-2:-1])
+    Cx = C/np.average(C[0])
+    Cx = Cx - np.average(Cx[-1])
     Cx = np.abs(Cx)
     Cx = Cx + np.average(Cx)*2
 

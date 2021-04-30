@@ -74,7 +74,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
     a2d = fig.add_subplot(121)
 
     cmap = cm.bwr
-    v = np.amax(np.abs(ZZ))/50
+    v = np.amax(np.abs(ZZ))/2
     normalize = plt.Normalize(vmin = -v, vmax = v)
 
     extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]

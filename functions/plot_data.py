@@ -12,8 +12,8 @@ def plot_data(s, F, data, T, Index):
     import matplotlib.pyplot as plt
     import numpy as np
 
-    F = F/np.average(F[-3:-1])
-    F = F - np.average(F[-2:-1])
+    F = F/np.average(F[0])
+    F = F - np.average(F[-1])
     F = np.abs(F)
     F = F + np.average(F)*2
 

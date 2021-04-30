@@ -20,6 +20,11 @@ def L1(s, Y, bound, Nz, alpha, iterations = 50000):
 
     import numpy as np
 
+    Y = Y/np.average(Y[0])
+    Y = Y - np.average(Y[-1])
+    Y = np.abs(Y)
+    Y = Y - Y[-1]
+
     tmin = np.log10(bound[0])
     tlim = np.log10(bound[1])
     NF   = len(s)
