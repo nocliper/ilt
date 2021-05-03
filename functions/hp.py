@@ -19,6 +19,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
     from L2 import L2
     from L1L2 import L1L2
     from ilt import Contin
+    from reSpect import reSpect, InitializeH, getAmatrix, getBmatrix, oldLamC, getH, jacobianLM, kernelD, guiFurnishGlobals
     from residuals import residuals
 
 
@@ -40,19 +41,19 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L1(s, C[i], Bounds, Nz, Reg_L1)
                 XZ.append(TEMPE)
-                ZZ.append(TEMPX)
+                ZZ.append(TEMPX*TEMPE)
         elif M == 'L2':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L2(s, C[i], Bounds, Nz, Reg_L2)
                 XZ.append(TEMPE)
-                ZZ.append(TEMPX)
+                ZZ.append(TEMPX*TEMPE)
         elif M == 'L1+L2':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L1L2(s, C[i], Bounds, Nz, Reg_L1, Reg_L2)
                 XZ.append(TEMPE)
-                ZZ.append(TEMPX)
+                ZZ.append(TEMPX*TEMPE)
         elif M == 'Contin':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
@@ -61,8 +62,20 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
                     Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = Contin(s, C[i], Bounds, Nz, Reg_C)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
+                print(TEMPE[0], '->', TEMPE[-1])
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX*TEMPE)
+        elif M == 'reSpect':
+            for i in range(0, cut):
+                YZ.append(np.ones(cus)*T[i])
+                if LCurve:
+                    ay = 0
+                    Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve)
+                TEMPE, TEMPX, a = reSpect(s, C[i], Bounds, Nz, Reg_C)
+                #print(YZ[-1][0], 'K; a = ', Reg_C)
+                print(TEMPE[0], '->', TEMPE[-1])
+                XZ.append(TEMPE[::-1])
+                ZZ.append(TEMPX[::-1])
 
 
     XZ = np.asarray(XZ)
@@ -73,8 +86,9 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
     gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
     a2d = fig.add_subplot(121)
 
-    cmap = cm.bwr
-    v = np.amax(np.abs(ZZ))/2
+    cmap = cm.jet
+    #v = np.amax(np.abs(ZZ))/20/1000
+    v = 0.02
     normalize = plt.Normalize(vmin = -v, vmax = v)
 
     extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]

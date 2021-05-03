@@ -17,6 +17,7 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Bounds, Methods):
     from L2 import L2
     from L1L2 import L1L2
     from ilt import Contin
+    from reSpect import reSpect, InitializeH, getAmatrix, getBmatrix, oldLamC, getH, jacobianLM, kernelD, guiFurnishGlobals
 
     data = []
 
@@ -36,6 +37,10 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Bounds, Methods):
         elif i == 'Contin':
             t, f, F_hat = Contin(s, F, Bounds, Nz, Reg_C)
             data.append([t, f, F_hat, 'Contin'])
+
+        elif i == 'reSpect':
+            t, f, F_hat = reSpect(s, F, Bounds, Nz, Reg_C)
+            data.append([t, f, F_hat, 'reSpect'])
 
     data = np.asarray(data)
     return data
