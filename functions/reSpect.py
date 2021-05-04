@@ -424,4 +424,4 @@ def reSpect(t, Gexp, bound, Nz, lamC):
 
 	K   = kernel_prestore(H, kernMat, G0);
 
-	return 1/s, np.exp(H), kernMat@np.exp(H)
+	return 1/s[::-1], np.exp(H)[::-1], kernMat@np.exp(H)

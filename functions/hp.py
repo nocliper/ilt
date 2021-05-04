@@ -74,8 +74,8 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
                 TEMPE, TEMPX, a = reSpect(s, C[i], Bounds, Nz, Reg_C)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 print(TEMPE[0], '->', TEMPE[-1])
-                XZ.append(TEMPE[::-1])
-                ZZ.append(TEMPX[::-1])
+                XZ.append(TEMPE)
+                ZZ.append(TEMPX)
 
 
     XZ = np.asarray(XZ)

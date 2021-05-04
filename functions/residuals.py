@@ -68,7 +68,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fal
                 data = laplace(s, C, Nz, Reg_L1, Reg_L2, v, Bounds, Methods)
                 e, f, C_restored = data[0][0], data[0][1], data[0][2]
 
-                res.append(np.linalg.norm(np.abs(Cx) - np.abs(C_restored), ord = 2)**2)
+                res.append(np.linalg.norm(np.abs(Cx - Cx[-1]) - np.abs(C_restored - C_restored[-1]), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
             alpha = alpha_C
             break
