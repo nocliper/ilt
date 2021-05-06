@@ -1,4 +1,4 @@
-def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Bounds, Methods):
+def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
 
     ''' Initiates routines for choosed method
 
@@ -39,7 +39,7 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Bounds, Methods):
             data.append([t, f, F_hat, 'Contin'])
 
         elif i == 'reSpect':
-            t, f, F_hat = reSpect(s, F, Bounds, Nz, Reg_C)
+            t, f, F_hat = reSpect(s, F, Bounds, Nz, Reg_S)
             data.append([t, f, F_hat, 'reSpect'])
 
     data = np.asarray(data)

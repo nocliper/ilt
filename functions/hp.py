@@ -1,4 +1,4 @@
-def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = False):
+def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
     """Returns heatmap
 
     s – s-domain points(time)
@@ -59,7 +59,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
                 YZ.append(np.ones(cus)*T[i])
                 if LCurve:
                     ay = 0
-                    Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve)
+                    Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = Contin(s, C[i], Bounds, Nz, Reg_C)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 print(TEMPE[0], '->', TEMPE[-1])
@@ -70,8 +70,8 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve = Fals
                 YZ.append(np.ones(cus)*T[i])
                 if LCurve:
                     ay = 0
-                    Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Bounds, Nz, LCurve)
-                TEMPE, TEMPX, a = reSpect(s, C[i], Bounds, Nz, Reg_C)
+                    Reg_S = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
+                TEMPE, TEMPX, a = reSpect(s, C[i], Bounds, Nz, Reg_S)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 print(TEMPE[0], '->', TEMPE[-1])
                 XZ.append(TEMPE)

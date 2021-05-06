@@ -23,6 +23,9 @@ def L2(s, Y, bound, Nz, alpha, iterations = 50000):
     Y = Y - np.average(Y[-1])
     Y = np.abs(Y)
     Y = Y + np.average(Y)*2
+    Y = Y - Y[-1]
+
+
 
 
     tmin = bound[0]

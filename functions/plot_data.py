@@ -17,6 +17,7 @@ def plot_data(s, F, data, T, Index):
     F = np.abs(F)
     F = F + np.average(F)*2
 
+
     ## plotting main plot
     fig = plt.figure(figsize = (9.5, 6))
     ax  = fig.add_subplot(211)
@@ -28,11 +29,11 @@ def plot_data(s, F, data, T, Index):
     #print(data[:,2])
     for i, e in enumerate(data[:,-1]):
         if e == 'L1':
-            ax.plot(data[i][0], -data[i][1]*data[i][0], 'r-', label = e)
+            ax.plot(data[i][0], data[i][1], 'r-', label = e)
         elif e == 'L2':
-            ax.plot(data[i][0], -data[i][1]*data[i][0], 'b-', label = e)
+            ax.plot(data[i][0], data[i][1], 'b-', label = e)
         elif e == 'L1+L2':
-            ax.plot(data[i][0], -data[i][1]*data[i][0], 'm-', label = e)
+            ax.plot(data[i][0], data[i][1], 'm-', label = e)
         elif e == 'Contin':
             ax.plot(data[i][0],  data[i][1]*data[i][0], 'c-', label = e)
         elif e == 'reSpect':
@@ -51,21 +52,21 @@ def plot_data(s, F, data, T, Index):
     for i, e in enumerate(data[:,-1]):
         if e == 'L1':
             d = data[i][2]
-            d = np.abs(d)
-            d = d - min(d)
-            d = d/max(d)
+            #d = np.abs(d)
+            #d = d - min(d)
+            #d = d/max(d)
             az.plot(s, d - d[-1], 'ro-', label = e)
         elif e == 'L2':
-            d = data[i][2]
-            d = np.abs(d)
-            d = d - min(d)
-            d = d/max(d)
-            az.plot(s, d - d[-1], 'b>-', label = e)
+            d = data[i][2][:-1] # last point sucks
+            #d = np.abs(d)
+            #d = d - min(d)
+            #d = d/max(d)
+            az.plot(s[:-1], d - d[-1], 'b>-', label = e)
         elif e == 'L1+L2':
             d = data[i][2]
-            d = np.abs(d)
-            d = d - min(d)
-            d = d/max(d)
+            #d = np.abs(d)
+            #d = d - min(d)
+            #d = d/max(d)
             az.plot(s, d - d[-1], 'm*-', label = e)
         elif e == 'Contin':
             d = data[i][2]
