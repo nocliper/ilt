@@ -29,7 +29,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
     alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 125)
     alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 125)
-    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 125)
+    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 55)
     if LCurve:
         alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 55)
     alpha = alpha_C
@@ -93,7 +93,10 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
     elif LCurve:
         k = curvature(np.log10(res), np.log10(sol), alpha)
         k_max = np.amax(k)
-        i = np.where(k == np.amax(k[15:-10]))
+        if Methods[0] == 'reSpect':
+            i = np.where(k == np.amax(k[1:-1]))
+        else:
+            i = np.where(k == np.amax(k[15:-10]))
         i = np.squeeze(i)
         return alpha[i]
     else:
