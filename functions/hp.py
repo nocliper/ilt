@@ -4,6 +4,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
     s – s-domain points(time)
     C - transient F(s) = C
     T - Tempetarures
+
     Methods – name of methods to process dataset
     Index – index to plot specific slise of heatplot
     Reg_L1, Reg_L2 – reg. parameters for L1 and L2 routines
@@ -22,6 +23,15 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
     from reSpect import reSpect, InitializeH, getAmatrix, getBmatrix, oldLamC, getH, jacobianLM, kernelD, guiFurnishGlobals
     from residuals import residuals
 
+    import time
+    import sys
+
+    def progressbar(i, iterations):
+        i = i + 1
+        sys.stdout.write('\r')
+        # the exact output you're looking for:
+        sys.stdout.write("[%-20s] %d%%" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)))
+        sys.stdout.flush()
 
     cut = len(T)
     cus = Nz
@@ -29,7 +39,6 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
     if len(Methods) > 1:
         print('Choose only one Method')
         Methods = Methods[0]
-
 
     XZ = []
     YZ = []
@@ -42,18 +51,27 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
                 TEMPE, TEMPX, a = L1(s, C[i], Bounds, Nz, Reg_L1)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX*TEMPE)
+
+                progressbar(i, cut)
+
         elif M == 'L2':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L2(s, C[i], Bounds, Nz, Reg_L2)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX*TEMPE)
+
+                progressbar(i, cut)
+
         elif M == 'L1+L2':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L1L2(s, C[i], Bounds, Nz, Reg_L1, Reg_L2)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX*TEMPE)
+
+                progressbar(i, cut)
+
         elif M == 'Contin':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
@@ -62,9 +80,11 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
                     Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = Contin(s, C[i], Bounds, Nz, Reg_C)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
-                print(TEMPE[0], '->', TEMPE[-1])
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX*TEMPE)
+
+                progressbar(i, cut)
+
         elif M == 'reSpect':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
@@ -73,9 +93,11 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
                     Reg_S = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = reSpect(s, C[i], Bounds, Nz, Reg_S)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
-                print(TEMPE[0], '->', TEMPE[-1])
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
+
+                progressbar(i, cut)
+
 
 
     XZ = np.asarray(XZ)
