@@ -6,6 +6,15 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
     import numpy as np
     from scipy.signal import savgol_filter
 
+    import sys
+
+    def progressbar(i, iterations):
+        i = i + 1
+        sys.stdout.write('\r')
+        # the exact output you're looking for:
+        sys.stdout.write("[%-20s] %d%%  Building L-curve" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)))
+        sys.stdout.flush()
+
     def curvature(x, y, a):
         '''Returns curvature of line
 
@@ -29,7 +38,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
     alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 125)
     alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 125)
-    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 55)
+    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 50)
     if LCurve:
         alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 55)
     alpha = alpha_C
@@ -59,6 +68,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
                 res.append(np.linalg.norm(np.abs(Cx) - np.abs(C_restored), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
+                progressbar(j, len(alpha_L2))
             alpha = alpha_L2
             break
 
@@ -72,6 +82,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
                 res.append(np.linalg.norm(np.abs(Cx - Cx[-1]) - np.abs(C_restored - C_restored[-1]), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
+                progressbar(j, len(alpha_C))
             alpha = alpha_C
             break
 
@@ -82,6 +93,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
                 res.append(np.linalg.norm(np.abs(Cx - Cx[-1]) - np.abs(C_restored - C_restored[-1]), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
+                progressbar(j, len(alpha_S))
             alpha = alpha_S
             break
 
@@ -102,7 +114,9 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
     else:
         k = curvature(np.log10(res), np.log10(sol), alpha)
         k_max = np.amax(k)
-        i = np.where(k == np.amax(k[22:-22]))
+        i = np.where(k == np.amax(k))
+        if Methods[0] != 'reSpect':
+            i = np.where(k == np.amax(k[22:-22]))
         i = np.squeeze(i)
 
         ay.plot(np.log10(res),    np.log10(sol),    'k-', )

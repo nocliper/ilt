@@ -23,14 +23,13 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
     from reSpect import reSpect, InitializeH, getAmatrix, getBmatrix, oldLamC, getH, jacobianLM, kernelD, guiFurnishGlobals
     from residuals import residuals
 
-    import time
     import sys
 
     def progressbar(i, iterations):
         i = i + 1
         sys.stdout.write('\r')
         # the exact output you're looking for:
-        sys.stdout.write("[%-20s] %d%%" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)))
+        sys.stdout.write("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)))
         sys.stdout.flush()
 
     cut = len(T)
@@ -109,8 +108,10 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
     a2d = fig.add_subplot(121)
 
     cmap = cm.jet
-    #v = np.amax(np.abs(ZZ))/20/1000
-    v = 0.02
+    v = np.amax(np.abs(ZZ))/10
+    if Methods[0] == 'reSpect':
+        v = np.average(np.abs(ZZ[5:-5,10:-10]))
+
     normalize = plt.Normalize(vmin = -v, vmax = v)
 
     extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]
