@@ -13,9 +13,12 @@ def plot_data(s, F, data, T, Index):
     import numpy as np
 
     F = F/np.average(F[0])
-    F = F - np.average(F[-1])
+    if F[0] > F[-1]:
+        F = F - min(F)
+    else:
+        F = F - max(F)
     F = np.abs(F)
-    F = F + np.average(F)*2
+    F = F + np.average(F)*1
 
 
     ## plotting main plot
