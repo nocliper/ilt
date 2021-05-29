@@ -18,7 +18,7 @@ def plot_data(s, F, data, T, Index):
     else:
         F = F - max(F)
     F = np.abs(F)
-    F = F + np.average(F)*1
+    F = F + np.average(F)*2
 
 
     ## plotting main plot
@@ -39,8 +39,10 @@ def plot_data(s, F, data, T, Index):
             ax.plot(data[i][0], data[i][1], 'm-', label = e)
         elif e == 'Contin':
             ax.plot(data[i][0],  data[i][1]*data[i][0], 'c-', label = e)
+            np.savetxt('Contin.csv', [data[i][0], data[i][1]*data[i][0]], delimiter = ',')
         elif e == 'reSpect':
             ax.plot(data[i][0],  data[i][1], 'y-', label = e)
+            np.savetxt('reSpect.csv', [data[i][0], data[i][1]], delimiter = ',')
     ax.legend()
 
     ## plotting residuals

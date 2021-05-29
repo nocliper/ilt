@@ -404,7 +404,7 @@ def reSpect(t, Gexp, bound, Nz, lamC):
 	else:
 		Gexp = Gexp - max(Gexp)
 	Gexp = np.abs(Gexp)
-	Gexp = Gexp + np.average(Gexp)*1
+	Gexp = Gexp + np.average(Gexp)*2
 	n    = len(t)
 	ns   = Nz    # discretization of 'tau'
 
