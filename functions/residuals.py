@@ -47,7 +47,10 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
 
     Cx = C/np.average(C[0])
-    Cx = Cx - np.average(Cx[-1])
+    if Cx[0] > Cx[-1]:
+        Cx = Cx - min(Cx)
+    else:
+        Cx = Cx - max(Cx)
     Cx = np.abs(Cx)
     Cx = Cx + np.average(Cx)*2
 

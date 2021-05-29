@@ -399,10 +399,12 @@ def reSpect(t, Gexp, bound, Nz, lamC):
 	"""
 
 	Gexp = Gexp/np.average(Gexp[0])
-	Gexp = Gexp - np.average(Gexp[-1])
+	if Gexp[0] > Gexp[-1]:
+		Gexp = Gexp - min(Gexp)
+	else:
+		Gexp = Gexp - max(Gexp)
 	Gexp = np.abs(Gexp)
-	Gexp = Gexp + np.average(Gexp)*2
-
+	Gexp = Gexp + np.average(Gexp)*1
 	n    = len(t)
 	ns   = Nz    # discretization of 'tau'
 

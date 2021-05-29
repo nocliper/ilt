@@ -44,9 +44,12 @@ def Contin(t, F, bound, Nz, alpha):
     """
 
     F = F/np.average(F[0])
-    F = F - np.average(F[-1])
+    if F[0] > F[-1]:
+        F = F - min(F)
+    else:
+        F = F - max(F)
     F = np.abs(F)
-    F = F + np.average(F)*2
+    F = F + np.average(F)*1
 
     # pre-processing
     #if len(t) != len(F):
