@@ -398,7 +398,7 @@ def reSpect(t, Gexp, bound, Nz, lamC):
 	                without having to do the entire lcurve calculation again
 	"""
 
-	Gexp = Gexp/np.average(Gexp[0])
+	Gexp = Gexp/np.average(Gexp[-1])
 	if Gexp[0] > Gexp[-1]:
 		Gexp = Gexp - min(Gexp)
 	else:

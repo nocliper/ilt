@@ -43,7 +43,7 @@ def Contin(t, F, bound, Nz, alpha):
     [2] Lawson, C., & Hanson, R. (1974), Solving Least Squares Problems, SIAM
     """
 
-    F = F/np.average(F[0])
+    F = F/np.average(F[-1])
     if F[0] > F[-1]:
         F = F - min(F)
     else:
