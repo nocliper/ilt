@@ -367,11 +367,11 @@ def guiFurnishGlobals(par):
 	tmax = t[n-1];
 
 	# determine frequency window
-	if par['FreqEnd'] == 1:
+	if par['FreqEnd'] == 1:   # lenient condition
 		smin = np.exp(-np.pi/2) * tmin; smax = np.exp(np.pi/2) * tmax
-	elif par['FreqEnd'] == 2:
+	elif par['FreqEnd'] == 2: #
 		smin = tmin; smax = tmax
-	elif par['FreqEnd'] == 3:
+	elif par['FreqEnd'] == 3: # strict condition
 		smin = np.exp(+np.pi/2) * tmin; smax = np.exp(-np.pi/2) * tmax
 
 	hs   = (smax/smin)**(1./(ns-1))

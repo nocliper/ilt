@@ -38,7 +38,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
     alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 125)
     alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 125)
-    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 50)
+    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 20)
     if LCurve:
         alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 55)
     alpha = alpha_C
@@ -96,7 +96,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
 
     if len(data) == 0:
-        ay.annotate(text = 'Choose L2 or Contin option', xy = (0.5,0.5), ha="center", size = 16)
+        ay.annotate(text = 'Choose only one method \n Contin, reSpect or L2', xy = (0.5,0.5), ha="center", size = 16)
         plt.tight_layout()
     elif LCurve:
         k = curvature(np.log10(res), np.log10(sol), alpha)
