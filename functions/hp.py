@@ -107,12 +107,12 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
     gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
     a2d = fig.add_subplot(121)
 
-    cmap = cm.jet
-    v = np.amax(np.abs(ZZ))/10
+    cmap = cm.gnuplot
+    v = np.amax(np.abs(ZZ))/5
     if Methods[0] == 'reSpect':
         v = np.average(np.abs(ZZ[5:-5,10:-10]))
 
-    normalize = plt.Normalize(vmin = -v, vmax = v)
+    normalize = plt.Normalize(vmin = -v/50, vmax = v)
 
     extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]
     a2d.set_xlabel(r'Emission $\log_{10}{(e)}$')

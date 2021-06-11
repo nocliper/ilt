@@ -12,15 +12,6 @@ def plot_data(s, F, data, T, Index):
     import matplotlib.pyplot as plt
     import numpy as np
 
-    F = F/np.average(F[-1])
-    if F[0] > F[-1]:
-        F = F - min(F)
-    else:
-        F = F - max(F)
-    F = np.abs(F)
-    F = F + np.average(F)*2
-
-
     ## plotting main plot
     fig = plt.figure(figsize = (9.5, 6))
     ax  = fig.add_subplot(211)

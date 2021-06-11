@@ -398,13 +398,6 @@ def reSpect(t, Gexp, bound, Nz, lamC):
 	                without having to do the entire lcurve calculation again
 	"""
 
-	Gexp = Gexp/np.average(Gexp[-1])
-	if Gexp[0] > Gexp[-1]:
-		Gexp = Gexp - min(Gexp)
-	else:
-		Gexp = Gexp - max(Gexp)
-	Gexp = np.abs(Gexp)
-	Gexp = Gexp + np.average(Gexp)*2
 	n    = len(t)
 	ns   = Nz    # discretization of 'tau'
 

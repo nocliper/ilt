@@ -45,15 +45,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
     data = []
 
-
-    Cx = C/np.average(C[-1])
-    if Cx[0] > Cx[-1]:
-        Cx = Cx - min(Cx)
-    else:
-        Cx = Cx - max(Cx)
-    Cx = np.abs(Cx)
-    Cx = Cx + np.average(Cx)*2
-
+    Cx = C
 
     for i in Methods:
 
@@ -84,7 +76,8 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
                 e, f, C_restored = data[0][0], data[0][1], data[0][2]
 
                 res.append(np.linalg.norm(np.abs(Cx - Cx[-1]) - np.abs(C_restored - C_restored[-1]), ord = 2)**2)
-                sol.append(np.linalg.norm(f, ord = 2)**2)
+                #sol.append(np.linalg.norm(f, ord = 2)**2)
+                sol.append(np.linalg.norm(f*e, ord = 2)**2)
                 progressbar(j, len(alpha_C))
             alpha = alpha_C
             break
