@@ -43,7 +43,7 @@ def plot_data(s, F, data, T, Index):
     az.set_ylabel(r'Transient , arb. units')
     az.set_xlabel(r'Time $t$, $s$')
     az.grid(True, which = "both", ls = "-")
-    az.plot(s, F - F[-1], 'ks-', label = 'Original')
+    az.plot(s, F, 'ks-', label = 'Original')
     az.set_xscale('log')
     for i, e in enumerate(data[:,-1]):
         if e == 'L1':
@@ -51,31 +51,31 @@ def plot_data(s, F, data, T, Index):
             #d = np.abs(d)
             #d = d - min(d)
             #d = d/max(d)
-            az.plot(s, d - d[-1], 'ro-', label = e)
+            az.plot(s, d, 'ro-', label = e)
         elif e == 'L2':
             d = data[i][2][:-1] # last point sucks
             #d = np.abs(d)
             #d = d - min(d)
             #d = d/max(d)
-            az.plot(s[:-1], d - d[-1], 'b>-', label = e)
+            az.plot(s[:-1], d, 'b>-', label = e)
         elif e == 'L1+L2':
             d = data[i][2]
             #d = np.abs(d)
             #d = d - min(d)
             #d = d/max(d)
-            az.plot(s, d - d[-1], 'm*-', label = e)
+            az.plot(s, d, 'm*-', label = e)
         elif e == 'Contin':
             d = data[i][2]
             #d = np.abs(d)
             #d = d - min(d)
             #d = d/max(d)
-            az.plot(s, d - d[-1], 'cx-', label = e)
+            az.plot(s, d, 'cx-', label = e)
         elif e == 'reSpect':
             d = data[i][2]
             #d = np.abs(d)
             #d = d - min(d)
             #d = d/max(d)
-            az.plot(s, d - d[-1], 'y+-', label = e)
+            az.plot(s, d - d[-1] + F[-1], 'y+-', label = e)
     az.legend()
 
 

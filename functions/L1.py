@@ -45,7 +45,7 @@ def L1(s, Y, bound, Nz, alpha, iterations = 50000):
     for k in range(iterations):
         Yhat  = np.dot(X,beta)
         delta = Yhat - Y
-        beta  = beta - learning_rate*(X.T@delta + l1*np.sign(beta))
+        beta  = beta - learning_rate*(X.T@delta + l1*np.sign(beta))/(k+1)**0.2
         #mse   = delta.dot(delta)/NF
         #costs.append(mse)
     F = X@beta

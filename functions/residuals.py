@@ -36,11 +36,11 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
     res = []
     sol = []
 
-    alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 125)
-    alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 125)
-    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 20)
+    alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 40)
+    alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 40)
+    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 40)
     if LCurve:
-        alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 55)
+        alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 40)
     alpha = alpha_C
 
     data = []
@@ -75,7 +75,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
                 data = laplace(s, C, Nz, Reg_L1, Reg_L2, v, Reg_S, Bounds, Methods)
                 e, f, C_restored = data[0][0], data[0][1], data[0][2]
 
-                res.append(np.linalg.norm(np.abs(Cx - Cx[-1]) - np.abs(C_restored - C_restored[-1]), ord = 2)**2)
+                res.append(np.linalg.norm(np.abs(Cx) - np.abs(C_restored), ord = 2)**2)
                 #sol.append(np.linalg.norm(f, ord = 2)**2)
                 sol.append(np.linalg.norm(f*e, ord = 2)**2)
                 progressbar(j, len(alpha_C))
@@ -104,7 +104,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
         if Methods[0] == 'reSpect':
             i = np.where(k == np.amax(k[1:-1]))
         else:
-            i = np.where(k == np.amax(k[15:-10]))
+            i = np.where(k == np.amax(k[1:-1]))
         i = np.squeeze(i)
         return alpha[i]
     else:
@@ -112,7 +112,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
         k_max = np.amax(k)
         i = np.where(k == np.amax(k))
         if Methods[0] != 'reSpect':
-            i = np.where(k == np.amax(k[22:-22]))
+            i = np.where(k == np.amax(k[1:-1]))
         i = np.squeeze(i)
 
         ay.plot(np.log10(res),    np.log10(sol),    'k-', )
@@ -126,7 +126,9 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
         ay_k_t.plot(alpha,    k/k[i],    'r-')
         ay_k_t.plot(alpha[i], k[i]/k[i], 'r*')
         ay_k.set_ylabel(r'Curvature, arb. units', c='r')
-        ay_k.set_ylim(-0.0, 1.1)
+        ay_k.set_ylim(-0.1, 1.1)
+        #ay_k.set_yscale('log')
+        #ay_k.set_ylim(1e-3, 2.0)
         ay_k_t.set_xlabel(r'Reg. parameter $\lambda_{%.s}$'%(Methods[0]), c='r')
 
         ay_k_t.spines['top'].set_color('red')
