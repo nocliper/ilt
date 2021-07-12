@@ -1,4 +1,4 @@
-def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
+﻿def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
     """Returns heatmap
 
     s – s-domain points(time)
@@ -138,8 +138,8 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
     ad.set_xlabel('Temperature, K')
     ad.set_ylabel('LDLTS signal, arb. units')
     for i in range(int(len(TEMPE)*0.1), int(len(TEMPE)*0.8), 20):
-        ad.plot(T, ZZ[:, i], label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
-        #ad.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
+        #ad.plot(T, ZZ[:, i], label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
+        ad.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
     #ad.set_yscale('log')
     #ad.set_ylim(1E-4, 10)
     ad.grid()
