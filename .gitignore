@@ -5,3 +5,4 @@ __pycache__/
 *.LDLTS
 DLTS_model.ipynb
 data/test.DLTS
+*.npy
