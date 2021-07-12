@@ -141,7 +141,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
         ad.plot(T, ZZ[:, i], label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
         #ad.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
     #ad.set_yscale('log')
-    ad.set_ylim(1E-4, 10)
+    #ad.set_ylim(1E-4, 10)
     ad.grid()
     ad.legend()
 
