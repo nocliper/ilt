@@ -14,7 +14,7 @@ def l1_fista(t, Y, bound, Nz, alpha, iterations = 5000):
     K[:, -1] /= 2.
     K *= h
 
-    fista = Fista(loss='least-square', penalty='l11', lambda_=alpha*1e-5, n_iter=5000)
+    fista = Fista(loss='least-square', penalty='l11', lambda_=alpha*1e-4, n_iter=5000)
     fista.fit(K, Y)
 
     return z, fista.coefs_, fista.predict(K)
