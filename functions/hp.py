@@ -17,6 +17,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
     from matplotlib import cm
     from matplotlib import gridspec
     from L1 import L1
+    from L1_FISTA import l1_fista
     from L2 import L2
     from L1L2 import L1L2
     from ilt import Contin
@@ -47,7 +48,7 @@ def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve
         if M == 'L1':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
-                TEMPE, TEMPX, a = L1(s, C[i], Bounds, Nz, Reg_L1)
+                TEMPE, TEMPX, a = l1_fista(s, C[i], Bounds, Nz, Reg_L1)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX*TEMPE)
 

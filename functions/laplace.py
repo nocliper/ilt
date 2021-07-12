@@ -14,6 +14,7 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
     '''
     import numpy as np
     from L1 import L1
+    from L1_FISTA import l1_fista
     from L2 import L2
     from L1L2 import L1L2
     from ilt import Contin
@@ -23,7 +24,7 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
 
     for i in Methods:
         if i == 'L1':
-            t, f, F_hat = L1(s, F, Bounds, Nz, Reg_L1)
+            t, f, F_hat = l1_fista(s, F, Bounds, Nz, Reg_L1)
             data.append([t, f, F_hat, 'L1'])
 
         elif i == 'L2':
