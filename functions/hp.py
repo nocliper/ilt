@@ -111,9 +111,9 @@
     cmap = cm.gnuplot
     v = np.amax(np.abs(ZZ))/5
     if Methods[0] == 'reSpect':
-        v = np.average(np.abs(ZZ[5:-5,10:-10]))
+        v = np.average(np.abs(ZZ[10:-10,10:-10]))
 
-    normalize = plt.Normalize(vmin = -v/50, vmax = v)
+    normalize = plt.Normalize(vmin = -v, vmax = v)
 
     extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]
     a2d.set_xlabel(r'Emission $\log_{10}{(e)}$')
