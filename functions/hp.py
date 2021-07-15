@@ -108,7 +108,9 @@
     gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
     a2d = fig.add_subplot(121)
 
-    cmap = cm.gnuplot
+    #cmap = cm.gnuplot
+    cmap = cm.bwr
+
     v = np.amax(np.abs(ZZ))/5
     if Methods[0] == 'reSpect':
         v = np.average(np.abs(ZZ[10:-10,10:-10]))
