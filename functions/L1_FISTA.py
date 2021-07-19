@@ -1,7 +1,7 @@
 from fista import Fista
 import numpy as np
 
-def l1_fista(t, Y, bound, Nz, alpha, iterations = 5000):
+def l1_fista(t, Y, bound, Nz, alpha, iterations = 50000, penalty = 'l11'):
 
     h = np.log(bound[1]/bound[0])/(Nz - 1)      # equally spaced on logscale
     z = bound[0]*np.exp(np.arange(Nz)*h)        # z (Nz by 1)
@@ -14,7 +14,7 @@ def l1_fista(t, Y, bound, Nz, alpha, iterations = 5000):
     K[:, -1] /= 2.
     K *= h
 
-    fista = Fista(loss='least-square', penalty='l11', lambda_=alpha*1e-4, n_iter=5000)
+    fista = Fista(loss='least-square', penalty = penalty, lambda_=alpha*1e-4, n_iter = iterations)
     fista.fit(K, Y)
 
     return z, fista.coefs_, fista.predict(K)

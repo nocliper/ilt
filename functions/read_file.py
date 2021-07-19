@@ -1,4 +1,4 @@
-def read_file(Path, dt=150, proc = True):
+def read_file(Path, dt=150, proc = False):
     """Rerurns data from file
 
     Path – path to file
