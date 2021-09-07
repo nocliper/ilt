@@ -2,7 +2,7 @@
     """Returns heatmap
 
     s – s-domain points(time)
-    C - transient F(s) = C
+    C - transient F(s)x
     T - Tempetarures
 
     Methods – name of methods to process dataset

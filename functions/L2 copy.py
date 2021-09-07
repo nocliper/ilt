@@ -1,5 +1,5 @@
 def L2(s, Y, bound, Nz, alpha, iterations = 50000):
-    """Returns solution vector, t-domain points and reconstructed transient
+    """ Returns solution vector, t-domain points and reconstructed transient
     using L1 regression and gradient descent.
 
     s - s-domain points, equally spased at log scale

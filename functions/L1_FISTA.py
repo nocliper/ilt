@@ -3,6 +3,8 @@ import numpy as np
 
 def l1_fista(t, Y, bound, Nz, alpha, iterations = 50000, penalty = 'l11'):
 
+    "Function to implement FISTA algorithm"
+
     h = np.log(bound[1]/bound[0])/(Nz - 1)      # equally spaced on logscale
     z = bound[0]*np.exp(np.arange(Nz)*h)        # z (Nz by 1)
 
