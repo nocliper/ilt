@@ -1,5 +1,8 @@
 def demo(Index, Nz, Reg_L1, Reg_L2, Bounds, Methods, Plot, Residuals, Heatplot):
-    """Gets data from interface() and display processed data
+    """
+    !!!!!!!!Actual version in ilt.ipynb !!!!!!!!!
+    
+    Gets data from interface() and display processed data
 
     Index     – int value contains an index of transient in dataset
     Nz        – int value which is lenght of calculated vector

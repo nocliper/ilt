@@ -1,6 +1,9 @@
 def L1(s, Y, bound, Nz, alpha, iterations = 50000):
 
-    """Returns solution vector, t-domain points and reconstructed transient
+    """
+    !!!!!!!!Old, using FISTA instead!!!!!!!!!!
+
+    Returns solution vector, t-domain points and reconstructed transient
     using L1 regression and gradient descent.
 
     s - s-domain points (time points)
