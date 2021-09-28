@@ -17,5 +17,5 @@ Multiple algorithms are used to increase the reliability of results:
 
 ### Result
 
-![](sc.png)
+![](screenshot.png)
 
