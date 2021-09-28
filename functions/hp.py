@@ -45,7 +45,7 @@
     ZZ = []
 
     for M in Methods:
-        if M == 'L1':
+        if M == 'FISTA':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = l1_fista(s, C[i], Bounds, Nz, Reg_L1)

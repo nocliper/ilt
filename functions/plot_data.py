@@ -22,7 +22,7 @@ def plot_data(s, F, data, T, Index):
     ax.grid(True, which = "both", ls = "-")
     #print(data[:,2])
     for i, e in enumerate(data[:,-1]):
-        if e == 'L1':
+        if e == 'FISTA':
             ax.plot(data[i][0], data[i][1], 'r-', label = e)
         elif e == 'L2':
             ax.plot(data[i][0], data[i][1], 'b-', label = e)
@@ -46,7 +46,7 @@ def plot_data(s, F, data, T, Index):
     az.plot(s, F, 'ks-', label = 'Original')
     az.set_xscale('log')
     for i, e in enumerate(data[:,-1]):
-        if e == 'L1':
+        if e == 'FISTA':
             d = data[i][2]
             #d = np.abs(d)
             #d = d - min(d)

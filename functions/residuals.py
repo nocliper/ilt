@@ -53,7 +53,7 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
             print('!!!Choose only one Method!!!')
             break
 
-        if i == 'L1':
+        if i == 'FISTA':
             break
 
         elif i == 'L2':

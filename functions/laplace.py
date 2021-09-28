@@ -3,7 +3,7 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
     ''' Initiates routines for choosed method
 
     s - s-domain points (time of transient)
-    F - given transient function
+    F - given transient function F(s)
     Nz – int value which is lenght of calculated vector
     Reg_L1, Reg_L2 - reg. parameter for L1 and L2 regularisation
     Bounds – list of left and right bounds of s-domain points
@@ -23,9 +23,9 @@ def laplace(s, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
     data = []
 
     for i in Methods:
-        if i == 'L1':
+        if i == 'FISTA':
             t, f, F_hat = l1_fista(s, F, Bounds, Nz, Reg_L1)
-            data.append([t, f, F_hat, 'L1'])
+            data.append([t, f, F_hat, 'FISTA'])
 
         elif i == 'L2':
             t, f, F_hat = L2(s, F, Bounds, Nz, Reg_L2)
