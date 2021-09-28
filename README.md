@@ -8,10 +8,10 @@ So instead of setting the time windows and finding peaks of the plot for correct
 
 ### Used algorithms
 Multiple algorithms are used to increase the reliability of results:
-*python version of Contin – Fast and reliable algorithm. Original code was written by caizkun. 
-*FISTA – Used to obtain sparse solutions. Also good when donor and acceptor trap present in transient. 
-*py pyReSpect – adapted algorithm from shane5ul/pyReSpect-time.
-*clear L2 and L1+L2 regression.
+* python version of Contin – Fast and reliable algorithm. Original code was written by caizkun. 
+* FISTA – Used to obtain sparse solutions. Also good when donor and acceptor trap present in transient. 
+* py pyReSpect – adapted algorithm from shane5ul/pyReSpect-time.
+* clear L2 and L1+L2 regression.
 
 (L-cure is used with Contin, L2, reSpect for regularisation parameter optimisation)
 
