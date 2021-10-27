@@ -45,7 +45,7 @@ class FileBrowser(object):
                 button.on_click(on_click)
                 buttons.append(button)
         for f in self.files:
-            if f[0] != '.' and f[-5:] == '.DLTS':
+            if f[0] != '.' and f[-5:] == '.DLTS' or f[-5:] == '.PERS':
                 button = widgets.Button(layout = l, description=f, button_style='success')
                 button.on_click(on_click)
                 buttons.append(button)
