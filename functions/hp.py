@@ -110,19 +110,22 @@
 
 
     if Methods[0] == 'reSpect':
-        v = np.abs(np.average(ZZ[10:-10,5:-5]))*5
+        v = np.abs(np.average(ZZ[10:-10,5:-5]))*20
         vmin, vmax = 0, v
         cmap = cm.gnuplot2
+        levels = np.logspace(-2, np.log10(v), 40)
 
     elif Methods[0] == 'Contin':
         v = np.abs(np.average(ZZ[10:-10,5:-5]))*10
         vmin, vmax = 0, v
         cmap = cm.gnuplot2
+        levels = 40
 
     elif Methods[0] == 'FISTA' or Methods[0] == 'L2' or Methods[0] == 'L1+L2':
         v = np.abs(np.average(ZZ))*5
         vmin, vmax = -v, v
         cmap = cm.bwr
+        levels = 20
 
     #extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]
 
@@ -133,8 +136,9 @@
     a2d.set_ylabel('Temperature T, K')
     a2d.grid(True)
     #normalize = plt.Normalize(vmin = -v, vmax = v)
-    print('v ->', v)
-    heatmap = a2d.contourf(x, y, ZZ, 200, cmap=cmap, vmin = vmin, vmax = vmax, extend = 'both')
+
+    heatmap = a2d.contourf(x, y, ZZ, levels = levels,   cmap=cmap,
+                                         vmin = vmin, vmax = vmax, extend = 'both')
     plt.colorbar(heatmap)
     a2d.set_xscale('log')
 
