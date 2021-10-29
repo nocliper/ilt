@@ -1,4 +1,4 @@
-﻿def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
+﻿def hp(s, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False, Arrhenius = False):
     """Returns heatmap
 
     s – s-domain points(time)
@@ -10,6 +10,7 @@
     Reg_L1, Reg_L2 – reg. parameters for L1 and L2 routines
     Bounds – list of left and right bounds of s-domain points
     Nz – int value which is lenght of calculated vector
+    ahp - axes [ahp1, ahp2] to plot heatplot and arrhenius
     """
 
     import matplotlib.pyplot as plt
@@ -104,10 +105,7 @@
     YZ = np.asarray(YZ)
     ZZ = np.asarray(ZZ)
 
-    fig = plt.figure(figsize = (12,4.5))
-    gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
-    a2d = fig.add_subplot(121)
-
+    ahp1, ahp2 = ahp[0], ahp[1]
 
     if Methods[0] == 'reSpect':
         v = np.abs(np.average(ZZ[10:-10,5:-5]))*20
@@ -131,29 +129,39 @@
 
     x, y = np.meshgrid(TEMPE, T)
 
-    a2d.set_xlabel(r'Emission rate $e_{n,p}$, s')
-    a2d.set_title(Methods[0])
-    a2d.set_ylabel('Temperature T, K')
-    a2d.grid(True)
+    ahp1.set_xlabel(r'Emission rate $e_{n,p}$, s')
+    ahp1.set_title(Methods[0])
+    ahp1.set_ylabel('Temperature T, K')
+    ahp1.grid(True)
     #normalize = plt.Normalize(vmin = -v, vmax = v)
 
-    heatmap = a2d.contourf(x, y, ZZ, levels = levels,   cmap=cmap,
+    heatmap = ahp1.contourf(x, y, ZZ, levels = levels,   cmap=cmap,
                                          vmin = vmin, vmax = vmax, extend = 'both')
     plt.colorbar(heatmap)
-    a2d.set_xscale('log')
+    ahp1.set_xscale('log')
 
-    ad = fig.add_subplot(122)
-    ad.set_xlabel('Temperature, K')
-    ad.set_ylabel('LDLTS signal, arb. units')
-    for i in range(int(len(TEMPE)*0.1), int(len(TEMPE)*0.8), 20):
-    #    ad.plot(T, ZZ[:, i], label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
-        ad.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
-    ad.set_yscale('log')
-    ad.set_ylim(1E-4, 10)
-    ad.grid()
-    ad.legend()
+    if Arrhenius:
 
-    plt.show()
+        ahp2.ticklabel_format(style='sci', axis='x', scilimits=(0,0), useOffset = False)
+
+        arrh = ahp2.contourf(1/y, np.log(x*y**-2), ZZ, levels = levels, cmap=cmap,
+                             vmin = vmin, vmax = vmax, extend = 'both')
+        ahp2.set_xscale('log')
+        ahp2.set_xlabel('Temperature $1/T$, $K^-1$')
+        ahp2.set_ylabel('$\ln(e\cdot T^-2)$')
+
+    else:
+        ahp2.set_xlabel('Temperature, K')
+        ahp2.set_ylabel('LDLTS signal, arb. units')
+        for i in range(int(len(TEMPE)*0.1), int(len(TEMPE)*0.8), 20):
+        #    ad.plot(T, ZZ[:, i], label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
+            ahp2.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
+        ahp2.set_yscale('log')
+        ahp2.set_ylim(1E-4, 10)
+        ahp2.grid()
+        ahp2.legend()
+
+    #plt.show()
     plt.tight_layout()
 
     ##save file

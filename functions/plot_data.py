@@ -13,8 +13,14 @@ def plot_data(s, F, data, T, Index):
     import numpy as np
 
     ## plotting main plot
-    fig = plt.figure(figsize = (9.5, 6))
-    ax  = fig.add_subplot(211)
+    fig = plt.figure(constrained_layout=True, figsize = (9.5,11))
+    widths  = [0.5, 0.5]
+    heights = [0.3, 0.3, 0.4]
+    spec = fig.add_gridspec(ncols=2, nrows=3, width_ratios=widths,
+                              height_ratios=heights)
+
+
+    ax  = fig.add_subplot(spec[0,:])
     ax.set_title(r'Temperature %.2f K'%T[Index])
     ax.set_ylabel(r'Amplitude, arb. units')
     ax.set_xlabel(r'Emission rate, $s^{-1}$')
@@ -37,9 +43,9 @@ def plot_data(s, F, data, T, Index):
     ax.legend()
 
     ## plotting residuals
-    ay = fig.add_subplot(223)
+    ay = fig.add_subplot(spec[1, 0])
     ## plotting transients
-    az = fig.add_subplot(224)
+    az = fig.add_subplot(spec[1, 1])
     az.set_ylabel(r'Transient , arb. units')
     az.set_xlabel(r'Time $t$, $s$')
     az.grid(True, which = "both", ls = "-")
@@ -80,4 +86,7 @@ def plot_data(s, F, data, T, Index):
 
 
     plt.tight_layout()
-    return ay
+
+    ahp1, ahp2 = fig.add_subplot(spec[2, 0]), fig.add_subplot(spec[2, 1])
+    
+    return ay, [ahp1, ahp2]
