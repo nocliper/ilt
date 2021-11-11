@@ -1,4 +1,4 @@
-﻿def hp(s, C, T, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
+﻿def hp(s, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False, Arrhenius = False):
     """Returns heatmap
 
     s – s-domain points(time)
@@ -10,6 +10,7 @@
     Reg_L1, Reg_L2 – reg. parameters for L1 and L2 routines
     Bounds – list of left and right bounds of s-domain points
     Nz – int value which is lenght of calculated vector
+    ahp - axes [ahp1, ahp2] to plot heatplot and arrhenius
     """
 
     import matplotlib.pyplot as plt
@@ -104,50 +105,63 @@
     YZ = np.asarray(YZ)
     ZZ = np.asarray(ZZ)
 
-    fig = plt.figure(figsize = (12,4.5))
-    gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
-    a2d = fig.add_subplot(121)
+    ahp1, ahp2 = ahp[0], ahp[1]
 
-    #cmap = cm.gnuplot
-    cmap = cm.bwr
-
-    v = np.amax(np.abs(ZZ))/5
     if Methods[0] == 'reSpect':
-        v = np.average(np.abs(ZZ[10:-10,10:-10]))
+        v = np.abs(np.average(ZZ[10:-10,5:-5]))*20
+        vmin, vmax = 0, v
+        cmap = cm.gnuplot2
+        levels = np.logspace(-2, np.log10(v), 40)
 
-    normalize = plt.Normalize(vmin = -v, vmax = v)
+    elif Methods[0] == 'Contin':
+        v = np.abs(np.average(ZZ[10:-10,5:-5]))*10
+        vmin, vmax = 0, v
+        cmap = cm.gnuplot2
+        levels = 40
 
-    extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]
-    a2d.set_xlabel(r'Emission $\log_{10}{(e)}$')
-    a2d.set_title(Methods[0])
-    a2d.set_ylabel('Temperature T, K')
-    #a2d.grid(True)
+    elif Methods[0] == 'FISTA' or Methods[0] == 'L2' or Methods[0] == 'L1+L2':
+        v = np.abs(np.average(ZZ))*5
+        vmin, vmax = -v, v
+        cmap = cm.bwr
+        levels = 20
 
+    #extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]
 
+    x, y = np.meshgrid(TEMPE, T)
 
-    pos = a2d.imshow(ZZ[::1,::1], cmap = cmap,
-               norm = normalize, interpolation = 'none',
-               aspect = 'auto', extent = extent)
-    plt.colorbar(pos)
+    ahp1.set_xlabel(r'Emission rate $e_{n,p}$, s')
+    ahp1.set_title(Methods[0])
+    ahp1.set_ylabel('Temperature T, K')
+    ahp1.grid(True)
+    #normalize = plt.Normalize(vmin = -v, vmax = v)
 
-    from matplotlib.ticker import FormatStrFormatter
-    a2d.yaxis.set_major_formatter(FormatStrFormatter('%.0f'))
-    plt.xticks(np.arange(np.log10(TEMPE[0]),np.log10(TEMPE[-1]), 0.9999))
-    plt.yticks(np.arange(T[0], T[-1], 20.0))
-    #plt.yticks(np.arange(T[0], T[-1], 20.0))
+    heatmap = ahp1.contourf(x, y, ZZ, levels = levels,   cmap=cmap,
+                                         vmin = vmin, vmax = vmax, extend = 'both')
+    plt.colorbar(heatmap)
+    ahp1.set_xscale('log')
 
-    ad = fig.add_subplot(122)
-    ad.set_xlabel('Temperature, K')
-    ad.set_ylabel('LDLTS signal, arb. units')
-    for i in range(int(len(TEMPE)*0.1), int(len(TEMPE)*0.8), 20):
-        #ad.plot(T, ZZ[:, i], label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
-        ad.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
-    #ad.set_yscale('log')
-    #ad.set_ylim(1E-4, 10)
-    ad.grid()
-    ad.legend()
+    if Arrhenius:
 
-    plt.show()
+        ahp2.ticklabel_format(style='sci', axis='x', scilimits=(0,0), useOffset = False)
+
+        arrh = ahp2.contourf(1/y, np.log(x*y**-2), ZZ, levels = levels, cmap=cmap,
+                             vmin = vmin, vmax = vmax, extend = 'both')
+        ahp2.set_xscale('log')
+        ahp2.set_xlabel('Temperature $1/T$, $K^-1$')
+        ahp2.set_ylabel('$\ln(e\cdot T^-2)$')
+
+    else:
+        ahp2.set_xlabel('Temperature, K')
+        ahp2.set_ylabel('LDLTS signal, arb. units')
+        for i in range(int(len(TEMPE)*0.1), int(len(TEMPE)*0.8), 20):
+        #    ad.plot(T, ZZ[:, i], label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
+            ahp2.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
+        ahp2.set_yscale('log')
+        ahp2.set_ylim(1E-4, 10)
+        ahp2.grid()
+        ahp2.legend()
+
+    #plt.show()
     plt.tight_layout()
 
     ##save file
