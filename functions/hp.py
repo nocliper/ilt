@@ -120,10 +120,10 @@
         levels = 40
 
     elif Methods[0] == 'FISTA' or Methods[0] == 'L2' or Methods[0] == 'L1+L2':
-        v = np.abs(np.average(ZZ))*5
+        v = np.abs(np.average(ZZ))*50
         vmin, vmax = -v, v
         cmap = cm.bwr
-        levels = 20
+        levels = np.linspace(vmin, vmax, 20)
 
     #extent = [np.log10(Bounds[0]), np.log10(Bounds[1]), (T[-1]), (T[0])]
 
