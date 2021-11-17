@@ -182,3 +182,4 @@
     #Table = np.asarray(Table)
 
     np.savetxt('SAMPLE_NAME'%((s[1]-s[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
+    plt.savefig('heatmaps.svg')
