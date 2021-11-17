@@ -109,9 +109,10 @@
 
     if Methods[0] == 'reSpect':
         v = np.abs(np.average(ZZ[10:-10,5:-5]))*20
-        vmin, vmax = 0, v
+        vmin, vmax = v/1e3, v
         cmap = cm.gnuplot2
-        levels = np.logspace(-2, np.log10(v), 40)
+        levels = np.logspace(np.log10(vmin), np.log10(vmax), 40)
+        print(v)
 
     elif Methods[0] == 'Contin':
         v = np.abs(np.average(ZZ[10:-10,5:-5]))*10
