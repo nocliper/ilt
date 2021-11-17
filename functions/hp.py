@@ -111,14 +111,14 @@
         v = np.abs(np.average(ZZ[10:-10,5:-5]))*20
         vmin, vmax = v/1e3, v
         cmap = cm.gnuplot2
-        levels = np.logspace(np.log10(vmin), np.log10(vmax), 40)
+        levels = np.logspace(np.log10(vmin), np.log10(vmax), 20)
         print(v)
 
     elif Methods[0] == 'Contin':
         v = np.abs(np.average(ZZ[10:-10,5:-5]))*10
         vmin, vmax = 0, v
         cmap = cm.gnuplot2
-        levels = 40
+        levels = 20
 
     elif Methods[0] == 'FISTA' or Methods[0] == 'L2' or Methods[0] == 'L1+L2':
         v = np.abs(np.average(ZZ))*50
@@ -136,8 +136,8 @@
     ahp1.grid(True)
     #normalize = plt.Normalize(vmin = -v, vmax = v)
 
-    heatmap = ahp1.contourf(x, y, ZZ, levels = levels,   cmap=cmap,
-                                         vmin = vmin, vmax = vmax, extend = 'both')
+    heatmap = ahp1.contourf(x, y, ZZ, levels = levels,   cmap=cmap, corner_mask = False,
+                            vmin = vmin, vmax = vmax, extend = 'both')
     plt.colorbar(heatmap)
     ahp1.set_xscale('log')
 
