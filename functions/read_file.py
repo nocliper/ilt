@@ -36,7 +36,7 @@ def read_file(Path, dt=150, proc = True):
             return np.asarray(C_p)
 
         else:
-            return C + np.average(С)*0.5
+            return C + np.average(С)*1
 
     Path = str(Path)
 
