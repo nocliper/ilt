@@ -1,4 +1,4 @@
-def plot_data(s, F, data, T, Index):
+﻿def plot_data(s, F, data, T, Index):
     """Plots data:
 
     s - s-domain points, equally spased at log scale

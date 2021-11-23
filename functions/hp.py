@@ -51,7 +51,7 @@
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = l1_fista(s, C[i], Bounds, Nz, Reg_L1)
                 XZ.append(TEMPE)
-                ZZ.append(TEMPX*TEMPE)
+                ZZ.append(TEMPX)
 
                 progressbar(i, cut)
 
@@ -60,7 +60,7 @@
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L2(s, C[i], Bounds, Nz, Reg_L2)
                 XZ.append(TEMPE)
-                ZZ.append(TEMPX*TEMPE)
+                ZZ.append(TEMPX)
 
                 progressbar(i, cut)
 
@@ -69,7 +69,7 @@
                 YZ.append(np.ones(cus)*T[i])
                 TEMPE, TEMPX, a = L1L2(s, C[i], Bounds, Nz, Reg_L1, Reg_L2)
                 XZ.append(TEMPE)
-                ZZ.append(TEMPX*TEMPE)
+                ZZ.append(TEMPX)
 
                 progressbar(i, cut)
 
