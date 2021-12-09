@@ -11,7 +11,7 @@ Multiple algorithms are used to increase the reliability of results:
 * python version of Contin – Fast and reliable algorithm. [Original code](https://github.com/caizkun/pyilt) was written by [caizkun](https://github.com/caizkun). 
 * [FISTA](https://github.com/JeanKossaifi/FISTA) – Used to obtain sparse solutions. Also good when donor and acceptor trap present in transient. 
 * pyReSpect – adapted algorithm from [shane5ul/pyReSpect-time](https://github.com/shane5ul/pyReSpect-time).
-* clear L2 and L1+L2 regression.
+* regular L2 and L1+L2 regression.
 
 (L-cure is used with Contin, L2, reSpect for regularisation parameter optimisation)
 
