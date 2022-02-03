@@ -10,7 +10,7 @@ import sys
 from scipy.linalg import norm
 from math import sqrt
 from sklearn.base import BaseEstimator
-from sklearn.datasets.base import Bunch
+#from sklearn.datasets.base import Bunch
 from sklearn.metrics import roc_auc_score
 from hashlib import sha1
 
@@ -117,7 +117,7 @@ def by_kernel_norm(coefs, p, q, n_samples, n_kernels):
 def prox_l11(u, lambda_):
     """ Proximity operator for l(1, 1, 2) norm
 
-    
+
 
     :math:`\\hat{\\alpha}_{l,m} = sign(u_{l,m})\\left||u_{l,m}| - \\lambda \\right|_+`
 
@@ -173,7 +173,7 @@ def prox_l21_1(u, l, n_samples, n_kernels):
 
     lambda_ : float
         regularisation parameter
-    
+
     n_samples : int, optional
         number of elements in each kernel
         default is None
@@ -189,7 +189,7 @@ def prox_l21_1(u, l, n_samples, n_kernels):
 
     Notes
     -----
-    
+
     .. math::
 
        \hat{\alpha}_{l,m} = u_{l,m} \left| 1 - \frac{\lambda}{\|u_{l \bullet}\|_{2}} \right|_+\
@@ -296,19 +296,19 @@ def compute_M(u, lambda_, n_samples):
     """
     Parameters
     ----------
-    u : ndarray 
+    u : ndarray
         ndarray of size (n_samples * n_samples) representing a subvector of K,
         ie the samples for a single kernel
 
     lambda_ : int
 
     n_samples : int
-        number of elements in each kernel 
+        number of elements in each kernel
         ie number of elements of u
 
     Notes
     -----
-    
+
     :math:`M_l` is the number such that
 
     :math:`u2_{l,M_l+1} \\leq  \\lambda \\sum_{m_l=1}^{M_l+1} \\left( u2_{l,m_l} - u2_{l,M_l+1}\\right)`
@@ -319,7 +319,7 @@ def compute_M(u, lambda_, n_samples):
     :math:`u2_{l,M_l} > \\lambda\\sum_{m_l=1}^{M_l} \\left( u2_{l,m_l} - u2_{k,M_l}\\right)`
 
     Detailed explication
-    
+
     let u denotes |u(l)|, the vector associated with the kernel l, ordered by descending order
     Ml is the integer such that
         u(Ml) <= l * sum(k=1..Ml + 1) (u(k) - u(Ml + 1))    (S1)
@@ -437,7 +437,7 @@ def _load_Lipschitz_constant(K):
         mu = 1/norm(np.dot(K, K.transpose()), 2)
         np.save('./.%s.npy' % sha1(K).hexdigest(), mu)
     return mu
-    
+
 
 class Fista(BaseEstimator):
     """
@@ -454,7 +454,7 @@ class Fista(BaseEstimator):
     loss : {'squared-hinge', 'least-square'}, optionnal
         the loss function to use
         defautl is 'squared-hinge'
-        
+
     penalty : {'l11', 'l22', 'l12', 'l21'}, optionnal
         norm to use as penalty
         default is l11
@@ -469,7 +469,7 @@ class Fista(BaseEstimator):
         default is False
 
     """
-    
+
     def __init__(self, lambda_=0.5, loss='squared-hinge', penalty='l11', n_iter=1000, recompute_Lipschitz_constant=False):
         self.n_iter = n_iter
         self.lambda_ = lambda_
@@ -545,12 +545,12 @@ class Fista(BaseEstimator):
         for i in range(self.n_iter):
             coefs_current = coefs_next # B_(k-1) = B_(k)
             coefs_next = prox(Z + Lipschitz_constant*next_step(y, K, Z))
-            
+
             tau_0 = tau_1 #tau_(k+1) = tau_k
             tau_1 = (1 + sqrt(1 + 4*tau_0**2))/2
 
             Z = coefs_next + (tau_0 - 1)/tau_1*(coefs_next - coefs_current)
-            
+
             # Dual problem
             objective_var = 1 - np.dot(K, coefs_next)
             objective_var = np.maximum(objective_var, 0) # Shrink
@@ -611,7 +611,7 @@ class Fista(BaseEstimator):
 
         Parameters
         ----------
-        K : ndarray 
+        K : ndarray
             ndarray of size (n_samples, n_kernels*n_samples) representing the kernels
 
         Returns
@@ -681,5 +681,5 @@ class Fista(BaseEstimator):
         result['gap'] = self.gap
         result['auc_score'] = roc_auc_score(y, self.predict(K))
         result['lambda_'] = self.lambda_
-        
+
         return result
