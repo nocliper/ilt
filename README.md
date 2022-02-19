@@ -15,7 +15,8 @@ Multiple algorithms are used to increase the reliability of results:
 
 (L-cure is used with Contin, L2, reSpect for regularisation parameter optimisation)
 
-### Result
+### Results
+This notebook can be used to perform Laplace DLTS for `.DLTS` files in the data folder. Contin and pyReSpect will work with almost 99% of cases. L1, L1+L2 and especially FISTA works well with different sign exponential decays [(example of FISTA accessing ionic states in perovskites)](https://doi.org/10.1103/PhysRevApplied.13.034018). 
 
 ![](screenshot.png)
-
+*Working cell of notebook*
