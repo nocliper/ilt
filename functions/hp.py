@@ -162,7 +162,7 @@ def hp(s, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, L
         ahp2.grid()
         ahp2.legend()
 
-    #plt.show()
+    plt.show()
     plt.tight_layout()
 
     ##save file

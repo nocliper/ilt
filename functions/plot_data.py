@@ -37,6 +37,7 @@
             ax.plot(data[i][0], data[i][1], 'm-', label = e)
         elif e == 'Contin':
             ax.plot(data[i][0],  data[i][1]*data[i][0], 'c-', label = e)
+            #np.savetxt('Contin %.2fK.csv'%T[Index], [data[i][0], data[i][1]*data[i][0]], delimiter = ',')
         elif e == 'reSpect':
             ax.plot(data[i][0],  data[i][1], 'y-', label = e)
             #np.savetxt('reSpect %.2fK.csv'%T[Index], [data[i][0], data[i][1]], delimiter = ',')
