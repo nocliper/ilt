@@ -30,16 +30,17 @@
     for i, e in enumerate(data[:,-1]):
         if e == 'FISTA':
             ax.plot(data[i][0], data[i][1], 'r-', label = e)
+            #np.savetxt('FISTA %.2fK.csv'%T[Index], [data[i][0], data[i][1]], delimiter = ',')
         elif e == 'L2':
             ax.plot(data[i][0], data[i][1], 'b-', label = e)
         elif e == 'L1+L2':
             ax.plot(data[i][0], data[i][1], 'm-', label = e)
         elif e == 'Contin':
             ax.plot(data[i][0],  data[i][1]*data[i][0], 'c-', label = e)
-            np.savetxt('Contin.csv', [data[i][0], data[i][1]*data[i][0]], delimiter = ',')
+            #np.savetxt('Contin %.2fK.csv'%T[Index], [data[i][0], data[i][1]*data[i][0]], delimiter = ',')
         elif e == 'reSpect':
             ax.plot(data[i][0],  data[i][1], 'y-', label = e)
-            np.savetxt('reSpect.csv', [data[i][0], data[i][1]], delimiter = ',')
+            #np.savetxt('reSpect %.2fK.csv'%T[Index], [data[i][0], data[i][1]], delimiter = ',')
     ax.legend()
 
     ## plotting residuals
@@ -58,6 +59,7 @@
             #d = d - min(d)
             #d = d/max(d)
             az.plot(s, d, 'ro-', label = e)
+            #np.savetxt('Transients_'+e+' %.2fK.csv'%T[Index], [s, F, d], delimiter = ',')
         elif e == 'L2':
             d = data[i][2][:-1] # last point sucks
             #d = np.abs(d)
@@ -88,5 +90,5 @@
     plt.tight_layout()
 
     ahp1, ahp2 = fig.add_subplot(spec[2, 0]), fig.add_subplot(spec[2, 1])
-    
+
     return ay, [ahp1, ahp2]
