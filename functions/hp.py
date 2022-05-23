@@ -147,7 +147,7 @@ def hp(s, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, L
 
         arrh = ahp2.contourf(1/y, np.log(x*y**-2), ZZ, levels = levels, cmap=cmap,
                              vmin = vmin, vmax = vmax, extend = 'both')
-        ahp2.set_xscale('log')
+        #ahp2.set_xscale('log')
         ahp2.set_xlabel('Temperature $1/T$, $K^-1$')
         ahp2.set_ylabel('$\ln(e\cdot T^-2)$')
 
