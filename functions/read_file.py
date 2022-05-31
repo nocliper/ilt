@@ -11,7 +11,7 @@ def read_file(Path, dt=150, proc = True):
     """
     import numpy as np
 
-    def process(C, proc = True):
+    def process(C, proc):
         """Returns processed transient C_p if proc is True"""
 
         def get_Baseline(C):
@@ -31,12 +31,13 @@ def read_file(Path, dt=150, proc = True):
                     F = F - max(F)
                 F = np.abs(F)
                 F = F + np.average(F)*2
-                F = F - get_Baseline(F)
+                F = F - get_Baseline(F)*0
                 C_p[i] = F
             return np.asarray(C_p)
 
         else:
-            return C + np.average(С)*1
+            C = C/C[-1]
+            return C + np.average(C)*2
 
     Path = str(Path)
 
@@ -61,7 +62,7 @@ def read_file(Path, dt=150, proc = True):
 
 
     C    = np.asarray(C)
-    C    = process(C)
+    C    = process(C, proc)
     time = np.asarray(time)
     T    = np.asarray(T)
     #print(time)
