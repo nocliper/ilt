@@ -1,4 +1,4 @@
-def hp(s, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False, Arrhenius = False):
+﻿def hp(s, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False, Arrhenius = False):
     """Returns heatmap
 
     s – s-domain points(time)
@@ -109,9 +109,9 @@ def hp(s, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, L
 
     if Methods[0] == 'reSpect':
         v = np.abs(np.average(ZZ[10:-10,5:-5]))*20
-        vmin, vmax = v/1e2, v
-        cmap = cm.gnuplot2
-        levels = np.logspace(np.log10(vmin), np.log10(vmax), 20)
+        vmin, vmax = v/1e1, v/2
+        cmap = cm.jet
+        levels = np.linspace(vmin, vmax, 20)
         print(v)
 
     elif Methods[0] == 'Contin':
