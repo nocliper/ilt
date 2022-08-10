@@ -2,7 +2,7 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 .gitattributes
-*.LDLTS
+SAMPLE_NAME_1.LDLTS
 DLTS_model.ipynb
 data/test.DLTS
 *.npy
