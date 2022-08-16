@@ -112,7 +112,7 @@
         vmin, vmax = v/1e1, v/2
         cmap = cm.jet
         levels = np.linspace(vmin, vmax, 20)
-        print(v)
+        #print(v)
 
     elif Methods[0] == 'Contin':
         v = np.abs(np.average(ZZ[10:-10,5:-5]))*10
