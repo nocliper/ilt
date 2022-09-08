@@ -13,7 +13,7 @@ Multiple algorithms are used to increase the reliability of results:
 * pyReSpect – imported algorithm from [shane5ul/pyReSpect-time](https://github.com/shane5ul/pyReSpect-time).
 * Just L2 and L1+L2 regression.
 
-(L-cure is used with Contin, L2, reSpect for regularisation parameter optimisation)
+(L-curve is used with Contin, L2 and reSpect for regularization parameter optimisation)
 
 ### Results
 This notebook can be used to perform Laplace DLTS for `.DLTS` files in the data folder. Contin and pyReSpect will work in 99% of cases. L1, L1 + L2 and especially FISTA works well in other 1% with different sign exponential decays [(example of FISTA accessing ionic states in perovskites)](https://doi.org/10.1103/PhysRevApplied.13.034018). 
