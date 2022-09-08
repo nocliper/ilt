@@ -1,4 +1,4 @@
-# Inverse Laplce Transform for Deep-Level Relaxation Spectroscopy
+# Inverse Laplce Transform for Deep-Level Transient Spectroscopy
 
 ## Classic DLTS
 The time-window concept proposed by D. Lang is the reason why classic DLTS is very sensitive to the small concentration of deep traps even with a low SNR(signal-to-noise ratio). But the main drawback of this approach is the inability to deconvolute the signal of two overlapped traps. 
