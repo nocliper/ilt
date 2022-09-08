@@ -22,7 +22,6 @@
     import numpy as np
     from matplotlib import cm
     from matplotlib import gridspec
-    from L1 import L1
     from L1_FISTA import l1_fista
     from L2 import L2
     from L1L2 import L1L2

@@ -17,7 +17,6 @@ def laplace(t, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
 
     """
     import numpy as np
-    from L1 import L1
     from L1_FISTA import l1_fista
     from L2 import L2
     from L1L2 import L1L2

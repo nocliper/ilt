@@ -94,19 +94,19 @@ def interface(path):
 
     Plot = widgets.ToggleButton(
         value=True,
-        description='Plot graphics',
+        description='Hide graphics?',
         disabled=False,
         button_style='success', # 'success', 'info', 'warning', 'danger' or ''
-        tooltip='Plots L-curve to choose best value of regularization parameter of L2 reg. method',
-        icon='plus')
+        tooltip='Hides graphics',
+        icon='eye-slash')
     
     Residuals = widgets.ToggleButton(
         value=False,
-        description='Plot L-curve',
+        description='Compute L-curve?',
         disabled=False,
         button_style='info', # 'success', 'info', 'warning', 'danger' or ''
         tooltip='Plots L-curve to choose best value of regularization parameter of L2 reg. method',
-        icon='plus')
+        icon='calculator')
     
     LCurve = widgets.Checkbox(
         value = False,
