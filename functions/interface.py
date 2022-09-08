@@ -124,7 +124,7 @@ def interface(path):
         disabled=False,
         button_style='warning', # 'success', 'info', 'warning', 'danger' or ''
         tooltip='Plots heatmap of data from choosed file',
-        icon='plus')
+        icon='braille')
 
 
     left_box = VBox([Methods, Nz, dt])
