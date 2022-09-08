@@ -35,7 +35,7 @@ class FileBrowser(object):
             self._update(box)
 
         buttons = []
-        if self.files:
+        if self.files or self.dirs:
             button = widgets.Button(layout = l, description='..', button_style='primary')
             button.on_click(on_click)
             buttons.append(button)
