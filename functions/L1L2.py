@@ -1,53 +1,66 @@
-def L1L2(s, Y, bound, Nz, alpha1, alpha2, iterations = 50000):
+""" Module to implement L1 and/or L2 regularization with
+SciPy linear_models module
+"""
 
-    """Returns solution vector, t-domain points and reconstructed transient
-    using L1 regression and gradient descent.
+def L1L2(t, F, bound, Nz, alpha1, alpha2, iterations = 10000):
+    """
+    Returns solution using mixed L1 and/or L2 regularization
+    with simple gradient descent
 
-    s - s-domain points, equally spased at log scale
-    Y - given transient function
-    bound – list of left and right bounds of s-domain points
-    Nz – int value which is lenght of calculated vector
-    alpha1, alpha2 - reg. parameter for L1 and L2 regularisation
-    iterations - number of iterations for gradient descent
+    F(t) = ∫f(s)*exp(-s*t)ds
 
-    X  – Laplace transform Matrix
+    or
 
-    returns:
-    t – t-domain points
-    beta - solution
-    F – Reconstructed transient
+    min = ||C*f - F||2 + alpha1*||I*f||1 + alpha2*||I*f||2
+
+    Parameters:
+    ------------
+    t : array of t (time domain data)
+    F : array of F(t) (transient data)
+    bound : [lowerbound, upperbound] of s domain points
+    Nz : number of points s to compute, must be smaller than length(Y)
+    alpha : egularization parameter for L2 regularization
+    iterations : number of iterations for gradient descent
+
+
+    Returns:
+    ------------
+    s : s-domain points
+    f : solution f(s)
+    F : Reconstructed transient F(t) = C@f(s)
     """
 
     import numpy as np
+    from scipy.sparse import diags
+    from sklearn.linear_model import ElasticNet
+    
+    # set up grid points (# = Nz)
+    h = np.log(bound[1]/bound[0])/(Nz - 1)      # equally spaced on logscale
+    s = bound[0]*np.exp(np.arange(Nz)*h)        # z (Nz by 1)
 
-    tmin = bound[0]
-    tlim = bound[1]
-    NF   = len(s)
-    Nf   = Nz #
-    t    = tmin*10**(np.linspace(0, 40*np.log10(tlim/tmin), Nf)*0.025) #t domain with exp density points
-    dt   = np.gradient(t)
+    # construct C matrix from [1]
+    s_mesh, t_mesh = np.meshgrid(s, t)
+    C = np.exp(-t_mesh*s_mesh)       
+    C[:, 0] /= 2.
+    C[:, -1] /= 2.
+    C *= h
 
-    X    = np.zeros([NF, Nf], dtype = float)
-    for i in range(NF-1):
-            for j in range(Nf-1):
-                x1     = -s[i]*(t[j] - dt[j])
-                x2     = -s[i]*(t[j] + dt[j])
-                X[i,j] = (np.exp(x1) + np.exp(x2))*dt[j]
-    np.shape(X)
+    #data = [-2*np.ones(Nz), 1*np.ones(Nz), 1*np.ones(Nz)]
+    #positions = [-1, -2, 0]
+    #I = diags(data, positions, (Nz+2, Nz)).toarray()
+    #I      = np.identity(Nz)
+    
+    alpha = alpha1 + alpha2
+    l1_ratio = alpha1/alpha
 
-    beta   = np.random.randn(Nf)/np.sqrt(Nf) ## initiating weights
-    learning_rate = 0.09
-    l1     = alpha1
-    l2     = alpha2
-    #costs = []
-    for k in range(iterations):
-        Yhat  = X@beta
-        delta = Yhat - Y
-        beta  = beta - learning_rate*(X.T@delta + l1*np.sign(beta) + l2*2*beta)
-        mse   = delta.dot(delta)/NF
-        #costs.append(mse)
-    F = X@beta
-    #res_norm = np.linalg.norm(Y - X@beta)
+    model = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, tol = 1e-12,
+                       fit_intercept = True, max_iter = iterations)
+    model.fit(C, F)
+    
+    f = model.coef_
+    #f = model.sparse_coef_
+    #res_norm = np.linalg.norm(F - C@beta)
     #sol_norm = np.linalg.norm(beta)
 
-    return t, beta, F#, res_norm, sol_norm
+    F_restored = C@f + model.intercept_
+    return s, f, F_restored#, res_norm, sol_norm

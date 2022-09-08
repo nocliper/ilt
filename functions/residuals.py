@@ -1,5 +1,28 @@
-def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
 
+def residuals(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
+    """ 
+    Computes L-curve from residual and solution norm 
+    and derives optimal regularization paramener from 
+    its curvature plot. (max(k) -> a_opt)
+
+    Parameters:
+    -------------
+    t : array of t (time domain points)
+    C : 2D array lof Fi(t) = [F1(t), F2(t),...]
+    ay : mpl axes to draw a plot
+    Methods : list of processing methods
+    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularisation
+    Reg_C,  Reg_S  : reg. parameters for CONTIN and reSpect algorithms
+    Bounds : list of left and right bounds of s-domain points
+    Nz : number of points z to compute, must be smaller than length(F)
+    L-curve : boolean if True residuals() returns optimal reg. parameter 
+        for choosen method
+
+    Returns:
+    -------------
+    alpha : float optimal reg. parameter for choosen method
+        from L-curve curvature
+    """
     from laplace import laplace
     #from matplotlib.cm import jet
     import matplotlib.pyplot as plt
@@ -9,18 +32,26 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
     import sys
 
     def progressbar(i, iterations):
+        """Prints simple progress bar"""
         i = i + 1
         sys.stdout.write('\r')
-        # the exact output you're looking for:
         sys.stdout.write("[%-20s] %d%%  Building L-curve" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)))
         sys.stdout.flush()
 
     def curvature(x, y, a):
-        '''Returns curvature of line
+        """Returns curvature of line defined by:
 
         k = (x'*y''-x''*y')/((x')^2+(y')^2)^(3/2)
 
-        '''
+        Parameters:
+        -------------
+        x, y : arrays of x and y respactively
+        a : array of reg parameters 
+
+        Returns:
+        -------------
+        k : array of curvature values
+        """
         x = savgol_filter(x, 13, 1)
         y = savgol_filter(y, 13, 1)
         da = np.gradient(a)
@@ -33,19 +64,20 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
         return savgol_filter(k, 5, 1)
         #return k
 
-    res = []
-    sol = []
+    res = []  # residuals norm ||Cf - F||2
+    sol = []  # solution norm ||f||2
 
     alpha_L2  = 10**np.linspace(np.log10(Reg_L2)  - 3, np.log10(Reg_L2)  + 3, 40)
-    alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 40)
-    alpha_S = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 40)
+    alpha_C   = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 40)
+    alpha_S   = 10**np.linspace(np.log10(Reg_S) - 3, np.log10(Reg_S) + 3, 40)
+
     if LCurve:
         alpha_C = 10**np.linspace(np.log10(Reg_C) - 3, np.log10(Reg_C) + 3, 40)
     alpha = alpha_C
 
     data = []
 
-    Cx = C
+    Fx = F
 
     for i in Methods:
 
@@ -58,10 +90,10 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
         elif i == 'L2':
             for j, v in enumerate(alpha_L2):
-                data = laplace(s, C, Nz, Reg_L1, v, Reg_C, Reg_S, Bounds, Methods)
-                e, f, C_restored = data[0][0], data[0][1], data[0][2]
+                data = laplace(t, F, Nz, Reg_L1, v, Reg_C, Reg_S, Bounds, Methods)
+                e, f, F_restored = data[0][0], data[0][1], data[0][2]
 
-                res.append(np.linalg.norm(np.abs(Cx) - np.abs(C_restored), ord = 2)**2)
+                res.append(np.linalg.norm(np.abs(Fx) - np.abs(F_restored), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
                 progressbar(j, len(alpha_L2))
             alpha = alpha_L2
@@ -72,10 +104,10 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
         elif i == 'Contin':
             for j, v in enumerate(alpha_C):
-                data = laplace(s, C, Nz, Reg_L1, Reg_L2, v, Reg_S, Bounds, Methods)
-                e, f, C_restored = data[0][0], data[0][1], data[0][2]
+                data = laplace(t, F, Nz, Reg_L1, Reg_L2, v, Reg_S, Bounds, Methods)
+                e, f, F_restored = data[0][0], data[0][1], data[0][2]
 
-                res.append(np.linalg.norm(np.abs(Cx) - np.abs(C_restored), ord = 2)**2)
+                res.append(np.linalg.norm(np.abs(Fx) - np.abs(F_restored), ord = 2)**2)
                 #sol.append(np.linalg.norm(f, ord = 2)**2)
                 sol.append(np.linalg.norm(f*e, ord = 2)**2)
                 progressbar(j, len(alpha_C))
@@ -84,16 +116,16 @@ def residuals(s, C, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurv
 
         elif i == 'reSpect':
             for j, v in enumerate(alpha_S):
-                data = laplace(s, C, Nz, Reg_L1, Reg_L2, Reg_C, v, Bounds, Methods)
-                e, f, C_restored = data[0][0], data[0][1], data[0][2]
+                data = laplace(t, F, Nz, Reg_L1, Reg_L2, Reg_C, v, Bounds, Methods)
+                e, f, F_restored = data[0][0], data[0][1], data[0][2]
 
-                res.append(np.linalg.norm(np.abs(Cx - Cx[-1]) - np.abs(C_restored - C_restored[-1]), ord = 2)**2)
+                res.append(np.linalg.norm(np.abs(Fx - Fx[-1]) - np.abs(F_restored - F_restored[-1]), ord = 2)**2)
                 sol.append(np.linalg.norm(f, ord = 2)**2)
                 progressbar(j, len(alpha_S))
             alpha = alpha_S
             break
 
-
+    # Plotting L-curve and its normalized curvature
 
     if len(data) == 0:
         ay.annotate(text = 'Choose only one method \n Contin, reSpect or L2', xy = (0.5,0.5), ha="center", size = 16)

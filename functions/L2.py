@@ -1,49 +1,57 @@
-def L2(s, Y, bound, Nz, alpha, iterations = 50000):
-    """Returns solution vector, t-domain points and reconstructed transient
-    using L1 regression and gradient descent.
+"""Module to implement routines of numerical inverse 
+Laplace tranform using L2 regularization algorithm
+"""
 
-    s - s-domain points, equally spased at log scale
-    Y - given transient function
-    bound – list of left and right bounds of s-domain points
-    Nz – int value which is lenght of calculated vector
-    alpha - reg. parameter for L2 regularisation
-    iterations - number of iterations for gradient descent
+import numpy as np
+from scipy.sparse import diags
 
-    X  – Laplace transform Matrix
-
-    returns:
-    t – t-domain points
-    beta - solution
-    F – Reconstructed transient
+def L2(t, F, bound, Nz, alpha):
     """
-    import numpy as np
-    from scipy.sparse import diags
+    Returns solution for problem imposing L2 regularization
 
-    tmin = bound[0]
-    tlim = bound[1]
-    NF   = len(s)
-    Nf   = Nz #
-    t    = tmin*10**(np.linspace(0, 40*np.log10(tlim/tmin), Nf)*0.025) #t domain with exp density points
-    dt   = np.gradient(t)
+    F(t) = ∫f(s)*exp(-s*t)ds
 
-    X    = np.zeros([NF, Nf], dtype = float)
-    for i in range(NF-1):
-            for j in range(Nf-1):
-                x1     = -s[i]*(t[j] - dt[j])
-                x2     = -s[i]*(t[j] + dt[j])
-                X[i,j] = (np.exp(x1) + np.exp(x2))*dt[j]
-    np.shape(X)
+    or
 
-    l2     = alpha
+    min = ||C*f - F||2 + alpha*||I*f||2
+
+
+    Parameters:
+    ------------
+    t : array of t (time domain data)
+    F : array of F(t) (transient data)
+    bound : [lowerbound, upperbound] of s domain points
+    Nz : number of points s to compute, must be smaller than length(Y)
+    alpha : egularization parameter for L2 regularization
+
+
+    Returns:
+    ------------
+    s : s-domain points
+    f : solution f(s)
+    F : Reconstructed transient F(t) = C@f(s)
+    """
+
+    # set up grid points (# = Nz)
+    h = np.log(bound[1]/bound[0])/(Nz - 1)      # equally spaced on logscale
+    s = bound[0]*np.exp(np.arange(Nz)*h)        # z (Nz by 1)
+
+    # construct C matrix from [1]
+    s_mesh, t_mesh = np.meshgrid(s, t)
+    C = np.exp(-t_mesh*s_mesh)       
+    C[:, 0] /= 2.
+    C[:, -1] /= 2.
+    C *= h
+
+    l2 = alpha
 
     data = [-2*np.ones(Nz), 1*np.ones(Nz), 1*np.ones(Nz)]
     positions = [-1, -2, 0]
-
     I = diags(data, positions, (Nz+2, Nz)).toarray()
     #I      = np.identity(Nz)
 
-    beta   = np.linalg.solve(l2*np.dot(I.T,I) + np.dot(X.T,X), np.dot(X.T,Y))
+    f   = np.linalg.solve(l2*np.dot(I.T,I) + np.dot(C.T,C), np.dot(C.T,F))
 
-    F = X@beta
+    F_restored = C@f
 
-    return t, beta, F#, res_norm, sol_norm
+    return s, f, F_restored#, res_norm, sol_norm

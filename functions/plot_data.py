@@ -1,18 +1,26 @@
-﻿def plot_data(s, F, data, T, Index):
-    """Plots data:
+﻿
+def plot_data(t, F, data, T, Index):
+    """Gets data from demo() and plots it:
 
-    s - s-domain points, equally spased at log scale
-    F - given transient function of data with
-    data – processed data
-    T – Tempetarures
-    Index – int value contains an index of transient in dataset
+    Parameters:
+    -------------
+    t : array of t (t-domain points)
+    F : array of F (F(t))
+    data : 2D list containing processed data [s, f, F, Method]
+    T : float - tempetarure value
+    Index : int value  an index of transient in dataset
 
+    Returns:
+    -------------
+    ay : matplotlib axes for L-Curve plotting 
+    [ahp1, ahp2] : list of matplotlib axes for hp() and 
+        its Arrhenuis or DLTS perpesentation
     """
 
     import matplotlib.pyplot as plt
     import numpy as np
 
-    ## plotting main plot
+    ## Plotting main plot f(s)
     fig = plt.figure(constrained_layout=True, figsize = (9.5,11))
     widths  = [0.5, 0.5]
     heights = [0.3, 0.3, 0.4]
@@ -43,47 +51,33 @@
             #np.savetxt('reSpect %.2fK.csv'%T[Index], [data[i][0], data[i][1]], delimiter = ',')
     ax.legend()
 
-    ## plotting residuals
+    # Axes for L-Curve
     ay = fig.add_subplot(spec[1, 0])
-    ## plotting transients
+
+    # Plotting transients F(t)
     az = fig.add_subplot(spec[1, 1])
     az.set_ylabel(r'Transient , arb. units')
     az.set_xlabel(r'Time $t$, $s$')
     az.grid(True, which = "both", ls = "-")
-    az.plot(s, F, 'ks-', label = 'Original')
+    az.plot(t, F, 'ks-', label = 'Original')
     az.set_xscale('log')
     for i, e in enumerate(data[:,-1]):
         if e == 'FISTA':
             d = data[i][2]
-            #d = np.abs(d)
-            #d = d - min(d)
-            #d = d/max(d)
-            az.plot(s, d, 'ro-', label = e)
+            az.plot(t, d, 'ro-', label = e)
             #np.savetxt('Transients_'+e+' %.2fK.csv'%T[Index], [s, F, d], delimiter = ',')
         elif e == 'L2':
             d = data[i][2][:-1] # last point sucks
-            #d = np.abs(d)
-            #d = d - min(d)
-            #d = d/max(d)
-            az.plot(s[:-1], d, 'b>-', label = e)
+            az.plot(t[:-1], d, 'b>-', label = e)
         elif e == 'L1+L2':
             d = data[i][2]
-            #d = np.abs(d)
-            #d = d - min(d)
-            #d = d/max(d)
-            az.plot(s, d, 'm*-', label = e)
+            az.plot(t, d, 'm*-', label = e)
         elif e == 'Contin':
             d = data[i][2]
-            #d = np.abs(d)
-            #d = d - min(d)
-            #d = d/max(d)
-            az.plot(s, d, 'cx-', label = e)
+            az.plot(t, d, 'cx-', label = e)
         elif e == 'reSpect':
             d = data[i][2]
-            #d = np.abs(d)
-            #d = d - min(d)
-            #d = d/max(d)
-            az.plot(s, d - d[-1] + F[-1], 'y+-', label = e)
+            az.plot(t, d - d[-1] + F[-1], 'y+-', label = e)
     az.legend()
 
 

@@ -1,16 +1,21 @@
-﻿def hp(s, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False, Arrhenius = False):
-    """Returns heatmap
+﻿def hp(t, C, T, ahp, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False, Arrhenius = False):
+    """Plots heatmap in ahp = [ahp1, ahp2] axes
+    ahp1 for T vs Emission rates and
+    ahp2 for Arrhenius or DLTS plots
 
-    s – s-domain points(time)
-    C - transient F(s)x
-    T - Tempetarures
-
-    Methods – name of methods to process dataset
-    Index – index to plot specific slise of heatplot
-    Reg_L1, Reg_L2 – reg. parameters for L1 and L2 routines
-    Bounds – list of left and right bounds of s-domain points
-    Nz – int value which is lenght of calculated vector
-    ahp - axes [ahp1, ahp2] to plot heatplot and arrhenius
+    Parameters:
+    -------------
+    t : array of t (time domain points)
+    C : 2D array of len(t)*len(T) [F1(t), F2(t),...]
+    T : array of tempetarures
+    ahp : list of matplotlib axes [ahp1, ahp2] to plot heatplot and arrhenius
+    Methods : list with methods used for plotting
+    Index : index to plot specific slise of heatplot
+    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularisation
+    Reg_C, Reg_S : reg. parameters for CONTIN and reSpect algorithms
+    Bounds : list of left and right bounds of s-domain points
+    Nz : int value which is lenght of calculated vector f(s)
+    LCurve : boolean True if plot using L-curve criteria
     """
 
     import matplotlib.pyplot as plt
@@ -21,7 +26,7 @@
     from L1_FISTA import l1_fista
     from L2 import L2
     from L1L2 import L1L2
-    from ilt import Contin
+    from contin import Contin
     from reSpect import reSpect, InitializeH, getAmatrix, getBmatrix, oldLamC, getH, jacobianLM, kernelD, guiFurnishGlobals
     from residuals import residuals
 
@@ -49,7 +54,7 @@
         if M == 'FISTA':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
-                TEMPE, TEMPX, a = l1_fista(s, C[i], Bounds, Nz, Reg_L1)
+                TEMPE, TEMPX, a = l1_fista(t, C[i], Bounds, Nz, Reg_L1)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
 
@@ -58,7 +63,7 @@
         elif M == 'L2':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
-                TEMPE, TEMPX, a = L2(s, C[i], Bounds, Nz, Reg_L2)
+                TEMPE, TEMPX, a = L2(t, C[i], Bounds, Nz, Reg_L2)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
 
@@ -67,7 +72,7 @@
         elif M == 'L1+L2':
             for i in range(0, cut):
                 YZ.append(np.ones(cus)*T[i])
-                TEMPE, TEMPX, a = L1L2(s, C[i], Bounds, Nz, Reg_L1, Reg_L2)
+                TEMPE, TEMPX, a = L1L2(t, C[i], Bounds, Nz, Reg_L1, Reg_L2)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
 
@@ -78,8 +83,8 @@
                 YZ.append(np.ones(cus)*T[i])
                 if LCurve:
                     ay = 0
-                    Reg_C = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
-                TEMPE, TEMPX, a = Contin(s, C[i], Bounds, Nz, Reg_C)
+                    Reg_C = residuals(t, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
+                TEMPE, TEMPX, a = Contin(t, C[i], Bounds, Nz, Reg_C)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX*TEMPE)
@@ -91,8 +96,8 @@
                 YZ.append(np.ones(cus)*T[i])
                 if LCurve:
                     ay = 0
-                    Reg_S = residuals(s, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
-                TEMPE, TEMPX, a = reSpect(s, C[i], Bounds, Nz, Reg_S)
+                    Reg_S = residuals(t, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
+                TEMPE, TEMPX, a = reSpect(t, C[i], Bounds, Nz, Reg_S)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)
                 ZZ.append(TEMPX)
@@ -181,5 +186,5 @@
     #print(Table)
     #Table = np.asarray(Table)
 
-    np.savetxt('SAMPLE_NAME'%((s[1]-s[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
+    np.savetxt('SAMPLE_NAME'%((t[1]-t[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
     plt.savefig('heatmaps.svg')
