@@ -33,7 +33,7 @@
 
     def progressbar(i, iterations):
         i = i + 1
-        sys.stdout.write('\r')
+        #sys.stdout.write('\r')
         #sys.stdout.write("\r" + "[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations))+'\n')
         print("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)), end = "")
         sys.stdout.flush()
