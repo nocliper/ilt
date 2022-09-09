@@ -6,3 +6,6 @@ SAMPLE_NAME_1.LDLTS
 DLTS_model.ipynb
 data/test.DLTS
 *.npy
+average_transients.ipynb
+heatmap.ipynb
+playground.ipynb
