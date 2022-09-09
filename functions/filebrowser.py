@@ -40,7 +40,7 @@ class FileBrowser(object):
             button.on_click(on_click)
             buttons.append(button)
         for f in self.dirs:
-            if f[0] != '.' and f[:2] != '__':
+            if f[0] != '.' and f[:2] != '__' and f != 'processed' and f != 'functions':
                 button = widgets.Button(layout = l, description=f, button_style='info')
                 button.on_click(on_click)
                 buttons.append(button)
