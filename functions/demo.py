@@ -24,7 +24,7 @@ def demo(Index, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, dt, Methods, Plot, Res
     from plot_data import plot_data
     from hp import hp
     from read_file import read_file
-    from residuals import residuals
+    from regopt import regopt
     from interface import interface
 
     Bounds = 10.0**np.asarray(Bounds)
@@ -41,5 +41,5 @@ def demo(Index, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, dt, Methods, Plot, Res
             hp(t, C, T, aph, Methods, Index, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve, Arrhenius)
         
     if Residuals:
-        residuals(t, C[Index], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz)
+        regopt(t, C[Index], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz)
     

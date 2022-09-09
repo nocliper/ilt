@@ -27,7 +27,7 @@
     from L1L2 import L1L2
     from contin import Contin
     from reSpect import reSpect
-    from residuals import residuals
+    from regopt import regopt
 
     import sys
 
@@ -82,7 +82,7 @@
                 YZ.append(np.ones(cus)*T[i])
                 if LCurve:
                     ay = 0
-                    Reg_C = residuals(t, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
+                    Reg_C = regopt(t, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = Contin(t, C[i], Bounds, Nz, Reg_C)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)
@@ -95,7 +95,7 @@
                 YZ.append(np.ones(cus)*T[i])
                 if LCurve:
                     ay = 0
-                    Reg_S = residuals(t, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
+                    Reg_S = regopt(t, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = reSpect(t, C[i], Bounds, Nz, Reg_S)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)

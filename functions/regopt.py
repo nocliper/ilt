@@ -1,5 +1,5 @@
 
-def residuals(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
+def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
     """ 
     Computes L-curve from residual and solution norm 
     and derives optimal regularization paramener from 
