@@ -44,11 +44,6 @@ def L1L2(t, F, bound, Nz, alpha1, alpha2, iterations = 10000):
     C[:, 0] /= 2.
     C[:, -1] /= 2.
     C *= h
-
-    #data = [-2*np.ones(Nz), 1*np.ones(Nz), 1*np.ones(Nz)]
-    #positions = [-1, -2, 0]
-    #I = diags(data, positions, (Nz+2, Nz)).toarray()
-    #I      = np.identity(Nz)
     
     alpha = alpha1 + alpha2
     l1_ratio = alpha1/alpha
@@ -58,9 +53,6 @@ def L1L2(t, F, bound, Nz, alpha1, alpha2, iterations = 10000):
     model.fit(C, F)
     
     f = model.coef_
-    #f = model.sparse_coef_
-    #res_norm = np.linalg.norm(F - C@beta)
-    #sol_norm = np.linalg.norm(beta)
 
     F_restored = C@f + model.intercept_
-    return s, f, F_restored#, res_norm, sol_norm
+    return s, f, F_restored

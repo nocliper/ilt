@@ -26,7 +26,7 @@
     from L2 import L2
     from L1L2 import L1L2
     from contin import Contin
-    from reSpect import reSpect, InitializeH, getAmatrix, getBmatrix, oldLamC, getH, jacobianLM, kernelD, guiFurnishGlobals
+    from reSpect import reSpect
     from residuals import residuals
 
     import sys
@@ -161,8 +161,8 @@
         for i in range(int(len(TEMPE)*0.1), int(len(TEMPE)*0.8), 20):
         #    ad.plot(T, ZZ[:, i], label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
             ahp2.plot(T, ZZ[:, i]/np.amax(ZZ[:,i]), label=r'$\tau = %.3f s$'%(1/TEMPE[i]))
-        ahp2.set_yscale('log')
-        ahp2.set_ylim(1E-4, 10)
+        #ahp2.set_yscale('log')
+        #ahp2.set_ylim(1E-4, 10)
         ahp2.grid()
         ahp2.legend()
 

@@ -4,11 +4,14 @@ def interface(path):
     and sends data to demo() with interactive_output()
     """
 
-    from ipywidgets import interact, interactive, fixed, interact_manual, HBox, VBox, Label
-    import ipywidgets as widgets
     import numpy as np
+    import ipywidgets as widgets
+
+    from ipywidgets import interact, interactive, fixed, interact_manual, HBox, VBox, Label
+    
     from read_file import read_file
     from demo import demo
+    
     import warnings
     warnings.filterwarnings('ignore')
     

@@ -21,7 +21,7 @@ def laplace(t, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
     from L2 import L2
     from L1L2 import L1L2
     from contin import Contin
-    from reSpect import reSpect, InitializeH, getAmatrix, getBmatrix, oldLamC, getH, jacobianLM, kernelD, guiFurnishGlobals
+    from reSpect import reSpect
 
     data = []
 

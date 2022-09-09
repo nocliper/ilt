@@ -71,8 +71,8 @@ def Contin(t, F, bound, Nz, alpha):
     # construct LDP matrices G = Z*inv(H)*W*inv(Stilde), B = -G*GammaTilde
     # LDP: ||Xi||^2 = min, with constraint G*Xi >= B
     Stilde_inv = np.diag(1.0/np.diag(Stilde))
-    G = Z.dot(Hinv).dot(W).dot(Stilde_inv)
-    B = -np.dot(G, GammaTilde)
+    G = Z @ Hinv @ W @ Stilde_inv
+    B = -G @ GammaTilde
 
     # call LDP solver
     Xi = ldp(G, B)
@@ -88,8 +88,10 @@ def Contin(t, F, bound, Nz, alpha):
 
 def ldp(G, h):
     """
-    Helper for Contin() 
+    Helper for Contin() for solving NNLS [1]
     
+    [1] - Lawson and Hanson’s (1974)
+
     Parameters:
     -------------
     G : Z*inv(H)*W*inv(Stilde)
@@ -97,28 +99,23 @@ def ldp(G, h):
 
     Returns:
     -------------
-    x : Solution of ||E*x -f||2 = min
-
+    x : Solution of argmin_x || Ax - b ||_2 
     """
 
-    import scipy.optimize
+    from scipy.optimize import nnls
 
     m, n = G.shape
-    #E = [G^T, h^T], f = [n zeros, 1]^T
-    E = np.concatenate((G.T, h.reshape(1, m)))
-    f = np.zeros(n+1)
-    f[n] = 1.
+    A = np.concatenate((G.T, h.reshape(1, m)))
+    b = np.zeros(n+1)
+    b[n] = 1.
 
-    # solve for ||E*u -f|| = min, with constraint u >= 0
-    u, resnorm = scipy.optimize.nnls(E, f)
+    # Solving for argmin_x || Ax - b ||_2 
+    x, resnorm = nnls(A, b)
 
-    # compute residual vector r = E*u - f
-    r = np.dot(E, u) - f
+    r = A@x - b
 
-    # test criteria: if ||r|| = 0, the solution is incompatible with inequality;
-    # otherwise, the computed solution is x_j = - r_j / r_n, j = 0, 1, ..., n-1.
     if np.linalg.norm(r) == 0:
-        print('\nError in ldp(): solution is incompatible with inequality!')
+        print('\n No solution found, try different input!')
     else:
         x = -r[0:-1]/r[-1]
     return x
