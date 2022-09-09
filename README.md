@@ -2,6 +2,8 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nocliper/ilt/blob/master/colab-ilt.ipynb)
 
+This repository contains code for analysing DLTS and Laplace DLTS data using different regularisation approaches to produce reliable results. Arrhenius plot option avaliable to plot temperature swept data.
+
 ## Classic DLTS
 The time-window concept proposed by D. Lang is the reason why classic DLTS is very sensitive to the small concentration of deep traps even with a low SNR(signal-to-noise ratio). But the main drawback of this approach is the inability to deconvolute the signal of two overlapped traps. 
 
