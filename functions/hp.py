@@ -35,7 +35,7 @@
         i = i + 1
         sys.stdout.write('\r')
         #sys.stdout.write("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations))+'\n')
-        print("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)), end = "")
+        print("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)), end = "\r")
         #sys.stdout.flush()
         sys.stdout.flush()
 
