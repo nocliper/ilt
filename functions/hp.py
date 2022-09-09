@@ -184,5 +184,5 @@
     #print(Table)
     #Table = np.asarray(Table)
 
-    np.savetxt('SAMPLE_NAME'%((t[1]-t[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
+    np.savetxt('processed/NEW-FILE'%((t[1]-t[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
     plt.savefig('heatmaps.svg')
