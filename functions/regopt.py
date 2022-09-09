@@ -34,8 +34,7 @@ def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve =
     def progressbar(i, iterations):
         """Prints simple progress bar"""
         i = i + 1
-        sys.stdout.write('\r')
-        sys.stdout.write("[%-20s] %d%%  Building L-curve" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations)))
+        sys.stdout.write("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations))+'\r')
         sys.stdout.flush()
 
     def curvature(x, y, a):
