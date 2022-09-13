@@ -1,4 +1,3 @@
-
 def laplace(t, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
 
     """ Initiates routines for chosen method

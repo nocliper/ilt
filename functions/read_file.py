@@ -1,13 +1,17 @@
 def read_file(Path, dt=150, proc = True):
     """Returns data from file
 
-    Path – path to file
+    Parameters:
+    --------------
+    Path : str, path to file
+    dt : float, step between points
+    proc: boolean, transient processed if True
 
-    returns:
-    time – time points (s-domain)
-    C – all transients
-    T – Temperatures
-
+    Returns:
+    --------------
+    time : 1d array, time domain points 
+    C : 2d len(time)*len(T) array, transients for all temperatures
+    T : 1d array, temperature points
     """
     import numpy as np
 

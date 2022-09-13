@@ -1,5 +1,4 @@
-﻿
-def plot_data(t, F, data, T, Index):
+﻿def plot_data(t, F, data, T, Index):
     """Gets data from demo() and plots it:
 
     Parameters:

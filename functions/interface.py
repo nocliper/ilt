@@ -1,4 +1,3 @@
-
 def interface(path):
     """Initiates and displays widgets from iPyWigets
     and sends data to demo() with interactive_output()
