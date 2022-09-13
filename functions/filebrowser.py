@@ -10,12 +10,12 @@ class FileBrowser(object):
 
     def _update_files(self):
         self.files = list()
-        self.dirs = list()
+        self.folders = list()
         if(os.path.isdir(self.path)):
             for f in os.listdir(self.path):
                 ff = os.path.join(self.path, f)
                 if os.path.isdir(ff):
-                    self.dirs.append(f)
+                    self.folders.append(f)
                 else:
                     self.files.append(f)
 
@@ -35,11 +35,11 @@ class FileBrowser(object):
             self._update(box)
 
         buttons = []
-        if self.files or self.dirs:
+        if self.files or self.folders:
             button = widgets.Button(layout = l, description='..', button_style='primary')
             button.on_click(on_click)
             buttons.append(button)
-        for f in self.dirs:
+        for f in self.folders:
             if f[0] != '.' and f[:2] != '__' and f != 'processed' and f != 'functions':
                 button = widgets.Button(layout = l, description=f, button_style='info')
                 button.on_click(on_click)
