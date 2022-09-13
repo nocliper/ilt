@@ -1,14 +1,14 @@
 
 def laplace(t, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
 
-    """ Initiates routines for choosed method
+    """ Initiates routines for chosen method
 
     Parameters:
     -------------
     t : t-domain points (time of transient)
     F : given transient function F(t)
-    Nz : int value which is lenght of calculated vector f(s)
-    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularisation
+    Nz : int value which is length of calculated vector f(s)
+    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularization
     Reg_C, Reg_S : reg. parameters for CONTIN and reSpect algorithms
     Bounds : list of left and right bounds of s-domain points
     Methods : list of processing methods

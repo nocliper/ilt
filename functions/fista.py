@@ -256,7 +256,7 @@ def prox_l12(u, l, n_samples, n_kernels):
         The vector (of the n-dimensional space) on witch we want to compute the proximal operator
 
     lambda_ : float
-        regularisation parameter
+        regularization parameter
 
     n_samples : int, optional
         number of elements in each kernel
@@ -331,7 +331,7 @@ def compute_M(u, lambda_, n_samples):
 
     Detailed example
 
-    if u(l) = [0 1 2 3] corrsponds to the vector associated with a kernel
+    if u(l) = [0 1 2 3] corresponds to the vector associated with a kernel
         then u = |u(l)| ordered by descending order ie u = [3 2 1 0]
 
     Then u = [3 2 1 0]
@@ -447,24 +447,24 @@ class Fista(BaseEstimator):
     Parameters
     ----------
 
-    lambda_ : int, optionnal
-        regularisation parameter
+    lambda_ : int, optional
+        regularization parameter
         default is 0.5
 
-    loss : {'squared-hinge', 'least-square'}, optionnal
+    loss : {'squared-hinge', 'least-square'}, optional
         the loss function to use
         defautl is 'squared-hinge'
 
-    penalty : {'l11', 'l22', 'l12', 'l21'}, optionnal
+    penalty : {'l11', 'l22', 'l12', 'l21'}, optional
         norm to use as penalty
         default is l11
 
-    n_iter : int, optionnal
+    n_iter : int, optional
         number of iterations
         default is 1000
 
-    recompute_Lipschitz_constant : bool, optionnal
-        if True, the Lipschitz constant is recomputed everytime
+    recompute_Lipschitz_constant : bool, optional
+        if True, the Lipschitz constant is recomputed every time
         if False, it is stored based on it's sha1 hash
         default is False
 
@@ -497,13 +497,13 @@ class Fista(BaseEstimator):
             y is of size p
                 where K.shape : (n, p)
 
-        Lipschitz_constant : float, optionnal
+        Lipschitz_constant : float, optional
              allow the user to pre-compute the Lipschitz constant
              (its computation can be very slow, so that parameter is very
-             usefull if you were to use several times the algorithm on the same data)
+             useful if you were to use several times the algorithm on the same data)
 
-        verbose : {0, 1}, optionnal
-            verbosity of the method : 1 will display informations while 0 will display nothing
+        verbose : {0, 1}, optional
+            verbosity of the method : 1 will display information while 0 will display nothing
             default = 0
 
         Returns

@@ -7,14 +7,14 @@ def plot_data(t, F, data, T, Index):
     t : array of t (t-domain points)
     F : array of F (F(t))
     data : 2D list containing processed data [s, f, F, Method]
-    T : float - tempetarure value
+    T : float - temperature value
     Index : int value  an index of transient in dataset
 
     Returns:
     -------------
     ay : matplotlib axes for L-Curve plotting 
     [ahp1, ahp2] : list of matplotlib axes for hp() and 
-        its Arrhenuis or DLTS perpesentation
+        its Arrhenuis or DLTS presentation
     """
 
     import matplotlib.pyplot as plt

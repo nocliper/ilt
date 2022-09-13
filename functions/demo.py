@@ -1,21 +1,21 @@
 def demo(Index, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, dt, Methods, Plot, Residuals, LCurve, Arrhenius, Heatplot):
-    """Gets data from wigets initialized with interface(), 
+    """Gets data from widgets initialized with interface(), 
     calls laplace() to process data and calls plot_data(), hp()
     to plot results
 
     Parameters:
     -------------
     Index : int value contains an index of transient in dataset
-    Nz : int value which is lenght of calculated vector
-    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularisation
+    Nz : int value which is length of calculated vector
+    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularization
     Reg_C, Reg_S : reg. parameters for CONTIN and reSpect algorithms
-    Bounds : list with left and right bound of t-domain(emmision rates domain)
+    Bounds : list with left and right bound of t-domain(emission rates domain)
     dt : time step of transient data points
     Methods : list with methods to process data
     Plot : boolean which calls plot_data() if true
     Residuals : calls residuals() and plots L-curve to control regularization
     LCurve : boolean, picks optimal reg. parameter (used for automation)
-    Hetplot : plots heatplot for all dataset and saves data in .LDLTS 
+    Heatplot : plots heatplot for all dataset and saves data in .LDLTS 
     """
 
     import numpy as np

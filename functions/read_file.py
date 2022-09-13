@@ -1,12 +1,12 @@
 def read_file(Path, dt=150, proc = True):
-    """Rerurns data from file
+    """Returns data from file
 
     Path – path to file
 
     returns:
     time – time points (s-domain)
     C – all transients
-    T – Tempetarures
+    T – Temperatures
 
     """
     import numpy as np

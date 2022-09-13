@@ -23,7 +23,7 @@ def Contin(t, F, bound, Nz, alpha):
 
     Returns:
     --------------
-    z : array of (evienly spaced on log scale)
+    z : array of (evenly spaced on log scale)
     f : array of f(z), inverse Laplace transform of F(t)
     F : array of C@f(z), reconstructed transient from f(z)
     """
@@ -40,7 +40,7 @@ def Contin(t, F, bound, Nz, alpha):
     C[:, -1] /= 2.
     C *= h
 
-    # construct regularizor matrix R to impose gaussian-like peaks in f(z)
+    # construct regularization matrix R to impose gaussian-like peaks in f(z)
     # R - tridiagonal matrix (1,-2,1)
     Nreg = Nz + 2
     R = np.zeros([Nreg, Nz])

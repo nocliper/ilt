@@ -7,14 +7,14 @@
     -------------
     t : array of t (time domain points)
     C : 2D array of len(t)*len(T) [F1(t), F2(t),...]
-    T : array of tempetarures
-    ahp : list of matplotlib axes [ahp1, ahp2] to plot heatplot and arrhenius
+    T : array of temperatures
+    ahp : list of matplotlib axes [ahp1, ahp2] to plot heatplot and Arrhenius
     Methods : list with methods used for plotting
-    Index : index to plot specific slise of heatplot
-    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularisation
+    Index : index to plot specific slice of heatplot
+    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularization
     Reg_C, Reg_S : reg. parameters for CONTIN and reSpect algorithms
     Bounds : list of left and right bounds of s-domain points
-    Nz : int value which is lenght of calculated vector f(s)
+    Nz : int value which is length of calculated vector f(s)
     LCurve : boolean True if plot using L-curve criteria
     """
 

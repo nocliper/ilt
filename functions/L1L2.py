@@ -19,7 +19,7 @@ def L1L2(t, F, bound, Nz, alpha1, alpha2, iterations = 10000):
     F : array of F(t) (transient data)
     bound : [lowerbound, upperbound] of s domain points
     Nz : number of points s to compute, must be smaller than length(Y)
-    alpha : egularization parameter for L2 regularization
+    alpha : regularization parameter for L2 regularization
     iterations : number of iterations for gradient descent
 
 

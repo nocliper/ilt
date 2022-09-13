@@ -2,7 +2,7 @@
 def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve = False):
     """ 
     Computes L-curve from residual and solution norm 
-    and derives optimal regularization paramener from 
+    and derives optimal regularization parameter from 
     its curvature plot. (max(k) -> a_opt)
 
     Parameters:
@@ -11,16 +11,16 @@ def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve =
     C : 2D array lof Fi(t) = [F1(t), F2(t),...]
     ay : mpl axes to draw a plot
     Methods : list of processing methods
-    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularisation
+    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularization
     Reg_C,  Reg_S  : reg. parameters for CONTIN and reSpect algorithms
     Bounds : list of left and right bounds of s-domain points
     Nz : number of points z to compute, must be smaller than length(F)
     L-curve : boolean if True residuals() returns optimal reg. parameter 
-        for choosen method
+        for chosen method
 
     Returns:
     -------------
-    alpha : float optimal reg. parameter for choosen method
+    alpha : float optimal reg. parameter for chosen method
         from L-curve curvature
     """
     from laplace import laplace
@@ -34,7 +34,7 @@ def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve =
     def progressbar(i, iterations):
         """Prints simple progress bar"""
         i = i + 1
-        sys.stdout.write("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations))+'\r')
+        sys.stdout.write("[%-20s] %d%%  Building L-Curve" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations))+'\r')
         sys.stdout.flush()
 
     def curvature(x, y, a):
@@ -44,7 +44,7 @@ def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve =
 
         Parameters:
         -------------
-        x, y : arrays of x and y respactively
+        x, y : arrays of x and y respectively
         a : array of reg parameters 
 
         Returns:

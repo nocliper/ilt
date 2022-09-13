@@ -126,7 +126,7 @@ def interface(path):
         description='Plot heatmap?',
         disabled=False,
         button_style='warning', # 'success', 'info', 'warning', 'danger' or ''
-        tooltip='Plots heatmap of data from choosed file',
+        tooltip='Plots heatmap of data from chosen file',
         icon='braille')
 
 
