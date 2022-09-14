@@ -6,21 +6,32 @@ def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve =
 
     Parameters:
     -------------
-    t : array of t (time domain points)
-    C : 2D array lof Fi(t) = [F1(t), F2(t),...]
-    ay : mpl axes to draw a plot
-    Methods : list of processing methods
-    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularization
-    Reg_C,  Reg_S  : reg. parameters for CONTIN and reSpect algorithms
-    Bounds : list of left and right bounds of s-domain points
-    Nz : number of points z to compute, must be smaller than length(F)
-    L-curve : boolean if True residuals() returns optimal reg. parameter 
-        for chosen method
+    t : array 
+        Time domain data from experiment
+    F : array,
+        Transient data from experiment F(t)
+    ay : matplotlib axes
+        Axes for L-curve plotting
+    Methods : list 
+        Names of processing methods
+    Reg_L1, Reg_L2 : floats
+        Reg. parameters for FISTA(L1) and L2 regularization
+    Reg_C, Reg_S : floats
+        Reg. parameters for CONTIN and reSpect algorithms
+    Bounds : list
+        [lowerbound, upperbound] of emission rates domain points
+    Nz : int
+        Number of points in emissior rates domain to compute, 
+        must be smaller than len(F)
+    LCurve : boolean
+        If True regopt() returns optimal regularization 
+        paremeter for chosen method
 
     Returns:
     -------------
-    alpha : float optimal reg. parameter for chosen method
-        from L-curve curvature
+    alpha[i] : float 
+        Optimal reg. parameter for chosen method
+        using L-curve criteria
     """
     from laplace import laplace
     #from matplotlib.cm import jet

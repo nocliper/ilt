@@ -5,17 +5,29 @@
 
     Parameters:
     -------------
-    t : array of t (time domain points)
-    C : 2D array of len(t)*len(T) [F1(t), F2(t),...]
-    T : array of temperatures
-    ahp : list of matplotlib axes [ahp1, ahp2] to plot heatplot and Arrhenius
-    Methods : list with methods used for plotting
-    Index : index to plot specific slice of heatplot
-    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularization
-    Reg_C, Reg_S : reg. parameters for CONTIN and reSpect algorithms
-    Bounds : list of left and right bounds of s-domain points
-    Nz : int value which is length of calculated vector f(s)
-    LCurve : boolean True if plot using L-curve criteria
+    t : array 
+        Time domain data from experiment
+    C : 2D array (len(t), len(T))
+        Contains transients for temperatures 1, 2, ...
+        [F1(t), F2(t),...] from experiment
+    T : array 
+        Temperature from experiment
+    ahp : list of matplotlib axes [ahp1, ahp2] 
+        Axes to plot heatplot and Arrhenius
+    Methods : list
+        Method names used for plotting
+    Index : int 
+        Index to plot specific slice of heatplot
+    Reg_L1, Reg_L2 : floats
+        Reg. parameters for FISTA(L1) and L2 regularization
+    Reg_C, Reg_S : floats
+        Reg. parameters for CONTIN and reSpect algorithms
+    Bounds : list
+        [lowerbound, upperbound] of s domain points
+    Nz : int
+        Value which is length of calculated vector f(s)
+    LCurve : boolean 
+        Plot using L-curve criteria if True
     """
 
     import matplotlib.pyplot as plt

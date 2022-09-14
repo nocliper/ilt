@@ -1,89 +1,110 @@
-#
-# Help to find continuous spectrum
-# March 2019 major update:
-# (i)   added plateau modulus G0 (also in pyReSpect-time) calculation
-# (ii)  following Hansen Bayesian interpretation of Tikhonov to extract p(lambda)
-# (iii) simplifying lcurve (starting from high lambda to low)
-# (iv)  changing definition of rho2 and eta2 (no longer dividing by 1/n and 1/nl)
-
 import numpy as np
 
 from scipy.interpolate import interp1d
 from scipy.integrate import cumtrapz, quad
 from scipy.optimize import nnls, minimize, least_squares
 
-# HELPER FUNCTIONS
-
-def InitializeH(Gexp, s, kernMat, *argv):
+def Initialize_f(F, s, kernMat, *argv):
     """
-    Function: InitializeH(input)
+    Computes initial guess for f and then call get_f()
+    to return regularized solution:
 
-    Input:  Gexp       = n*1 vector [Gt],
-               s       = relaxation modes,
-               kernMat = matrix for faster kernel evaluation
-               G0      = optional; if plateau is nonzero
+    argmin_f = ||F - kernel(f)||2 +  lambda * ||L f||2
 
-     Output:   H = guessed H
-              G0 = optional guess if *argv is nonempty
+    Parameters:
+    ------------
+    F : array
+        Transient experimental data
+    s : array
+        Tau-domain points
+    kernMat : matrix (len(s), len(F))
+        Matrix of inverse Laplace transform
+    F_b : float
+        Baseline value, optional
+
+    Returns:
+    -----------
+    flam : array
+        Regularized inverse of Laplace transform
+    F_b : float
+        Baseline value
     """
-    #
-    # To guess spectrum, pick a negative Hgs and a large value of lambda to get a
-    # solution that is most determined by the regularization
-    # March 2019; a single guess is good enough now, because going from large lambda to small
-    # lambda in lcurve.
 
-    H    = -5.0 * np.ones(len(s)) + np.sin(np.pi * s)
+    f    = -5.0 * np.ones(len(s)) + np.sin(np.pi * s)  # initial guess for f
     lam  = 1e0
 
     if len(argv) > 0:
-        G0       = argv[0]
-        Hlam, G0 = getH(lam, Gexp, H, kernMat, G0)
-        return Hlam, G0
+        F_b       = argv[0]
+        flam, F_b = get_f(lam, F, f, kernMat, F_b)
+        return flam, F_b
     else:
-        Hlam     = getH(lam, Gexp, H, kernMat)
-        return Hlam
+        flam     = get_f(lam, F, f, kernMat)
+        return flam
 
-def getH(lam, Gexp, H, kernMat, *argv):
+def get_f(lam, F, f, kernMat, *argv):
+    """
+    Solves following equation for f. Uses jacobianLM() with 
+    scipy.optimize.least_squares() solver:
 
-    """Purpose: Given a lambda, this function finds the H_lambda(s) that minimizes V(lambda)
+    argmin_f = ||F - kernel(f)||2 +  lambda * ||L f||2
 
-              V(lambda) := ||Gexp - kernel(H)||^2 +  lambda * ||L H||^2
+    Parameters:
+    -------------
+    lambda : float
+        Regularization parameter
+    F : array
+        Transient experimental data
+    f : array
+        Guessed f(s) for emission rates
+    kernMat : matrix (len(f), len(F))
+        Matrix of inverse Laplace transform
+    F_b : float
+        Baseline value,optional
 
-     Input  : lambda  = regularization parameter ,
-              Gexp    = experimental data,
-              H       = guessed H,
-              kernMat = matrix for faster kernel evaluation
-              G0      = optional
-
-     Output : H_lam, [G0]
-              Default uses Trust-Region Method with Jacobian supplied by jacobianLM
+    Returns:
+    -------------
+    flam : array
+        Regularized solution
+    F_b : float
+        Baseline for solution
     """
 
-    # send Hplus = [H, G0], on return unpack H and G0
+    # send fplus = [f, F_b], on return unpack f and F_b
     if len(argv) > 0:
-        Hplus= np.append(H, argv[0])
-        res_lsq = least_squares(residualLM, Hplus, jac=jacobianLM, args=(lam, Gexp, kernMat))
+        fplus= np.append(f, argv[0])
+        res_lsq = least_squares(residualLM, fplus, jac=jacobianLM, args=(lam, F, kernMat))
         return res_lsq.x[:-1], res_lsq.x[-1]
 
-    # send normal H, and collect optimized H back
+    # send normal f, and collect optimized f back
     else:
-        res_lsq = least_squares(residualLM, H, jac=jacobianLM, args=(lam, Gexp, kernMat))
+        res_lsq = least_squares(residualLM, f, jac=jacobianLM, args=(lam, F, kernMat))
         return res_lsq.x
 
-def residualLM(H, lam, Gexp, kernMat):
+def residualLM(f, lam, F, kernMat):
     """
-    HELPER FUNCTION: Gets Residuals r
-     Input  : H       = guessed H,
-              lambda  = regularization parameter ,
-              Gexp    = experimental data,
-              kernMat = matrix for faster kernel evaluation
-              G0      = plateau
+    Computes residuals for below equation 
+    and used with scipy.optimize.least_squares():
 
-     Output : a set of n+nl residuals,
-              the first n correspond to the kernel
-              the last  nl correspond to the smoothness criterion
+    argmin_f = ||F - kernel(f)||2 +  lambda * ||L f||2
+
+    Parameters:
+    -------------
+    f : array
+        Solution for above equation f(s)
+    lambda : float
+        Regularization parameter
+    F : array
+        Experimental transient data
+    kernMat : matrix (len(f), len(F))
+        Matrix of inverse Laplace transform
+    F_b : float
+        Plateau value for F experimental data
+
+    Returns:
+    -----------
+    r : array 
+        Residuals (||F - kernel(f)||2)''
     """
-
 
     n   = kernMat.shape[0];
     ns  = kernMat.shape[1];
@@ -91,31 +112,41 @@ def residualLM(H, lam, Gexp, kernMat):
 
     r   = np.zeros(n + nl);
 
-    # if plateau then unfurl G0
-    if len(H) > ns:
-        G0     = H[-1]
-        H      = H[:-1]
-        r[0:n] = (1. - kernel_prestore(H, kernMat, G0)/Gexp)  # the Gt and
+    # if plateau then unfurl F_b
+    if len(f) > ns:
+        F_b    = f[-1]
+        f      = f[:-1]
+        r[0:n] = (1. - kernel_prestore(f, kernMat, F_b)/F)  # same as |F - kernel(f)|
     else:
-        r[0:n] = (1. - kernel_prestore(H, kernMat)/Gexp)  # the Gt and
+        r[0:n] = (1. - kernel_prestore(f, kernMat)/F) # same as |F - kernel(f)| w/o F_b
 
-    # the curvature constraint is not affected by G0
-    r[n:n+nl] = np.sqrt(lam) * np.diff(H, n=2)  # second derivative
-
+    r[n:n+nl] = np.sqrt(lam) * np.diff(f, n=2)  # second derivative
 
     return r
 
-def jacobianLM(H, lam, Gexp, kernMat):
+def jacobianLM(f, lam, F, kernMat):
     """
-    HELPER FUNCTION for optimization: Get Jacobian J
+    Computes jacobian for scipy.optimize.least_squares()
 
-    returns a (n+nl * ns) matrix Jr; (ns + 1) if G0 is also supplied.
+    argmin_f = ||F - kernel(f)||2 +  lambda * ||L f||2
 
-    Jr_(i, j) = dr_i/dH_j
+    Parameters:
+    -------------
+    f : array
+        Solution for above equation
+    lam : float
+        Regularization parameter
+    F : array
+        Experimental transient data
+    kernMat : matrix (len(f), len(F))
+        Matrix of inverse Laplace transform
 
-    It uses kernelD, which approximates dK_i/dH_j, where K is the kernel
-
+    Returns:
+    ------------
+    Jr : matrix (len(f)*2 - 2, len(F) + 1)
+        Contains Jr(i, j) = dr_i/df_j
     """
+
     n   = kernMat.shape[0];
     ns  = kernMat.shape[1];
     nl  = ns - 2;
@@ -125,59 +156,76 @@ def jacobianLM(H, lam, Gexp, kernMat):
     L  = L[1:nl+1,:]
 
     # Furnish the Jacobian Jr (n+ns)*ns matrix
-    Kmatrix         = np.dot((1./Gexp).reshape(n,1), np.ones((1,ns)));
+    Kmatrix         = np.dot((1./F).reshape(n,1), np.ones((1,ns)));
 
-    if len(H) > ns:
+    if len(f) > ns:
 
-        G0     = H[-1]
-        H      = H[:-1]
+        F_b    = f[-1]
+        f      = f[:-1]
 
         Jr  = np.zeros((n + nl, ns+1))
 
-        Jr[0:n, 0:ns]   = -kernelD(H, kernMat) * Kmatrix;
-        Jr[0:n, ns]     = -1./Gexp                          # column for dr_i/dG0
+        Jr[0:n, 0:ns]   = -kernelD(f, kernMat) * Kmatrix;
+        Jr[0:n, ns]     = -1./F                          # column for dr_i/dF_b
 
         Jr[n:n+nl,0:ns] = np.sqrt(lam) * L;
-        Jr[n:n+nl, ns]  = np.zeros(nl)                      # column for dr_i/dG0 = 0
+        Jr[n:n+nl, ns]  = np.zeros(nl)                      # column for dr_i/dF_b = 0
 
     else:
 
         Jr  = np.zeros((n + nl, ns))
 
-        Jr[0:n, 0:ns]   = -kernelD(H, kernMat) * Kmatrix;
+        Jr[0:n, 0:ns]   = -kernelD(f, kernMat) * Kmatrix;
         Jr[n:n+nl,0:ns] = np.sqrt(lam) * L;
 
-    return  Jr
+    return Jr
 
-def kernelD(H, kernMat):
+def kernelD(f, kernMat):
     """
-     Function: kernelD(input)
+    Helper for jacobianLM() approximates dK_i/df_j = K * e(f_j)
 
-     outputs the (n*ns) dimensional matrix DK(H)(t)
-     It approximates dK_i/dH_j = K * e(H_j):
+    argmin_f = ||F - kernel(f)||2 +  lambda * ||L f||2
 
-     Input: H       = substituted CRS,
-            kernMat = matrix for faster kernel evaluation
+    Parameters:
+    -------------
+    f : array
+        Solution for above equation
+    kernMat : matrix (len(f), len(F))
+        Matrix of inverse Laplace transform
 
-     Output: DK = Jacobian of H
+    Returns:
+    -------------
+    DK : matrix (len(f), len(F)) 
+        Jacobian
     """
 
     n   = kernMat.shape[0];
     ns  = kernMat.shape[1];
 
-
-    # A n*ns matrix with all the rows = H'
-    Hsuper  = np.dot(np.ones((n,1)), np.exp(H).reshape(1, ns))
-    DK      = kernMat  * Hsuper
+    # A n*ns matrix with all the rows = f'
+    fsuper  = np.dot(np.ones((n,1)), np.exp(f).reshape(1, ns))
+    DK      = kernMat  * fsuper
 
     return DK
 
 def getKernMat(s, t):
-    """furnish kerMat() which helps faster kernel evaluation
-       given s, t generates hs * exp(-T/S) [n * ns matrix], where hs = wi = weights
-       for trapezoidal rule integration.
+    """
+    Mesh grid for s and t domain to construct 
+    kernel matrix
 
-       This matrix (K) times h = exp(H), Kh, is comparable with Gexp"""
+    Parameters:
+    -------------
+    s: array
+        Tau domain points
+    t: array
+        Time domain points from experiment
+
+    Returns:
+    -------------
+    np.exp(-T/S) * hsv : matrix (len(s), len(t))
+        Matrix of inverse Laplace transform, where hsv 
+        trapezoidal coefficients
+    """
     ns          = len(s)
     hsv         = np.zeros(ns);
     hsv[0]      = 0.5 * np.log(s[1]/s[0])
@@ -187,37 +235,60 @@ def getKernMat(s, t):
 
     return np.exp(-T/S) * hsv;
 
-def kernel_prestore(H, kernMat, *argv):
+def kernel_prestore(f, kernMat, *argv):
     """
-         turbocharging kernel function evaluation by prestoring kernel matrix
-         Function: kernel_prestore(input) returns K*h, where h = exp(H)
+    Function for prestoring kernel
 
-         Same as kernel, except prestoring hs, S, and T to improve speed 3x.
+    argmin_f = ||F - kernel(f)||2 +  lambda * ||L f||2
 
-         outputs the n*1 dimensional vector K(H)(t) which is comparable to Gexp = Gt
+    Parameters:
+    -------------
+    f : array
+        Solution of above equation
+    kernMat : matrix (len(f), len(F))
+        Matrix of inverse Laplace transform
 
-         3/11/2019: returning Kh + G0
-
-         Input: H = substituted CRS,
-                kernMat = n*ns matrix [w * exp(-T/S)]
-
+    Returns:
+    ------------
+    np.dot(kernMat, np.exp(f)) + F_b : 
+        Stores kernMat*(f)+ F_b 
     """
 
     if len(argv) > 0:
-        G0 = argv[0]
+        F_b = argv[0]
     else:
-        G0 = 0.
+        F_b = 0.
 
-    return np.dot(kernMat, np.exp(H)) + G0
+    return np.dot(kernMat, np.exp(f)) + F_b
 
 
-def reSpect(t, Gexp, bound, Nz, lamC):
+def reSpect(t, F, bound, Nz, alpha):
     """
-    This is the main driver routine for computing the continuous spectrum
+    Main routine to implement reSpect algorithm from [1].
 
-    (*)   input  : "par" dictionary from "inp.dat" which specifies GexpFile (often 'Gt.dat')
-    (*)   return : H and lambdaC; the latter can be used to microscpecify lambdaC as desired
-                    without having to do the entire lcurve calculation again
+    [1] Shanbhag, S. (2019)
+
+    Parameters:
+    --------------
+    t : array
+        Time domain points from experiment
+    F : array
+        Experimental transient F(t)
+    bound : list 
+        [lowerbound, upperbound] of bounds for tau-domain points
+    Nz : int
+        Length of tau-domain array
+    alpha : float
+        Regularization parameter
+
+    Returns:
+    --------------
+    1/s[::-1] : array
+        Tau-domain points
+    np.exp(f)[::-1] : array
+        Inverse Laplace transform of F(t)
+    kernMat@np.exp(f)[::] : array
+        Restored transient F_restored(t)
     """
 
     n    = len(t)
@@ -226,19 +297,19 @@ def reSpect(t, Gexp, bound, Nz, lamC):
     tmin = t[0];
     tmax = t[n-1];
 
-    smin, smax = 1/bound[1], 1/bound[0] # s is tau domain points!!!!
+    smin, smax = 1/bound[1], 1/bound[0]  # s is tau domain points!
 
     hs   = (smax/smin)**(1./(ns-1))
-    s    = smin * hs**np.arange(ns)
+    s    = smin * hs**np.arange(ns)  # s here is tau domain points
 
     kernMat = getKernMat(s, t)
 
-    Hgs, G0  = InitializeH(Gexp, s, kernMat, np.min(Gexp))
+    fgs, F_b  = Initialize_f(F, s, kernMat, np.min(F))
 
-    lamC = lamC
+    alpha = alpha
 
-    H, G0  = getH(lamC, Gexp, Hgs, kernMat, G0);
+    f, F_b  = get_f(alpha, F, fgs, kernMat, F_b);
 
-    K   = kernel_prestore(H, kernMat, G0);
+    K   = kernel_prestore(f, kernMat, F_b);
 
-    return 1/s[::-1], np.exp(H)[::-1], kernMat@np.exp(H)[::]
+    return 1/s[::-1], np.exp(f)[::-1], kernMat@np.exp(f)[::]

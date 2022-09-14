@@ -3,17 +3,23 @@
 
     Parameters:
     -------------
-    t : array of t (t-domain points)
-    F : array of F (F(t))
-    data : 2D list containing processed data [s, f, F, Method]
-    T : float - temperature value
-    Index : int value  an index of transient in dataset
+    t : array 
+        Time domain data from experiment
+    F : array,
+        Transient data from experiment F(t)
+    data : list of [[s, f, F_restored, Method1], ...]    
+        Data list for processed data
+    T : float 
+        Temperature value of certain transient
+    Index : int 
+        Index of transient in initial dataset (not data)
 
     Returns:
     -------------
-    ay : matplotlib axes for L-Curve plotting 
-    [ahp1, ahp2] : list of matplotlib axes for hp() and 
-        its Arrhenuis or DLTS presentation
+    ay : matplotlib axes 
+        Axes for L-Curve plotting 
+    [ahp1, ahp2] : list of matplotlib axes 
+        Axes for its Arrhenuis or DLTS plots in hp()
     """
 
     import matplotlib.pyplot as plt

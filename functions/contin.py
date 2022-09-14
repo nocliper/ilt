@@ -15,17 +15,25 @@ def Contin(t, F, bound, Nz, alpha):
 
     Parameters:
     --------------
-    t : array of t (time domain data)
-    F : array of F(t) (transient data)
-    bound : [lowerbound, upperbound] of z domain points
-    Nz : number of points z to compute, must be smaller than length(F)
-    alpha : regularization parameter
+    t : array 
+        Time domain data from experiment
+    F : array,
+        Transient data from experiment F(t)
+    bound : list
+        [lowerbound, upperbound] of z domain points
+    Nz : int
+        Number of points z to compute, must be smaller than len(F)
+    alpha : float
+        Regularization parameter
 
     Returns:
     --------------
-    z : array of (evenly spaced on log scale)
-    f : array of f(z), inverse Laplace transform of F(t)
-    F : array of C@f(z), reconstructed transient from f(z)
+    z : array 
+        Emission rates domain points (evenly spaced on log scale)
+    f : array
+        Inverse Laplace transform f(z)
+    F_restored : array 
+        Reconstructed transient from C@f(z)
     """
 
 
@@ -91,15 +99,17 @@ def ldp(G, h):
     Helper for Contin() for solving NNLS [1]
     
     [1] - Lawson and Hanson’s (1974)
-
     Parameters:
     -------------
-    G : Z*inv(H)*W*inv(Stilde)
-    h : -G*GammaTilde
+    G : matrix
+        Z*inv(H)*W*inv(Stilde)
+    h : array
+        -G*GammaTilde
 
     Returns:
     -------------
-    x : Solution of argmin_x || Ax - b ||_2 
+    x : array
+        Solution of argmin_x || Ax - b ||_2 
     """
 
     from scipy.optimize import nnls

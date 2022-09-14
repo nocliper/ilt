@@ -15,19 +15,28 @@ def L1L2(t, F, bound, Nz, alpha1, alpha2, iterations = 10000):
 
     Parameters:
     ------------
-    t : array of t (time domain data)
-    F : array of F(t) (transient data)
-    bound : [lowerbound, upperbound] of s domain points
-    Nz : number of points s to compute, must be smaller than length(Y)
-    alpha : regularization parameter for L2 regularization
-    iterations : number of iterations for gradient descent
+    t : array 
+        Time domain data from experiment
+    F : array,
+        Transient data from experiment F(t)
+    bound : list
+        [lowerbound, upperbound] of s domain points
+    Nz : int
+        Number of points z to compute, must be smaller than len(F)
+    alpha1, alpha 2 : floats
+        Regularization parameters for L1 and L2 regularizers
+    iterations : int 
+        Maximum number of iterations. Optional
 
 
     Returns:
     ------------
-    s : s-domain points
-    f : solution f(s)
-    F : Reconstructed transient F(t) = C@f(s)
+    s : array
+        Emission rates domain points (evenly spaced on log scale)
+    f : array
+        Inverse Laplace transform f(s)
+    F_restored : array 
+        Reconstructed transient from C@f + intercept
     """
 
     import numpy as np

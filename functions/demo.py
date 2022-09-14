@@ -5,17 +5,31 @@ def demo(Index, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, dt, Methods, Plot, Res
 
     Parameters:
     -------------
-    Index : int value contains an index of transient in dataset
-    Nz : int value which is length of calculated vector
-    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularization
-    Reg_C, Reg_S : reg. parameters for CONTIN and reSpect algorithms
-    Bounds : list with left and right bound of t-domain(emission rates domain)
-    dt : time step of transient data points
-    Methods : list with methods to process data
-    Plot : boolean which calls plot_data() if true
-    Residuals : calls residuals() and plots L-curve to control regularization
-    LCurve : boolean, picks optimal reg. parameter (used for automation)
-    Heatplot : plots heatplot for all dataset and saves data in .LDLTS 
+    Index : int
+        Index of transient in dataset
+    Nz : int
+        Value which is length of calculated vector
+    Reg_L1, Reg_L2 : floats
+        Reg. parameters for FISTA(L1) and L2 regularization
+    Reg_C, Reg_S : floats
+        Reg. parameters for CONTIN and reSpect algorithms
+    Bounds : list
+        [lowerbound, upperbound ] bounds of emission rates domain points
+    dt : int
+        Time step of transient data points in ms
+    Methods : list 
+        Methods to process data
+    Plot : boolean
+        Calls plot_data() if True
+    Residuals : boolean
+        Calls regopt() and plots L-curve to control 
+        regularization if True
+    LCurve : boolean, 
+        Automatically picks optimal reg. parameter from 
+        L-curve if True
+    Heatplot : boolean
+        Plots heatplot for all dataset and saves data 
+        in .LDLTS if True
     """
 
     import numpy as np

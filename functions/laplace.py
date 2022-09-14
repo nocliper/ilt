@@ -4,15 +4,25 @@ def laplace(t, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
 
     Parameters:
     -------------
-    t : t-domain points (time of transient)
-    F : given transient function F(t)
-    Nz : int value which is length of calculated vector f(s)
-    Reg_L1, Reg_L2 : reg. parameters for FISTA(L1) and L2 regularization
-    Reg_C, Reg_S : reg. parameters for CONTIN and reSpect algorithms
-    Bounds : list of left and right bounds of s-domain points
-    Methods : list of processing methods
+    t : array 
+        Time domain data from experiment
+    F : array,
+        Transient data from experiment F(t)
+    Nz : int
+        Number of points z to compute, must be smaller than len(F)
+    Reg_L1, Reg_L2 : floats
+        Reg. parameters for FISTA(L1) and L2 regularization
+    Reg_C, Reg_S : floats
+        Reg. parameters for CONTIN and reSpect algorithms
+    Bounds : list
+        [lowerbound, upperbound] of s domain points
+    Methods : list 
+        Names of processing methods
 
-    returns processed data
+    Returns:
+    -------------
+    data : list of [[s, f, F_restored, Method1], ...]
+        Data list for processed data
 
     """
     import numpy as np
