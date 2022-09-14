@@ -46,7 +46,8 @@
     def progressbar(i, iterations):
         """Prints simple progress bar"""
         i = i + 1
-        sys.stdout.write("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations))+'\r')
+        sys.stdout.write("[%-20s] %d%%  Building Heatmap" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), 
+            np.ceil(i*100/iterations))+'\r')
         sys.stdout.flush()
 
     cut = len(T)
@@ -93,7 +94,8 @@
                 YZ.append(np.ones(cus)*T[i])
                 if LCurve:
                     ay = 0
-                    Reg_C = regopt(t, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
+                    Reg_C = regopt(t, C[i], ay, Methods, Reg_L1, Reg_L2, 
+                                    Reg_C, Reg_S, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = Contin(t, C[i], Bounds, Nz, Reg_C)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)
@@ -106,7 +108,8 @@
                 YZ.append(np.ones(cus)*T[i])
                 if LCurve:
                     ay = 0
-                    Reg_S = regopt(t, C[i], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve)
+                    Reg_S = regopt(t, C[i], ay, Methods, Reg_L1, Reg_L2, 
+                                    Reg_C, Reg_S, Bounds, Nz, LCurve)
                 TEMPE, TEMPX, a = reSpect(t, C[i], Bounds, Nz, Reg_S)
                 #print(YZ[-1][0], 'K; a = ', Reg_C)
                 XZ.append(TEMPE)
@@ -196,5 +199,6 @@
     #print(Table)
     #Table = np.asarray(Table)
 
-    np.savetxt('processed/NEW-FILE'%((t[1]-t[0])*1000) +'_1'+'.LDLTS', Table, delimiter='\t', fmt = '%4E')
+    np.savetxt('processed/NEW-FILE'%((t[1]-t[0])*1000) +'_1'+'.LDLTS', 
+                Table, delimiter='\t', fmt = '%4E')
     plt.savefig('heatmaps.svg')

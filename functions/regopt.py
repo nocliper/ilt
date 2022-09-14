@@ -44,7 +44,8 @@ def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve =
     def progressbar(i, iterations):
         """Prints simple progress bar"""
         i = i + 1
-        sys.stdout.write("[%-20s] %d%%  Building L-Curve" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), np.ceil(i*100/iterations))+'\r')
+        sys.stdout.write("[%-20s] %d%%  Building L-Curve" % ('#'*np.ceil(i*100/iterations*0.2).astype('int'), 
+                        np.ceil(i*100/iterations))+'\r')
         sys.stdout.flush()
 
     def curvature(x, y, a):
@@ -137,7 +138,8 @@ def regopt(t, F, ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz, LCurve =
     # Plotting L-curve and its normalized curvature
 
     if len(data) == 0:
-        ay.annotate(text = 'Choose only one method \n Contin, reSpect or L2', xy = (0.5,0.5), ha="center", size = 16)
+        ay.annotate(text = 'Choose only one method \n Contin, reSpect or L2', 
+                    xy = (0.5,0.5), ha="center", size = 16)
         plt.tight_layout()
     elif LCurve:
         k = curvature(np.log10(res), np.log10(sol), alpha)
