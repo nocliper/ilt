@@ -33,6 +33,7 @@ def demo(Index, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, dt, Methods, Plot, Res
     """
 
     import numpy as np
+
     from read_file import read_file
     from laplace import laplace
     from plot_data import plot_data
