@@ -22,8 +22,8 @@
         Axes for its Arrhenuis or DLTS plots in hp()
     """
 
-    import matplotlib.pyplot as plt
     import numpy as np
+    import matplotlib.pyplot as plt
 
     ## Plotting main plot f(s)
     fig = plt.figure(constrained_layout=True, figsize = (9.5,11))
