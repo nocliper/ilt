@@ -30,10 +30,12 @@
         Plot using L-curve criteria if True
     """
 
-    import matplotlib.pyplot as plt
     import numpy as np
+    import matplotlib.pyplot as plt
+
     from matplotlib import cm
     from matplotlib import gridspec
+    
     from L1_FISTA import l1_fista
     from L2 import L2
     from L1L2 import L1L2
@@ -201,4 +203,3 @@
 
     np.savetxt('processed/NEW-FILE'%((t[1]-t[0])*1000) +'_1'+'.LDLTS', 
                 Table, delimiter='\t', fmt = '%4E')
-    plt.savefig('heatmaps.svg')
