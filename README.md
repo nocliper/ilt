@@ -30,7 +30,7 @@ This notebook can be used to perform Laplace DLTS for `.DLTS` files in the data 
 
 
 
-<p style="align:center;">
+<p style="text-align:center;">
   <img src="results.png" width="600">
 </p>
 
