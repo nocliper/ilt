@@ -128,16 +128,16 @@
     ahp1, ahp2 = ahp[0], ahp[1]
 
     if Methods[0] == 'reSpect':
-        v = np.abs(np.average(ZZ[10:-10,5:-5]))*20
-        vmin, vmax = v/1e1, v/2
+        v = np.abs(np.average(ZZ[10:-10,20:-20]))*20
+        vmin, vmax = 0, v/2
         cmap = cm.jet
         levels = np.linspace(vmin, vmax, 20)
         #print(v)
 
     elif Methods[0] == 'Contin':
-        v = np.abs(np.average(ZZ[10:-10,5:-5]))*10
+        v = np.abs(np.average(ZZ[10:-10,20:-20]))*10
         vmin, vmax = 0, v
-        cmap = cm.gnuplot2
+        cmap = cm.jet
         levels = 20
 
     elif Methods[0] == 'FISTA' or Methods[0] == 'L2' or Methods[0] == 'L1+L2':
