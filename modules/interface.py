@@ -39,7 +39,7 @@ def interface(path):
 
     Nz = widgets.IntText(
         value=100,
-        description=r'$N_f=$',
+        description=r'N<sub>f</sub> =',
         disabled=False)
 
     Reg_L1 = widgets.FloatLogSlider(
@@ -48,7 +48,7 @@ def interface(path):
         min=-10, # max exponent of base
         max=1, # min exponent of base
         step=0.2, # exponent step
-        description=r'FISTA: $\lambda_1$')
+        description=r'FISTA: λ<sub>1</sub>')
 
     Reg_L2 = widgets.FloatLogSlider(
         value=1e-8,
@@ -56,7 +56,7 @@ def interface(path):
         min=-10, # max exponent of base
         max=1, # min exponent of base
         step=0.2, # exponent step
-        description=r'L2: $\lambda_2$')
+        description=r'L2: λ<sub>2</sub>')
     
     Reg_C = widgets.FloatLogSlider(
         value=1E-1,
@@ -64,7 +64,7 @@ def interface(path):
         min=-8, # max exponent of base
         max=2, # min exponent of base
         step=0.2, # exponent step
-        description=r'Contin: $\lambda_{\text{C}}$')
+        description=r'Contin: λ<sub>C</sub>')
     
     Reg_S = widgets.FloatLogSlider(
         value=1E-2,
@@ -72,14 +72,14 @@ def interface(path):
         min=-12, # max exponent of base
         max=2, # min exponent of base
         step=0.2, # exponent step
-        description=r'reSpect: $\lambda_{\text{S}}$')
+        description=r'reSpect: λ<sub>S</sub>')
 
     Bounds = widgets.IntRangeSlider(
         value=[-2, 2],
         min=-5,
         max=5,
         step=1,
-        description=r'$10^{a}\div 10^{b}$:',
+        description=r'10<sup>a</sup> to 10<sup>b</sup>:',
         disabled=False,
         continuous_update=False,
         orientation='horizontal',
