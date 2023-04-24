@@ -33,6 +33,7 @@ def demo(Index, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, dt, Methods, Plot, Res
     """
 
     import numpy as np
+    import matplotlib.pyplot as plt
 
     from read_file import read_file
     from laplace import laplace
@@ -57,4 +58,6 @@ def demo(Index, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, dt, Methods, Plot, Res
         
     if Residuals:
         regopt(t, C[Index], ay, Methods, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Nz)
+        
+    plt.show()
     
