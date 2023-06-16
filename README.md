@@ -22,16 +22,13 @@ Multiple algorithms are used to increase the reliability of results:
 ### Results
 This notebook can be used to perform Laplace DLTS to `.DLTS` files in the data folder. Contin and pyReSpect will work in 99% of cases. L1, L1 + L2 and especially FISTA work well in the other 1% with different sign exponential decays [(example of FISTA probing mobile ions in perovskites)](https://doi.org/10.1103/PhysRevApplied.13.034018). 
 
-<p style="text-align:center;">
+<p align="center">
   <img src="screenshot.png" width="600">
+  *Notebook working cell*
 </p>
 
-*Notebook working cell*
-
-
-
-<p style="text-align:center;">
+<p align="center">
   <img src="results.png" width="600">
+  *Results obtained using reSpect algorithm*
 </p>
 
-*Results obtained using reSpect algorithm*
