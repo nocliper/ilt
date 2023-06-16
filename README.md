@@ -26,7 +26,7 @@ This notebook can be used to perform Laplace DLTS to `.DLTS` files in the data f
   <img src="screenshot.png" width="600"> <br>
   <i>Notebook working cell</i>
 </p>
-
+<br>
 <p align="center">
   <img src="results.png" width="600"> <br>
   <i>Results obtained using reSpect algorithm</i>
