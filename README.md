@@ -12,7 +12,7 @@ So instead of setting the time window and searching for the peaks, regularizatio
 
 ### Used algorithms
 Multiple algorithms are used to increase the reliability of results:
-* python version of Contin – Fast and reliable algorithm. [Original code](https://github.com/caizkun/pyilt) was written by [caizkun](https://github.com/caizkun). 
+* python version of Contin – Fast and reliable algorithm. [Original code](https://github.com/caizkun/pyilt) was rewritten in python by [caizkun](https://github.com/caizkun). 
 * [FISTA](https://github.com/JeanKossaifi/FISTA) – Used to obtain sparse solutions. Works well when opposite sign traps are present in transient.
 * pyReSpect – imported algorithm from [shane5ul/pyReSpect-time](https://github.com/shane5ul/pyReSpect-time).
 * Simple L2 and L1+L2 regularization.
