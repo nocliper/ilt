@@ -525,8 +525,8 @@ class Fista(BaseEstimator):
             Lipschitz_constant = _load_Lipschitz_constant(K)
 
         tol = 10**(-6)
-        coefs_current = np.zeros(n_features, dtype=np.float) # coefficients to compute
-        coefs_next = np.zeros(n_features, dtype=np.float)
+        coefs_current = np.zeros(n_features, dtype= float) # coefficients to compute
+        coefs_next = np.zeros(n_features, dtype= float)
         Z = np.copy(coefs_next) # a linear combination of the coefficients of the 2 last iterations
         tau_1 = 1
 

@@ -39,7 +39,7 @@ def interface(path):
 
     Nz = widgets.IntText(
         value=100,
-        description=r'N<sub>f</sub> =',
+        description=r'N$_\text{f}$ =',
         disabled=False)
 
     Reg_L1 = widgets.FloatLogSlider(
@@ -47,39 +47,39 @@ def interface(path):
         base=10,
         min=-10, # max exponent of base
         max=1, # min exponent of base
-        step=0.2, # exponent step
-        description=r'FISTA: λ<sub>1</sub>')
+        step=0.1, # exponent step
+        description=r'$λ_\text{FISTA}$')
 
     Reg_L2 = widgets.FloatLogSlider(
         value=1e-8,
         base=10,
-        min=-10, # max exponent of base
+        min=-15, # max exponent of base
         max=1, # min exponent of base
-        step=0.2, # exponent step
-        description=r'L2: λ<sub>2</sub>')
+        step=0.1, # exponent step
+        description=r'$λ_\text{L2}$')
     
     Reg_C = widgets.FloatLogSlider(
         value=1E-1,
         base=10,
         min=-8, # max exponent of base
         max=2, # min exponent of base
-        step=0.2, # exponent step
-        description=r'Contin: λ<sub>C</sub>')
+        step=0.1, # exponent step
+        description=r'$λ_\text{Contin}$')
     
     Reg_S = widgets.FloatLogSlider(
         value=1E-2,
         base=10,
         min=-12, # max exponent of base
         max=2, # min exponent of base
-        step=0.2, # exponent step
-        description=r'reSpect: λ<sub>S</sub>')
+        step=0.1, # exponent step
+        description=r'$λ_\text{reSpect}$')
 
     Bounds = widgets.IntRangeSlider(
         value=[-2, 2],
         min=-5,
         max=5,
         step=1,
-        description=r'10<sup>a</sup> to 10<sup>b</sup>:',
+        description=r'$10^\text{a} ÷ 10^\text{b}$:',
         disabled=False,
         continuous_update=False,
         orientation='horizontal',
@@ -91,7 +91,7 @@ def interface(path):
         min=0,
         max=1000,
         step=1,
-        description='Time step, ms',
+        description=r't$_\text{step}$, ms',
         disabled=False)
 
     Plot = widgets.ToggleButton(
