@@ -55,5 +55,5 @@ def laplace(t, F, Nz, Reg_L1, Reg_L2, Reg_C, Reg_S, Bounds, Methods):
             s, f, F_hat = reSpect(t, F, Bounds, Nz, Reg_S)
             data.append([s, f, F_hat, 'reSpect'])
 
-    data = np.asarray(data)
+    data = np.asarray(data, dtype="object")
     return data
