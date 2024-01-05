@@ -32,3 +32,6 @@ This notebook can be used to perform Laplace DLTS to `.DLTS` files in the data f
   <i>Results obtained using reSpect algorithm</i>
 </p>
 
+### Articles
+* [Ahn, I.-H.; Lee, D.J.; Kim, D.Y. Auxiliary Diagnostic Signal for Deep-Level Detection. Nanomaterials 2023, 13, 2866.](https://doi.org/10.3390/nano13212866)
+* 
