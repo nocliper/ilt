@@ -36,4 +36,4 @@ This notebook can be used to perform Laplace DLTS to `.DLTS` files in the data f
 
 ### Articles
 * [Ahn, I.-H.; Lee, D.J.; Kim, D.Y. Auxiliary Diagnostic Signal for Deep-Level Detection. Nanomaterials 2023, 13, 2866.](https://doi.org/10.3390/nano13212866)
-* 
+* [Vasilev, A. A., Saranin, D. S., Gostishchev, P. A., Didenko, S. I., Polyakov, A. Y., & Di Carlo, A. (2022a). Deep-level transient spectroscopy of the charged defects in p-i-N perovskite solar cells induced by light-soaking. Optical Materials: X, 16, 100218.](https://doi.org/10.1016/j.omx.2022.100218)
