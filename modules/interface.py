@@ -39,7 +39,7 @@ def interface(path):
 
     Nz = widgets.IntText(
         value=100,
-        description=r'N$_\text{f}$ =',
+        description='Nf',
         disabled=False)
 
     Reg_L1 = widgets.FloatLogSlider(
@@ -48,7 +48,7 @@ def interface(path):
         min=-10, # max exponent of base
         max=1, # min exponent of base
         step=0.1, # exponent step
-        description=r'$λ_\text{FISTA}$')
+        description=r'λ FISTA')
 
     Reg_L2 = widgets.FloatLogSlider(
         value=1e-8,
@@ -56,7 +56,7 @@ def interface(path):
         min=-15, # max exponent of base
         max=1, # min exponent of base
         step=0.1, # exponent step
-        description=r'$λ_\text{L2}$')
+        description=r'λ L2')
     
     Reg_C = widgets.FloatLogSlider(
         value=1E-1,
@@ -64,7 +64,7 @@ def interface(path):
         min=-8, # max exponent of base
         max=2, # min exponent of base
         step=0.1, # exponent step
-        description=r'$λ_\text{Contin}$')
+        description=r'λ Contin')
     
     Reg_S = widgets.FloatLogSlider(
         value=1E-2,
@@ -72,14 +72,14 @@ def interface(path):
         min=-12, # max exponent of base
         max=2, # min exponent of base
         step=0.1, # exponent step
-        description=r'$λ_\text{reSpect}$')
+        description=r'λ reSpect')
 
     Bounds = widgets.IntRangeSlider(
         value=[-2, 2],
         min=-5,
         max=5,
         step=1,
-        description=r'$10^\text{a} ÷ 10^\text{b}$:',
+        description=r'10ᵃ ÷ 10ᵇ:',
         disabled=False,
         continuous_update=False,
         orientation='horizontal',
@@ -91,7 +91,7 @@ def interface(path):
         min=0,
         max=1000,
         step=1,
-        description=r't$_\text{step}$, ms',
+        description=r't step, ms',
         disabled=False)
 
     Plot = widgets.ToggleButton(
