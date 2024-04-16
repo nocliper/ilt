@@ -1,4 +1,4 @@
-# Inverse Laplce Transform for Deep-Level Transient Spectroscopy
+# Inverse Laplace Transform for Deep-Level Transient Spectroscopy
 
 [![Try In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nocliper/ilt/blob/master/colab-ilt.ipynb)
 
