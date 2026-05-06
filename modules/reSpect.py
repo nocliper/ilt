@@ -1,7 +1,7 @@
 import numpy as np
 
 from scipy.interpolate import interp1d
-from scipy.integrate import cumtrapz, quad
+#from scipy.integrate import cumtrapz, quad
 from scipy.optimize import nnls, minimize, least_squares
 
 def Initialize_f(F, s, kernMat, *argv):
